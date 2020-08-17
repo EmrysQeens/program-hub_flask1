@@ -1,0 +1,85 @@
+#blog_content{
+    background-color: white;
+    font-size: 10px;
+}
+
+.ck-content{
+  min-height:60vw;
+  font-family: Comic Sans Ms;
+}
+
+.ck-editor__editable>ul,a,p{
+  font-size: 2.5vw;
+  margin-bottom:0px;
+}
+
+.ck-toolbar__items{
+  flex-wrap: wrap;
+}
+
+.ck-toolbar{
+  flex-wrap: wrap;
+}
+
+
+code{
+  color: #000;
+  font-family: Comic Sans Ms;
+  text-decoration: none;
+  margin: 0px;
+}
+
+.nm{
+  padding-left: 7px;
+}
+
+.ck{
+  font-family: Comic Sans Ms;
+}
+
+.jumbotrons{
+    padding-top: 16px;
+}
+
+.per-code{
+  background: whitesmoke;
+  padding-bottom: 10px;
+  padding-top:10px;
+  white-space: pre-line;
+  font-size: 2.0vw;
+  margin-bottom: 0px;
+}
+
+
+
+#blog_cont{
+    background-color: white;
+    font-size: 10px;
+    border-radius: 5px;
+}
+
+.in{
+    margin: 2px;
+}
+
+.cn{
+    padding-top:1px;
+    padding-bottom: 1px;
+    font-size: 9px;
+    margin-top: 3px; 
+    border: 2px;
+}
+
+.blog_container {
+    width: 100%;
+    padding: 5px;
+    padding-bottom:35px;
+  }
+  
+  .edit_section {
+    float: right;
+  }
+  
+  .btn_section {
+    float: left;
+  }

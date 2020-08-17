@@ -1,5 +1,6 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_from_directory
 from blog import blogs as b
+import os
 
 
 app=Flask(__name__)
@@ -40,6 +41,10 @@ def challenges():
 @app.route('/admin')
 def admin():
     pass
+    
+@app.route('/favicon.ico')
+def favicon(): 
+   return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 if __name__=='__main__':

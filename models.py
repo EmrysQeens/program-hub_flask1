@@ -20,4 +20,4 @@ class Blog(db.Model):
         self.content=content
 
     def __repr__(self):
-        return f'{self.id}  {self.name}'
+        return str({'id':self.id,  'name':self.name, 'email':self.email, 'date':self.date, 'content':self.content})

@@ -20,15 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     create_btn.addEventListener('click', e => {
-        //console.log(document.querySelector('.ck-editor__editable').innerHTML);
-        console.log(editor.getData())
-        document.querySelector('#preview').innerHTML=editor.getData()
+        data=new FormData();
+        datas={
+            'name':document.querySelector('#name'),
+            'email':document.querySelector('#email'),
+            'content':editor.getData();
+        }
+        async function post(){
+            const resp=await fetch(`${location.protocol}//${document.domain}:${location.port}`,{
+            
+            });
+        }
     });
 
-    preview_btn.addEventListener('click', e => {
-        console.log(editor.getData())
-        document.querySelector('#preview').innerHTML=editor.getData()
-    });
+    preview_btn.addEventListener('click', e => document.querySelector('#preview').innerHTML=editor.getData());
 
 
 

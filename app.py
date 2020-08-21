@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from models import *
-from blog import blogs as b
 import datetime
 import json
 
@@ -21,10 +20,13 @@ def home():
 def blog():
     if request.method == 'POST':
         data = json.loads(request.form['data'])
-        db.session.add(
-            TempBlog(name=data['name'], email=data['email'], content=data['content'], date=datetime.datetime.today()))
-        db.session.commit()
-        return jsonify({'stat': True})
+        if len(TempBlog.query.filter_by(content=data['content']).all()) == 0:
+            db.session.add(
+            TempBlog(name=data['name'].lower(), email=data['email'].lower(), title=data['title'], content=data['content'], date=datetime.datetime.today()))
+            db.session.commit()
+            return jsonify({'stat': 'Added'})
+        else:
+            return jsonify({'stat': 'Error'})
     else:
         return render_template('blog.html')
 
@@ -34,7 +36,8 @@ def blogs():
     if request.method == 'POST':
         pass
     else:
-        return render_template('blogs.html', blogs=b)
+        blogs=Blog.query.all()
+        return render_template('blogs.html', blogs=blogs)
 
 
 @app.route('/about')

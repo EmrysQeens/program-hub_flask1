@@ -13,8 +13,11 @@
 <div class="container">
     {% for blog in blogs %}
     <div class="jumbotron flex justify-content-center align-items-center per-blog">
+        <h2>{{blog['title'] | safe }}</h2>
+        <p>By {{blog['name']}} on {{blog['date']}} </p>
+        <p>{{blog['email']}}</p>
         <div>
-            {{blog | safe}}
+            {{blog['content'] | safe}}
         </div>
         <button type="button" class="btn btn-secondary btn-sm">Edit</button>
     </div>

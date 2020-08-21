@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
         datas={
             'name':document.querySelector('#name'),
             'email':document.querySelector('#email'),
-            'content':editor.getData();
+            'content':editor.getData()
         }
         async function post(){
             const resp=await fetch(`${location.protocol}//${document.domain}:${location.port}`,{
                 method:'POST',
-                header{
+                header:{
                     content:'application/json'
                 },
                 body:datas

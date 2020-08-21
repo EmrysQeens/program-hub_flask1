@@ -11,8 +11,7 @@ class TempBlog(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=True)
 
-    def __init__(self, id, name, email, date, content):
-        self.id = id
+    def __init__(self, name, email, date, content):
         self.name = name
         self.email = email
         self.date = date
@@ -30,8 +29,7 @@ class Blog(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=True)
 
-    def __init__(self, id, name, email, date, content):
-        self.id = id
+    def __init__(self, name, email, date, content):
         self.name = name
         self.email = email
         self.date = date
@@ -39,3 +37,8 @@ class Blog(db.Model):
 
     def __repr__(self):
         return str({'id': self.id, 'name': self.name, 'email': self.email, 'date': self.date, 'content': self.content})
+
+    def validate_blog(self,t_blog):
+        blog=Blog(t_blog.name, t_blog.email, t_blog.date, t_blog.content)
+        db.session.add(blog)
+        db.session.commit()

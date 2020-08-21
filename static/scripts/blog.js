@@ -22,19 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
     create_btn.addEventListener('click', e => {
         data=new FormData();
         datas={
-            'name':document.querySelector('#name'),
-            'email':document.querySelector('#email'),
+            'name':document.querySelector('#name').value,
+            'email':document.querySelector('#email').value,
             'content':editor.getData()
         }
+        data.append('data',JSON.stringify(datas))
         async function post(){
-            const resp=await fetch(`${location.protocol}//${document.domain}:${location.port}`,{
+            const resp=await fetch(`${location.protocol+'//'}${document.domain}:${location.port}/blog`,{
                 method:'POST',
                 header:{
                     content:'application/json'
                 },
-                body:datas
-            });
-        }
+                body:data
+            }).then(res=> res.json())
+                .then(stat=>{})
+                .catch(err=>console.log(err))
+            }
+        post()
     });
 
     preview_btn.addEventListener('click', e => document.querySelector('#preview').innerHTML=editor.getData());

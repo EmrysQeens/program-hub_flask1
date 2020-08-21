@@ -3,10 +3,16 @@
     font-family: Comic Sans Ms;
 }
 
-body{
+@font-face{
+    src:url('/static/assets/jetbrains-mono.ttf');
+    font-family: Jetbrains Mono;
+}
+
+body *{
     font-family: Comic Sans Ms;
     font-size: 2.0vw;
 }
+
 
 
 h4{

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect
 from models import *
 import datetime
 import json
@@ -22,7 +22,8 @@ def blog():
         data = json.loads(request.form['data'])
         if len(TempBlog.query.filter_by(content=data['content']).all()) == 0:
             db.session.add(
-            TempBlog(name=data['name'].lower(), email=data['email'].lower(), title=data['title'], content=data['content'], date=datetime.datetime.today()))
+                TempBlog(name=data['name'].lower(), email=data['email'].lower(), title=data['title'],
+                         content=data['content'], date=datetime.datetime.today()))
             db.session.commit()
             return jsonify({'stat': 'Added'})
         else:
@@ -34,9 +35,11 @@ def blog():
 @app.route('/blogs', methods=['POST', 'GET'])
 def blogs():
     if request.method == 'POST':
-        pass
+        blog = Blog.query.get(json.loads(request.form['num'])['num'])
+        return jsonify(
+            {'id': blog.id, 'title':blog.title, 'name': blog.name, 'email': blog.email, 'date': blog.date, 'content': blog.content})
     else:
-        blogs=Blog.query.all()
+        blogs = Blog.query.all()
         return render_template('blogs.html', blogs=blogs)
 
 
@@ -55,9 +58,19 @@ def challenges():
     pass
 
 
-@app.route('/admin')
+@app.route('/admin', methods=['POST', 'GET'])
 def admin():
-    pass
+    if request.method == 'POST':
+        ids=request.form
+        print(ids.get('login'))
+        print(ids.get('passcode'))
+        if len(Login.query.filter_by(login_id=ids.get('email'), passcode=ids.get('password')).all()) == 0:
+            return render_template('admin.html', wrong='Wrong password')
+        else:
+            t_blogs=TempBlog.query.all();
+            return render_template('blogs.html', blogs=t_blogs)
+    else:
+        return render_template('admin.html')
 
 
 @app.route('/favicon.ico')
@@ -67,4 +80,5 @@ def favicon():
 
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True, port=5000)

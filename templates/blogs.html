@@ -12,15 +12,36 @@
 
 <div class="container">
     {% for blog in blogs %}
-    <div class="jumbotron flex justify-content-center align-items-center per-blog">
-        <h2>{{blog['title'] | safe }}</h2>
+    <div class="jumbotron flex justify-content-center align-items-center per-blog div-blog" data-toggle="modal"
+                                                                        data-target="#exampleModalCenter" data-blog="{{blog['id']}}">
+        <h2 class="title">{{blog['title'] | safe }}</h2>
         <p>By {{blog['name']}} on {{blog['date']}} </p>
         <p>{{blog['email']}}</p>
-        <div>
-            {{blog['content'] | safe}}
-        </div>
-        <button type="button" class="btn btn-secondary btn-sm">Edit</button>
     </div>
     {% endfor %}
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h3 class="modal-title" id="titlep"></h3>
+                                <p id="namep"></p>
+                                <p id="emailp"></p>
+                        </div>
+                        <div class="modal-body">
+                                <div class="jumbotron justify-content-center align-items-center per-code" id="preview">
+                                        <div id="content">
+
+                                        </div>
+                                </div>
+                            <button type="button" class="btn btn-secondary btn-sm">Edit</button>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">X</button>
+                        </div>
+                </div>
+        </div>
 </div>
 {% endblock %}

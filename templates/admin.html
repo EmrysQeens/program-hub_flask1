@@ -8,5 +8,14 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-
+<div class="contain">
+<div class="jumbotron login">
+    <form action="{{url_for('admin')}}" method="POST">
+        <input type="email" name="email" id="email">
+        <input type="password" name="password" id="password">
+        <button class="btn btn-secondary sm">Login</button>
+    </form>
+    <p>{{wrong}}</p>
+</div>
+</div>
 {% endblock %}

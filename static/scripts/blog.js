@@ -45,11 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
         post()
     });
 
-    preview_btn.addEventListener('click', e => document.querySelector('#preview').innerHTML=editor.getData());
+    preview_btn.addEventListener('click', e =>{
+         name=document.querySelector('#name').value
+         email=document.querySelector('#email').value
+         title=document.querySelector('#title').value
+         document.querySelector('#titlep').innerHTML=title
+         document.querySelector('#namep').innerHTML='By '+name
+         document.querySelector('#emailp').innerHTML=email
+         document.querySelector('#content').innerHTML=editor.getData()
+         });
+
+
+
 });
-
-
-toggleBtn = (btn, func) => {
-    btn.className = btn.className == 'btn btn-secondary btn-sm cn' ? "btn btn-outline-secondary btn-sm cn" : 'btn btn-secondary btn-sm cn';
-    func();
-}

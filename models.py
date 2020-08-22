@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 
-db = SQLAlchemy()
+db: SQLAlchemy = SQLAlchemy()
 
 class TempBlog(db.Model):
     __tablename__='nvalid_blogs'

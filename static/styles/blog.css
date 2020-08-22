@@ -13,6 +13,28 @@
   margin-bottom:0px;
 }
 
+.image>img{
+    width:100%;
+}
+
+.image>figcaption{
+    padding:0.2vw;
+    text-align:center;
+}
+
+th{
+    background: whitesmoke;
+}
+
+#preview{
+
+}
+
+.table>table{
+    width:100%;
+    border:3px solid gray;
+}
+
 .ck-toolbar__items{
   flex-wrap: wrap;
 }
@@ -42,7 +64,6 @@ code{
 }
 
 .per-code{
-  background: whitesmoke;
   padding-bottom: 10px;
   padding-top:10px;
   white-space: pre-line;

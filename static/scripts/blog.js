@@ -22,14 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(err.stack);
         });
 
+
     create_btn.addEventListener('click', e => {
-        data=new FormData();
+        const data=new FormData();
         datas={
             'name':document.querySelector('#name').value,
             'email':document.querySelector('#email').value,
             'title':document.querySelector('#title').value,
-            'content':editor.getData()
+            'content':editor.getData(),
+            'type':'new'
         }
+
         data.append('data',JSON.stringify(datas))
         async function post(){
             const resp=await fetch(`${location.protocol+'//'}${document.domain}:${location.port}/blog`,{

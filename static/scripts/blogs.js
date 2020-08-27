@@ -56,6 +56,29 @@ document.addEventListener('DOMContentLoaded',()=>{
             req.send(data)
          })
 
+         //Edit Button
+         document.querySelector('#edit').addEventListener('click',()=>{
+            const req=new XMLHttpRequest()
+            req.open('POST',`${location.protocol+'//'}${document.domain}:${location.port}/edit`)
+            const data=new FormData()
+            datas={
+                'num':id
+            }
+            data.append('data',JSON.stringify(datas))
+            req.onload=e=>{
+                console.log(req.responseText)
+                if(req.status==200 && JSON.parse(req.responseText)['stat']=='deleted'){
+                    alert('Deleted Succesfully');
+                    document.querySelector(`#blog-${id}`).remove()
+                }
+                else{
+                    alert(req.status)
+                }
+            }
+            req.onerror=e=> alert('Error cannot complete request...')
+            req.send(data)
+         })
+
          }catch(err){
 
          }

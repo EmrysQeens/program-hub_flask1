@@ -47,6 +47,10 @@ def delete():
     db.session.commit()
     return jsonify({'stat':'deleted'})
 
+@app.route('/edit', methods=["POST"])
+def edit():
+    return render_template('blog.html')
+
 @app.route('/blogs', methods=['POST', 'GET'])
 def blogs():
     if request.method == 'POST':

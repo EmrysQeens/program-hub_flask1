@@ -36,30 +36,7 @@ document.addEventListener('DOMContentLoaded',()=>{
          //Delete button
          document.querySelector('#delete').addEventListener('click',()=>{
             const req=new XMLHttpRequest()
-            req.open('POST',`${location.protocol+'//'}${document.domain}:${location.port}/delete`)
-            const data=new FormData()
-            datas={
-                'num':id
-            }
-            data.append('data',JSON.stringify(datas))
-            req.onload=e=>{
-                console.log(req.responseText)
-                if(req.status==200 && JSON.parse(req.responseText)['stat']=='deleted'){
-                    alert('Deleted Succesfully');
-                    document.querySelector(`#blog-${id}`).remove()
-                }
-                else{
-                    alert(req.status)
-                }
-            }
-            req.onerror=e=> alert('Error cannot complete request...')
-            req.send(data)
-         })
-
-         //Edit Button
-         document.querySelector('#edit').addEventListener('click',()=>{
-            const req=new XMLHttpRequest()
-            req.open('POST',`${location.protocol+'//'}${document.domain}:${location.port}/edit`)
+            req.open('DELETE',`${location.protocol+'//'}${document.domain}:${location.port}/delete`)
             const data=new FormData()
             datas={
                 'num':id
@@ -84,14 +61,10 @@ document.addEventListener('DOMContentLoaded',()=>{
          }
 
     document.querySelector('#dismiss').onclick=()=>{
-        r.cancel()
-        r.loaded(true)
-        console.log(id)
-        id=null
-        document.querySelector('#titlep').innerHTML=""
-        document.querySelector('#namep').innerHTML=""
-        document.querySelector('#emailp').innerHTML=""
-        document.querySelector('#content').innerHTML=""
+        dismiss(r)
+    };
+    document.querySelector('#exampleModalCenter').onclick=()=>{
+        dismiss(r)
     };
 
     document.querySelectorAll('.div-blog').forEach(div=>{
@@ -103,6 +76,10 @@ document.addEventListener('DOMContentLoaded',()=>{
                 document.querySelector('#namep').innerHTML='By '+data['name']
                 document.querySelector('#emailp').innerHTML=data['email']
                 document.querySelector('#content').innerHTML=data['content']
+                try{
+                       document.querySelector('#edit').setAttribute('href', `edit/${id}`)
+                }catch(err){}
+
             },(e)=>{
             //onprogress
                 console.log(e.loaded)
@@ -114,6 +91,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     })
 });
 
-//update=e=>{
-//    document.querySelector('#progress').style.width=(e.loaded/e.total) * 100 +'%'
-//}
+const dismiss=r=>{
+        r.cancel()
+        r.loaded(true)
+        document.querySelector('#titlep').innerHTML=""
+        document.querySelector('#namep').innerHTML=""
+        document.querySelector('#emailp').innerHTML=""
+        document.querySelector('#content').innerHTML=""
+}

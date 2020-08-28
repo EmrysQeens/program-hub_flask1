@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(editor => {
             window.editor = editor;
+            const hold=document.querySelector('#hold')
+            editor.setData(`${hold.innerHTML}`)
+            hold.remove()
             console.log(Array.from(editor.ui.componentFactory.names()));
         })
         .catch(err => {
@@ -25,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     create_btn.addEventListener('click', e => {
         const data=new FormData();
+        const bool=document.querySelector('#create').innerText=='Create'
         datas={
             'name':document.querySelector('#name').value,
             'email':document.querySelector('#email').value,
@@ -33,16 +37,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'type':'new'
         }
 
-        data.append('data',JSON.stringify(datas))
+        put={
+            'id':document.querySelector('#create').value,
+            'content':editor.getData()
+        }
+
+        data.append('data',JSON.stringify( bool ? datas : put))
         async function post(){
             const resp=await fetch(`${location.protocol+'//'}${document.domain}:${location.port}/blog`,{
-                method:'POST',
+                method: `${ bool ? 'POST' : 'PUT'}`,
                 header:{
                     content:'application/json'
                 },
                 body:data
             }).then(res=> res.json())
-                .then(stat=>{console.log(stat)})
+                .then(stat=>{remove()})
                 .catch(err=>console.log(err))
             }
         post()
@@ -61,3 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+
+function reset(){
+    name=document.querySelector('#name').value
+    email=document.querySelector('#email').value
+    title=document.querySelector('#title').value
+}

@@ -6,6 +6,13 @@
 <script src="{{url_for('static',filename='scripts/blogs.js')}}"></script> {% endblock %}
 {% block title %}Blogs{% endblock %}
 
+{% block search_form %}
+<form class="form-inline" action="{{url_for('search')}}">
+  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+{% endblock %}
+
 {% block body %}
 <div class="jumbotron flex justify-content-center align-items-center jumbotron-fluid hd">
     <h3>Blogs</h3>
@@ -27,9 +34,6 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                         <div class="modal-header">
-                                <div class="progress" id="progressor">
-  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" id="progress" aria-valuemax="100" style="width: 0%"></div>
-</div>
                                 <h3 class="modal-title" id="titlep"></h3>
                                 <p id="namep"></p>
                                 <p id="emailp"></p>
@@ -40,8 +44,8 @@
 
                                         </div>
                                 </div>
-                            <button type="button" class="btn btn-secondary btn-sm" style="float:left;margin:2px" id="edit" disabled>Edit</button>
                             {% if admin %}
+                            <a href="" id="edit"><button type="button" class="btn btn-secondary btn-sm edit" style="float:left;margin:2px" disabled>Edit</button></a>
                             <button type="button" class="btn btn-primary btn-sm" style="float:right;margin:2px" id="add" disabled>Commit</button>
                             <button type="button" class="btn btn-danger btn-sm" style="float:right;margin:2px" id="delete" disabled>Delete</button>
                             {% else %}

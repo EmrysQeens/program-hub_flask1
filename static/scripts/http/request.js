@@ -36,11 +36,12 @@ class Request{
     timeout=(fun)=> this.request.ontimeout(fun())
     loaded=(bool)=>{
       try{
-        document.querySelector('#edit').disabled=bool
+        document.querySelector('.edit').disabled=bool
         document.querySelector('#add').disabled=bool
-        document.querySelector('#delete').disabled=bool}
+        document.querySelector('#delete').disabled=bool
+        }
         catch(err){
-               document.querySelector('#edit').disabled=bool
+
         }
     }
 

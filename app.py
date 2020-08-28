@@ -2,11 +2,14 @@ import os
 from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session
 from models import *
 import datetime
+import time
 import json
+import random
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///program-hub.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY']=random.random
 db.init_app(app)
 db.app = app
 
@@ -16,7 +19,7 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/blog', methods=['POST', 'GET'])
+@app.route('/blog', methods=['POST', 'GET','PUT'])
 def blog():
     if request.method == 'POST':
         data = json.loads(request.form['data'])
@@ -37,24 +40,32 @@ def blog():
                 return jsonify({'stat': 'added'})
             else:
                 return jsonify({'stat': 'errors'})
+    elif request.method=='PUT':
+        data = json.loads(request.form['data'])
+        blog=TempBlog.query.get(data['id'])
+        blog.content=data['content']
+        db.session.commit()
+        return jsonify({'putted':True})
     else:
-        return render_template('blog.html')
+        return render_template('blog.html', blog={'name':'','title':'','content':'','email':''}, save='Create')
 
-@app.route('/delete', methods=['POST'])
+@app.route('/delete', methods=['DELETE'])
 def delete():
     num=json.loads(request.form.get('data'))['num']
     db.session.delete(TempBlog.query.get(num))
     db.session.commit()
     return jsonify({'stat':'deleted'})
 
-@app.route('/edit', methods=["POST"])
-def edit():
-    return render_template('blog.html')
+@app.route('/edit/<int:id>')
+def edit(id):
+    blog=Blog.query.get(id)
+    return render_template('blog.html', blog=blog, read="readonly", save='Save')
 
 @app.route('/blogs', methods=['POST', 'GET'])
 def blogs():
     if request.method == 'POST':
         v=json.loads(request.form['num'])
+        time.sleep(5)
         blog = TempBlog.query.get(v['num']) if v['admin'] == 'True' else Blog.query.get(v['num'])
         return jsonify(
              {'id': blog.id, 'title':blog.title, 'name': blog.name, 'email': blog.email, 'date': blog.date, 'content': blog.content})

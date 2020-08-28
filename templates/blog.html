@@ -12,11 +12,11 @@
 <div class="jumbotron flex justify-content-center align-items-center jumbotrons" height="100%">
         <h3 class="">Create new Blog..</h3>
         <form>
-                <input class="form-control form-control-lg nm" type="text" placeholder="Name" id="name" name="name" autocomplete="off">
+                <input class="form-control form-control-lg nm" type="text" placeholder="Name" id="name" name="name" autocomplete="off" {{read}} value="{{blog['name']}}">
                 <br>
-                <input class="form-control form-control-sm" type="email" placeholder="Mail" name="mail" id='email' autocomplete="off">
+                <input class="form-control form-control-sm" type="email" placeholder="Mail" name="mail" id='email' autocomplete="off" {{read}} value="{{blog['email']}}">
                 <br>
-                <input class="form-control form-control-sm" type="text" placeholder="Title" name="title" id='title' autocomplete="off" maxlength="255">
+                <input class="form-control form-control-sm" type="text" placeholder="Title" name="title" id='title' autocomplete="off" maxlength="255" {{read}} value="{{blog['title']}}">
                 <br>
                 <div id="blog_cont">
                         <div id="blog_content" class="form-control form-control-sm">
@@ -25,7 +25,7 @@
                         <section class="blog_container">
                                 <div class="btn_section">
                                         <button type="button" class="btn btn-secondary btn-sm"
-                                                id="create" ><!--disabled--><small>Create</small></button>
+                                                id="create" value="{{blog['id']}}" ><!--disabled--><small>{{save}}</small></button>
                                 </div>
                                 <div class="edit_section">
                                         <ul class="nav justify-content-end">
@@ -66,9 +66,13 @@
                                 </div>
                         </div>
                         <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">X</button>
+                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Dismiss</button>
                         </div>
                 </div>
         </div>
+</div>
+
+<div id="hold" style="display:none;">
+        {{blog['content'] | safe }}
 </div>
 {% endblock %}

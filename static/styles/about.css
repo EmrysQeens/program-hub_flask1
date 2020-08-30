@@ -1,0 +1,17 @@
+h3{
+    padding:5px;
+}
+
+.contact{
+    background-color:white;
+    display:block;
+    margin-left:28%;
+    margin-right:28%;
+    border-radius: 0.5vw;
+    margin-top:1.5vw;
+}
+
+img{
+    width:10vw;
+    height:10vw;
+}

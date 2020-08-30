@@ -1,12 +1,83 @@
 {% extends 'base.html' %}
 
-{% block title %} Program~hub {% endblock %}
-
-{% block style %}<link rel="stylesheet" href="{{url_for('static',filename='styles/about.css')}}"> {% endblock %}
-  {% block script %} {% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='styles/about.css')}}"> {% endblock %}
+{% block title %}About US{% endblock %}
 
 {% block body %}
+        <!---h1--->
+<div class="container">
+        <h3>
+                <center>
+                    WELCOME TO THE Program~Hub FAMILY.
+                </center>
+        </h3>
+        <hr>
+        <h4>
+            What is Program~Hub ??
+        </h4>
+                    <hr>
+        <p>
+            Prog~hub is a blog writing site for new and old programmers alike. It is a privately held website, created by <strong>Awogbami Victor</strong> and <strong>Edem Gold</strong> in the year 2020. It feautures blogs on different coding problems and innovative technological updates.
+        </p>
+       <hr>
+        
+        <!----h2---->
+                    <h3>
+                        <center>
+                            HELPING DEVELOPERS AND TECHNOLOGISTS.
+                        </center>
+                    </h3>
+                    <p>
+                        This is a community built for developers by developers. It is built for programmers to write blogs on projects they're working or are done with in order to present others with similar problems advice on how to tackle those problems in an easy and efficient. Prog~hub also allows individuals to present and write blogs on new pieces of technology and innovation, frameworks and libraries etc....prog~hub feautures blogs on a wide range of topics in the tech world making it a one stop for all nerds, geeks and tech enthusiasts alike.
+                    </p>
+                    <hr>
 
+                    <h3>
+                        <center>
+                            WHY THIS IS THE BEST PLACE IF YOU CAN'T FIGURE IT.
+                        </center>
+                    </h3>
+                    <p>
+                        Program~hub was built to be very user friendly with intuitive navigation links and ease of access to content unlike some other tech blog sites out on the internet. Therefore, making it the best for beginners, intermediates and all those who come for assistance on any problem, Prog~hub is also the best avenue for experienced programmers to help upcoming coders and help grow the community.
+                    </p>
 
+                            <div class="jumbotron">
+                        <center>
+                            <h4>
+                           Contact US.
+                                 </h4>
+                            <div class="contact">
+                                <a href="#"><img src="{{url_for('static',filename='assets/fb.jpg')}}" alt="facebook"></a>
+                                <a href="#"><img src="{{url_for('static',filename='assets/instagram.jpg')}}" alt="instagram"></a>
+                                <a href="#"><img src="{{url_for('static',filename='assets/twitter.jpg')}}" alt="twitter"></a>
+                            </div>
 
+                            <div class="contact">
+                                <img src="{{url_for('static',filename='assets/gmail.jpg')}}" alt="twitter">
+                                <p>Awogbami Victor => Emrysqeens@gmail.com</p>
+                                <p>Edem Gold => Nile2406@gmail.com</p>
+                                <p>Program~Hub => Program.hub@gmail.com</p>
+                            </div>
+                        </center>
+                            </div>
+
+                    
+                    <h3 class='end'>
+                        <strong>
+                            <center>
+                                <hr>
+                                WELCOME TO OUR FAMILY
+                                <hr>
+                            </center>
+                        </strong>
+                    </h3>
+        <!---inline styling---->
+        <style>
+            .end{
+                background-color:grey;
+            }
+        </style>
+    </div>
+    
 {% endblock %}

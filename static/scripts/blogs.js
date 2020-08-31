@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                 'type':'old'
             }
             data.append('data',JSON.stringify(datas))
+
             req.onload=e=>{
                 if(req.status==200 && JSON.parse(req.responseText)['stat']=='added'){
                     alert('Added Succesfully');
@@ -69,6 +70,10 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     document.querySelectorAll('.div-blog').forEach(div=>{
         div.addEventListener('click',()=>{
+            const l= new Loader(document.querySelector('#loader'))
+            l.load(()=>{
+                document.querySelector('#loader').style.display='block';
+            })
             r.fresh(div,(data,e)=>{
             //onload
                 id=div.dataset.blog
@@ -76,13 +81,15 @@ document.addEventListener('DOMContentLoaded',()=>{
                 document.querySelector('#namep').innerHTML='By '+data['name']
                 document.querySelector('#emailp').innerHTML=data['email']
                 document.querySelector('#content').innerHTML=data['content']
+                l.exit(()=>{
+                    document.querySelector('#loader').style.display='none';
+                })
                 try{
                        document.querySelector('#edit').setAttribute('href', `edit/${id}`)
                 }catch(err){}
 
             },(e)=>{
-            //onprogress
-                console.log(e.loaded)
+
             },(e)=>{
             //onerrror
             })

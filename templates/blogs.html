@@ -3,7 +3,9 @@
 <link rel="stylesheet" href="{{url_for('static',filename='styles/blogs.css')}}"> {% endblock %}
 {% block script %}
 <script src="{{url_for('static',filename='scripts/http/request.js')}}"></script>
-<script src="{{url_for('static',filename='scripts/blogs.js')}}"></script> {% endblock %}
+<script src="{{url_for('static',filename='scripts/blogs.js')}}"></script>
+<script src="{{url_for('static',filename='scripts/loader.js')}}"></script>
+{% endblock %}
 {% block title %}Blogs{% endblock %}
 
 {% block search_form %}
@@ -19,6 +21,7 @@
 </div>
 
 <div class="container">
+    <span id="ld"></span>
     {% for blog in blogs %}
     <div class="jumbotron flex justify-content-center align-items-center per-blog div-blog " id="blog-{{blog['id']}}" data-toggle="modal"
                                                                         data-target="#exampleModalCenter" data-blog="{{blog['id']}}" >
@@ -34,6 +37,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                         <div class="modal-header">
+                                <div id='loader' style="float:right;"></div>
                                 <h3 class="modal-title" id="titlep"></h3>
                                 <p id="namep"></p>
                                 <p id="emailp"></p>

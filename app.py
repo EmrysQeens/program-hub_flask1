@@ -90,8 +90,8 @@ def search():
     pass
 
 
-@app.route('/challenges')
-def challenges():
+@app.route('/code')
+def code():
     pass
 
 

@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function reset(){
-    name=document.querySelector('#name').value
-    email=document.querySelector('#email').value
-    title=document.querySelector('#title').value
+    name=document.querySelector('#name').value=''
+    email=document.querySelector('#email').value=''
+    title=document.querySelector('#title').value=''
 }

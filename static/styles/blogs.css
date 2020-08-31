@@ -16,6 +16,21 @@
     font-size: 2.5vw;
   }
 
+  .image>figcaption{
+    padding:0.2vw;
+    text-align:center;
+}
+
+th{
+    background: whitesmoke;
+}
+
+.table>table{
+    width:100%;
+    border:3px solid gray;
+}
+
+
  .modal-header{
     display:block;
  }

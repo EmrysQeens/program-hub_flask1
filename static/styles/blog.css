@@ -17,6 +17,14 @@
     width:100%;
 }
 
+ .modal-header{
+    display:block;
+ }
+
+#titlep,#namep,#emailp{
+    margin:0;
+}
+
 .image>figcaption{
     padding:0.2vw;
     text-align:center;

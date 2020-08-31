@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(stat=>{
                     reset()
                     l.exit(()=>{})
+                    alert(stat['stat'])
                     })
                 .catch(err=>console.log(err))
             }

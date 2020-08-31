@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         data.append('data',JSON.stringify( bool ? datas : put))
-        const post=async function(){
+        async function post(){
             const resp=await fetch(`${location.protocol+'//'}${document.domain}:${location.port}/blog`,{
                 method: `${ bool ? 'POST' : 'PUT'}`,
                 header:{

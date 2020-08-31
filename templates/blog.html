@@ -5,6 +5,7 @@
 {% block script %}
 <script src="{{url_for('static',filename='scripts/blog.js')}}"></script>
 <script src="{{url_for('static',filename='scripts/editor.js')}}"></script>
+<script src="{{url_for('static',filename='scripts/loader.js')}}"></script>
 {% endblock %}
 {% block title %}New Blog{% endblock %}
 
@@ -24,18 +25,17 @@
                         </div>
                         <section class="blog_container">
                                 <div class="btn_section">
-                                        <button type="button" class="btn btn-secondary btn-sm"
+                                        <button type="button" class="btn btn-secondary btn-sm btns"
                                                 id="create" value="{{blog['id']}}" ><!--disabled--><small>{{save}}</small></button>
+                                         <button type="button" class="btn btn-secondary btn-sm btns"
+                                                id="btn_preview" value="{{blog['id']}}"  data-toggle="modal"
+                                                                        data-target="#exampleModalCenter" ><!--disabled--><small>Preview</small></button>
                                 </div>
                                 <div class="edit_section">
                                         <ul class="nav justify-content-end">
                                                 <li class="nav-item">
                                                         <div class="form-check form-check-inline in">
-                                                                <button type="button"
-                                                                        class="btn btn-outline-secondary btn-sm cn"
-                                                                        data-toggle="modal"
-                                                                        data-target="#exampleModalCenter"
-                                                                        id="btn_preview">Preview</button>
+                                                                <span id="loader"></span>
                                                         </div>
                                                 </li>
                                         </ul>

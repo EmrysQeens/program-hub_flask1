@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     create_btn.addEventListener('click', e => {
+        const l=new Loader(document.querySelector('#loader'))
+         l.load()
         const data=new FormData();
         const bool=document.querySelector('#create').innerText=='Create'
         datas={
@@ -43,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         data.append('data',JSON.stringify( bool ? datas : put))
-        async function post(){
+        const post=async function(){
             const resp=await fetch(`${location.protocol+'//'}${document.domain}:${location.port}/blog`,{
                 method: `${ bool ? 'POST' : 'PUT'}`,
                 header:{
@@ -51,7 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body:data
             }).then(res=> res.json())
-                .then(stat=>{remove()})
+                .then(stat=>{
+                    reset()
+                    l.exit(()=>{})
+                    })
                 .catch(err=>console.log(err))
             }
         post()
@@ -76,4 +81,5 @@ function reset(){
     name=document.querySelector('#name').value=''
     email=document.querySelector('#email').value=''
     title=document.querySelector('#title').value=''
+    window.editor.setData('')
 }

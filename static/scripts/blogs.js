@@ -71,9 +71,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.querySelectorAll('.div-blog').forEach(div=>{
         div.addEventListener('click',()=>{
             const l= new Loader(document.querySelector('#loader'))
-            l.load(()=>{
-                document.querySelector('#loader').style.display='block';
-            })
+            l.load()
             r.fresh(div,(data,e)=>{
             //onload
                 id=div.dataset.blog
@@ -81,9 +79,8 @@ document.addEventListener('DOMContentLoaded',()=>{
                 document.querySelector('#namep').innerHTML='By '+data['name']
                 document.querySelector('#emailp').innerHTML=data['email']
                 document.querySelector('#content').innerHTML=data['content']
-                l.exit(()=>{
-                    document.querySelector('#loader').style.display='none';
-                })
+                l.exit(()=>{})
+
                 try{
                        document.querySelector('#edit').setAttribute('href', `edit/${id}`)
                 }catch(err){}

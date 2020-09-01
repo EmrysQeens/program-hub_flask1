@@ -2,9 +2,13 @@
   <dictionary name="Emrys Qeens">
     <words>
       <w>blogs</w>
+      <w>btns</w>
       <w>datas</w>
+      <w>dataset</w>
       <w>endblock</w>
       <w>imgs</w>
+      <w>onload</w>
+      <w>ontimeout</w>
       <w>passcode</w>
       <w>sqlalchemy</w>
       <w>tablename</w>

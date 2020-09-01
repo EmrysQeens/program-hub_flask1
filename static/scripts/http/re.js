@@ -1,8 +1,0 @@
-class Request{
-    request=null
-
-
-
-
-
-}

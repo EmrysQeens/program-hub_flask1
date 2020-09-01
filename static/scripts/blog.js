@@ -1,7 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const blog_content = document.querySelector('#blog_content');
-    const create_btn = document.querySelector('#create');
-    const preview_btn = document.querySelector("#btn_preview");
+document.addEventListener('DOMContentLoaded', ()=>{
+    const blog_content = document.querySelector('#blog_content')
+    const create_btn = document.querySelector('#create')
+    const preview_btn = document.querySelector("#btn_preview")
+
+    const elements=[ document.querySelector('#name'), document.querySelector('#email'), document.querySelector('#title')]
+    const displays=[ document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#titlep')]
+
     CKSource
         .Editor.create(blog_content, {
            toolbar: {
@@ -16,71 +20,53 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(editor => {
             window.editor = editor;
+            //Hold and st Value then discard if it was edited
             const hold=document.querySelector('#hold')
             editor.setData(`${hold.innerHTML}`)
             hold.remove()
-            console.log(Array.from(editor.ui.componentFactory.names()));
+            console.log(Array.from(editor.ui.componentFactory.names()))
         })
         .catch(err => {
-            console.error(err.stack);
-        });
+            console.error(err.stack)
+        })
 
-
-    create_btn.addEventListener('click', e => {
-        const l=new Loader(document.querySelector('#loader'))
-         l.load()
-        const data=new FormData();
-        const bool=document.querySelector('#create').innerText=='Create'
-        datas={
-            'name':document.querySelector('#name').value,
-            'email':document.querySelector('#email').value,
-            'title':document.querySelector('#title').value,
-            'content':editor.getData(),
-            'type':'new'
-        }
-
-        put={
-            'id':document.querySelector('#create').value,
-            'content':editor.getData()
-        }
-
-        data.append('data',JSON.stringify( bool ? datas : put))
-        async function post(){
-            const resp=await fetch(`${location.protocol+'//'}${document.domain}:${location.port}/blog`,{
-                method: `${ bool ? 'POST' : 'PUT'}`,
-                header:{
-                    content:'application/json'
-                },
-                body:data
-            }).then(res=> res.json())
-                .then(stat=>{
-                    reset()
-                    l.exit(()=>{})
-                    alert(stat['stat'])
-                    })
-                .catch(err=>console.log(err))
-            }
-        post()
-    });
-
-    preview_btn.addEventListener('click', e =>{
-         name=document.querySelector('#name').value
-         email=document.querySelector('#email').value
-         title=document.querySelector('#title').value
-         document.querySelector('#titlep').innerHTML=title
-         document.querySelector('#namep').innerHTML='By '+name
-         document.querySelector('#emailp').innerHTML=email
-         document.querySelector('#content').innerHTML=editor.getData()
+        //Preview button event handler
+        preview_btn.addEventListener('click', e =>{
+            displays.forEach((display, index)=>{
+                display.innerHTML=elements[index].value
+            })
+            document.querySelector('#content').innerHTML=editor.getData()
          });
+        //End preview
 
+        //Create button event handler..
+         create_btn.addEventListener('click', ()=>{
+            const loader=new Loader()
+            loader.load()
+            r=new Request()
+            const post_data={'name': elements[0].value, 'email': elements[1].value, 'title': elements[2].value, 'content': editor.getData(), 'type':'new'}
+            const put_data={'id': create_btn.value, 'content': editor.getData() }
+            const bool=create_btn.innerText=='Create'
+            //Creates and send request
+            r.fresh( bool ? post_data : put_data, bool ? 'POST' : 'PUT', 'blog')
+            //On load
+            r.loaded((response,status)=>{
+                if(status==200){
+                    reset()
+                    loader.exit(()=>{})
+                    alert(response['stat'])
+                }else{
 
+                }
+            })
+            r.error(()=>{})
+         })
+        //End create
 
-});
-
-
-function reset(){
-    name=document.querySelector('#name').value=''
-    email=document.querySelector('#email').value=''
-    title=document.querySelector('#title').value=''
-    window.editor.setData('')
-}
+        //Reset Button Event Handler
+         reset=()=>{
+            elements.forEach(element=> element.value='')
+            window.editor.setData('')
+         }
+         //End reset
+})

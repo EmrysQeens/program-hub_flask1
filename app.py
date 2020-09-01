@@ -22,6 +22,7 @@ def home():
 @app.route('/blog', methods=['POST', 'GET', 'PUT'])
 def blog():
     if request.method == 'POST':
+        time.sleep(4)
         data = json.loads(request.form['data'])
         if data['type'] == 'new':
             if len(TempBlog.query.filter_by(content=data['content']).all()) == 0 and len(
@@ -57,6 +58,7 @@ def delete():
     num = json.loads(request.form.get('data'))['num']
     db.session.delete(TempBlog.query.get(num))
     db.session.commit()
+    time.sleep(4)
     return jsonify({'stat': 'deleted'})
 
 
@@ -69,7 +71,7 @@ def edit(id):
 @app.route('/blogs', methods=['POST', 'GET'])
 def blogs():
     if request.method == 'POST':
-        v = json.loads(request.form['num'])
+        v = json.loads(request.form['data'])
         time.sleep(5)
         blog = TempBlog.query.get(v['num']) if v['admin'] == 'True' else Blog.query.get(v['num'])
         return jsonify(

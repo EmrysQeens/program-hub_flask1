@@ -20,6 +20,6 @@ class Request{
      }
 
     cancel=()=> this.request.abort()
-    timeout=func=> this.request.ontimeout(func())
+    timeout=func=> this.request.ontimeout=()=>func()
     error=func=> this.request.onerror=err=>func(err)
 }

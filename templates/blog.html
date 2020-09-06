@@ -14,7 +14,8 @@
 <div class="jumbotron flex justify-content-center align-items-center jumbotrons" height="100%">
         <h3 class="">Create new Blog..</h3>
         <form>
-                <input class="form-control form-control-lg nm" type="text" placeholder="Name" id="name" name="name" autocomplete="off" {{read}} value="{{blog['name']}}">
+                <input class="form-control form-control-lg nm" type="text" placeholder="Full Name" id="name" name="name" autocomplete="off" {{read}} value="{{blog['name']}}">
+                <p>Full name separated by Space no Symbols </p>
                 <br>
                 <input class="form-control form-control-sm" type="email" placeholder="Mail" name="mail" id='email' autocomplete="off" {{read}} value="{{blog['email']}}">
                 <br>
@@ -27,7 +28,7 @@
                         <section class="blog_container">
                                 <div class="btn_section">
                                         <button type="button" class="btn btn-secondary btn-sm btns"
-                                                id="create" value="{{blog['id']}}" ><!--disabled--><small>{{save}}</small></button>
+                                                id="create" value="{{blog['id']}}" disabled><small>{{save}}</small></button>
                                          <button type="button" class="btn btn-secondary btn-sm btns"
                                                 id="btn_preview" value="{{blog['id']}}"  data-toggle="modal"
                                                                         data-target="#exampleModalCenter" ><!--disabled--><small>Preview</small></button>

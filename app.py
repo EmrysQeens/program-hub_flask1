@@ -5,6 +5,7 @@ import datetime
 import time
 import json
 import random
+from format import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///program-hub.db'
@@ -22,7 +23,6 @@ def home():
 @app.route('/blog', methods=['POST', 'GET', 'PUT'])
 def blog():
     if request.method == 'POST':
-        time.sleep(4)
         data = json.loads(request.form['data'])
         if data['type'] == 'new':
             if len(TempBlog.query.filter_by(content=data['content']).all()) == 0 and len(
@@ -58,7 +58,7 @@ def delete():
     num = json.loads(request.form.get('data'))['num']
     db.session.delete(TempBlog.query.get(num))
     db.session.commit()
-    time.sleep(4)
+    time.sleep(4)  # TODO
     return jsonify({'stat': 'deleted'})
 
 
@@ -114,6 +114,11 @@ def admin():
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
+
+@app.route('/validate', methods=['POST'])
+def regexp():
+    data=json.loads(request.form['data'])
+    return name_(data['text']) if data['type'] == 'name' else email_(data['text'])
 
 
 if __name__ == '__main__':

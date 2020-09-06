@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const elements=[ document.querySelector('#name'), document.querySelector('#email'), document.querySelector('#title')]
     const displays=[ document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#titlep')]
 
+    //Regex name and email test
+    const test=[/^[a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]* [a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]*$/, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/]
     CKSource
         .Editor.create(blog_content, {
            toolbar: {
@@ -41,6 +43,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
         //Create button event handler..
          create_btn.addEventListener('click', ()=>{
+            readonly(true)
             const loader=new Loader()
             loader.load()
             r=new Request()
@@ -53,20 +56,52 @@ document.addEventListener('DOMContentLoaded', ()=>{
             r.loaded((response,status)=>{
                 if(status==200){
                     reset()
-                    loader.exit(()=>{})
                     alert(response['stat'])
                 }else{
-
+                    readonly(false)
                 }
+                loader.exit(()=>{})
             })
-            r.error(()=>{})
+            r.error(()=> {
+                readonly(false)
+                loader.exit(()=>{}) })
+            r.timeout(()=> {
+                readonly(false)
+                loader.exit(()=>{}) })
          })
         //End create
 
-        //Reset Button Event Handler
+        //Reset all input fields Event Handler
          reset=()=>{
             elements.forEach(element=> element.value='')
             window.editor.setData('')
          }
          //End reset
+
+         validate=()=>create_btn.disabled = ! (test[0].test(elements[0].value) && test[1].test(elements[1].value) && elements[2].value !='' && editor.getData() !='')
+         //Match regular expression name for input name
+         elements.forEach((it, index)=>{
+            it.onchange=()=>{
+              if(index !=2)
+                if( ! test[index].test(it.value) ) it.style.background='red'
+            }
+            it.oninput=()=> validate()
+            //Return to normal styling on focus
+            it.onfocus=()=> it.style.background='transparent'
+         })
+
+         //Readonly for disabling all input fields
+         readonly=bool=>{
+            elements.forEach(element=> element.readOnly=bool)
+            editor.isReadOnly=bool
+            create_btn.disabled=bool
+         }
+
 })
+
+window.onload=()=>{
+    //Editor
+    document.querySelector('.ck-editor__editable').onkeyup=()=>validate()
+}
+
+

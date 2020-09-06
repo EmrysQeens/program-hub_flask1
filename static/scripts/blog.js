@@ -58,8 +58,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     reset()
                     alert(response['stat'])
                 }else{
-                    readonly(false)
+
                 }
+                readonly(false)
                 loader.exit(()=>{})
             })
             r.error(()=> {

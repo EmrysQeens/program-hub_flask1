@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const blog_content = document.querySelector('#blog_content')
     const create_btn = document.querySelector('#create')
     const preview_btn = document.querySelector("#btn_preview")
+    const pop__up=document.querySelector('#alert')
+    const alert_comp=[document.querySelector('#msg_h') ,document.querySelector('#msg_b') ,document.querySelector('#msg_f')]
 
     const elements=[ document.querySelector('#name'), document.querySelector('#email'), document.querySelector('#title')]
     const displays=[ document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#titlep')]
@@ -55,20 +57,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
             //On load
             r.loaded((response,status)=>{
                 if(status==200){
+                    pop_up(['Success!!!', 'The Request was successfully completed...', `An email will be sent to ${elements[1].value}`], true)
                     reset()
-                    alert(response['stat'])
-                }else{
-
-                }
+                }else pop_up(['Error!!!', 'The Request was not successfully completed...', `An error occurred $_> ${status}`], false)
                 readonly(false)
                 loader.exit(()=>{})
             })
             r.error(()=> {
                 readonly(false)
-                loader.exit(()=>{}) })
+                loader.exit(()=>{})
+                pop_up(['Error!!!', 'The Request was not successfully completed...', '$_> Connection failed'], false)})
             r.timeout(()=> {
                 readonly(false)
-                loader.exit(()=>{}) })
+                loader.exit(()=>{})
+                pop_up(['Error!!!', 'The Request was not successfully completed...', '$_> Connection timeout'], false)})
          })
         //End create
 
@@ -95,7 +97,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
          readonly=bool=>{
             elements.forEach(element=> element.readOnly=bool)
             editor.isReadOnly=bool
-            create_btn.disabled=bool
+            create_btn.disabled=!bool
+         }
+
+         //Sets alert for submission complete, error etc
+         pop_up=(messages, e)=>{
+            pop__up.style.background= e ? 'blue' : 'red'
+            pop__up.style.display='block'
+            alert_comp.forEach((component, index)=> component.innerText= messages[index])
+            pop__up.animationPlayState='running'
+         }
+
+         //Alert close button
+         document.querySelector('#close').onclick=()=>{
+
+            alert('hgfdg')
+            pop__up.animationName='open'
+            pop__up.animationDirection='reverse'
+            pop__up.animationPlayState='running'
          }
 
 })

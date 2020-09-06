@@ -12,10 +12,17 @@
 
 {% block body %}
 <div class="jumbotron flex justify-content-center align-items-center jumbotrons" height="100%">
+        <div class="jumbotron" style="display:none; color:white; padding: 16px 8px;" id="alert">
+                <h4 id="msg_h"></h4>
+                <p id="msg_b"></p>
+                <hr>
+                <p id="msg_f" class="mb-0"></p>
+                <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
+        </div>
         <h3 class="">Create new Blog..</h3>
         <form>
                 <input class="form-control form-control-lg nm" type="text" placeholder="Full Name" id="name" name="name" autocomplete="off" {{read}} value="{{blog['name']}}">
-                <p>Full name separated by Space no Symbols </p>
+                <p style="padding-left:5px;">Full name separated by Space no Punctuations </p>
                 <br>
                 <input class="form-control form-control-sm" type="email" placeholder="Mail" name="mail" id='email' autocomplete="off" {{read}} value="{{blog['email']}}">
                 <br>

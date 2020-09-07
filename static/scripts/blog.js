@@ -56,10 +56,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
             r.fresh( bool ? post_data : put_data, bool ? 'POST' : 'PUT', 'blog')
             //On load
             r.loaded((response,status)=>{
-                if(status==200){
-                    pop_up(['Success!!!', 'The Request was successfully completed...', `An email will be sent to ${elements[1].value}`], true)
+                if(status==200 && response=='added'){
+                    pop_up(['Success!!!', 'Blog Post was successfully created.', `An email will be sent to ${elements[1].value} when verified`], true)
                     reset()
-                }else pop_up(['Error!!!', 'The Request was not successfully completed...', `An error occurred $_> ${status}`], false)
+                }else pop_up(['Error!!!', 'Blog Post was not successfully created.', 'Please try again'], false)
                 readonly(false)
                 loader.exit(()=>{})
             })
@@ -102,18 +102,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
          //Sets alert for submission complete, error etc
          pop_up=(messages, e)=>{
+            pop__up.style.top=window.scrollY+'px'
             pop__up.style.background= e ? 'blue' : 'red'
             pop__up.style.display='block'
             alert_comp.forEach((component, index)=> component.innerText= messages[index])
+            pop__up.style.animationName='open'
+            pop__up.style.animationDuration='2s'
             pop__up.animationPlayState='running'
          }
 
+         window.onscroll=()=>{
+            pop__up.style.top=window.scrollY+'px'
+         }
          //Alert close button
          document.querySelector('#close').onclick=()=>{
-
-            alert('hgfdg')
-            pop__up.animationName='open'
-            pop__up.animationDirection='reverse'
+            pop__up.style.animationName='close'
+            pop__up.style.animationDuration='2s'
             pop__up.animationPlayState='running'
          }
 

@@ -23,7 +23,6 @@ def home():
 @app.route('/blog', methods=['POST', 'GET', 'PUT'])
 def blog():
     if request.method == 'POST':
-        time.sleep(20)
         data = json.loads(request.form['data'])
         if data['type'] == 'new':
             if len(TempBlog.query.filter_by(content=data['content']).all()) == 0 and len(

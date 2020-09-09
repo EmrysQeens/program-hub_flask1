@@ -3,11 +3,21 @@
 {% block title %} Program~hub {% endblock %}
 
 {% block style %}<link rel="stylesheet" href="{{url_for('static',filename='styles/index.css')}}"> {% endblock %}
-  {% block script %} {% endblock %}
+  {% block script %}
+    <script>
+     window.onload=()=>{
+      const typer=document.querySelector('#hd_blinker')
+      bool=true
+      setInterval(()=>{
+        typer.innerText= bool ? '$_> Program~Hub' : '$_> Program~Hub_'
+        bool=! bool} , 1000)
+        }
+    </script>
+{% endblock %}
 {% block body %}
 
 <div class="jumbotron flex justify-content-center align-items-center jumbotrons">
-  <h1>Welcome to Program~hub.</h1>
+  <h1 id="hd_blinker">$_> Program~Hub _</h1>
   <p>A home of programming blogs to help grow the community.</p>
   <p><b>Need Help !!! </b>=>  Hit the blogs link in the navigation bar to search and view blogs written by others.</p>
   <p><b>Found Answers !!! </b> => Hit the write blog link in the navigation bar to help those who would need help to same problem later..</p>
@@ -45,7 +55,7 @@
     This is a community for developers by developers.
     It is built for programmers to write blogs to help grow the commmunity in problem solving.
   </p>
-  <p><b>How to write a blog.</b></p>
+  <p><b>Want to write a blog ??</b></p>
   <ol>
     <li>Open the write blog page in the Navigation bar</li>
     <li>Fill the fields and write your blog  'you can preview it'..</li>
@@ -53,7 +63,7 @@
     <li>You will be notified by an email from the admin when it gets validated</li>
   </ol>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="{{url_for('about')}}" role="button">Learn more</a>
+    <a href="{{url_for('about')}}"><button class="btn btn-primary btn-sm">Learn more</button></a>
   </p>
 </div>
 

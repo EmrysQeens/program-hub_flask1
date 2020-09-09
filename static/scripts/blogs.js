@@ -24,7 +24,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
             id=div.dataset.blog
             const resp=[ response['title'], response['name'], response['email'], response['content']]
             displays.forEach((element, index)=>{
-                element.innerHTML=resp[index]
+                element.innerHTML= index==1 ? `By ${resp[index]}` : resp[index]
+            })
+            //Add code block language
+            document.querySelector('#content').querySelectorAll('pre').forEach(pre=>{
+                pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML
+            })
+            //Parse tags href attribute
+            displays[3].querySelectorAll('a').forEach(tag=>{
+                tag.setAttribute('href', tag.href.startsWith(r.url) ? `https://${tag.href.substring(r.url.length)}` : tag.href)
+                tag.setAttribute('target', '_blank')
             })
             loader.exit(()=>{})
             //Tries to set edit button href attribute if admin page...

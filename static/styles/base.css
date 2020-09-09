@@ -8,41 +8,95 @@
     font-family: Jetbrains Mono;
 }
 
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  body {
+    font-size:20px;
+  }
+  p, li, span, code{
+    font-size:12px;
+  }
+  h1{ font-size: 25px; }
+  h2{ font-size: 22.5px; }
+  h3{ font-size: 20px; }
+  h4{ font-size: 17.5px; }
+  h5{ font-size: 15px; }
+  h6{ font-size: 12.5px; }
+  button{ font-size: 15px; }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  body {
+    font-size:21px;
+  }
+  p, li, span{
+    font-size:11px;
+  }
+  h1{ font-size: 26px; }
+  h2{ font-size: 23.5px; }
+  h3{ font-size: 21px; }
+  h4{ font-size: 18.5px; }
+  h5{ font-size: 16px; }
+  h6{ font-size: 13.5px; }
+  button{ font-size: 16px; }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  body {
+    font-size:22px;
+  }
+  p, li, span{
+    font-size:12px;
+  }
+  h1{ font-size: 27px; }
+  h2{ font-size: 24.5px; }
+  h3{ font-size: 22px; }
+  h4{ font-size: 19.5px; }
+  h5{ font-size: 17px; }
+  h6{ font-size: 14.5px; }
+  button{ font-size: 17px; }
+}
+
+@media only screen and (min-width: 1025px) and  (max-width: 1200px) {
+  body {
+    font-size:23px;
+  }
+  p, li, span{
+    font-size:13px;
+  }
+  h1{ font-size: 28px; }
+  h2{ font-size: 25.5px; }
+  h3{ font-size: 23px; }
+  h4{ font-size: 20.5px; }
+  h5{ font-size: 18px; }
+  h6{ font-size: 15.5px; }
+  button{ font-size: 18px; }
+}
+
+@media only screen and (min-width: 1201px) {
+  body {
+    font-size:25px;
+  }
+  p, li, span{
+    font-size:15px;
+  }
+  h1{ font-size: 30px; }
+  h2{ font-size: 27.5px; }
+  h3{ font-size: 25px; }
+  h4{ font-size: 22.5px; }
+  h5{ font-size: 20px; }
+  h6{ font-size: 17.5px; }
+  button{ font-size: 20px; }
+}
+
+
+
 body *{
     font-family: Comic Sans Ms;
-    font-size:2.0vw;
+
 }
 
 .navbar-toggler-icon{
     font-size:20px;
-}
-
-p{
-   font-size:2.0vw;
-}
-
-h4{
-    font-size: 3.5vw;
-}
-
-h1{
-    font-size: 5.0vw;
-}
-
-h2{
-    font-size: 4.5vw;
-}
-
-h3{
-    font-size: 4.0vw;
-}
-
-h5{
-    font-size: 3.0vw;
-}
-
-h6{
-    font-size: 2.5vw;
 }
 
 #container{

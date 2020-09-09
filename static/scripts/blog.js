@@ -8,15 +8,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const elements=[ document.querySelector('#name'), document.querySelector('#email'), document.querySelector('#title')]
     const displays=[ document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#titlep')]
 
+    const r=new Request()
     //Regex name and email test
     const test=[/^[a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]* [a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]*$/, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/]
     CKSource
         .Editor.create(blog_content, {
            toolbar: {
-                items: [ "bold", "code", "codeBlock", "undo",
+                items: [ "bold", "codeBlock", "undo",
                          "redo", "heading", "horizontalLine", "imageTextAlternative",
                          "imageResize", "imageUpload", "indent", "outdent", "italic",
-                         "link", "numberedList", "bulletedList", "mediaEmbed", "strikethrough", "subscript",
+                         "link", "numberedList", "bulletedList", "strikethrough", "subscript",
                          "superscript", "insertTable", "tableColumn", "tableRow", "mergeTableCells",
                          "tableCellProperties", "tableProperties", "underline"],
                 shouldNotGroupWhenFull: true
@@ -37,9 +38,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
         //Preview button event handler
         preview_btn.addEventListener('click', e =>{
             displays.forEach((display, index)=>{
-                display.innerHTML=elements[index].value
+                display.innerHTML= index==0 ? `By ${elements[index].value}` : elements[index].value
+            })
+            document.querySelector('#content').querySelectorAll('a').forEach(tag=>{
+                tag.setAttribute('href', tag.href.startsWith(r.url) ? `https://${tag.href.substring(r.url.length)}` : tag.href)
             })
             document.querySelector('#content').innerHTML=editor.getData()
+            document.querySelector('#content').querySelectorAll('pre').forEach(pre=>{
+                pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML
+            })
          });
         //End preview
 
@@ -48,7 +55,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             readonly(true)
             const loader=new Loader()
             loader.load()
-            r=new Request()
             const post_data={'name': elements[0].value, 'email': elements[1].value, 'title': elements[2].value, 'content': editor.getData(), 'type':'new'}
             const put_data={'id': create_btn.value, 'content': editor.getData() }
             const bool=create_btn.innerText=='Create'
@@ -81,7 +87,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
          }
          //End reset
 
-         validate=()=>create_btn.disabled = ! (test[0].test(elements[0].value) && test[1].test(elements[1].value) && elements[2].value !='' && editor.getData() !='')
+         validate=()=>{
+            const tst = ! (test[0].test(elements[0].value) && test[1].test(elements[1].value) && elements[2].value !='' && editor.getData() !='')
+            preview_btn.disabled = tst
+            create_btn.disabled = tst
+         }
          //Match regular expression name for input name
          elements.forEach((it, index)=>{
             it.onchange=()=>{

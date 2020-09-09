@@ -50,18 +50,17 @@
     font-size: 10px;
 }
 
+#preview a{
+    pointer-events: none;
+}
+
 .ck-content{
   min-height:60vw;
   font-family: Comic Sans Ms;
 }
 
 .ck-editor__editable>ul,a,p{
-  font-size: 2.5vw;
   margin-bottom:0px;
-}
-
-.image>img{
-    width:100%;
 }
 
  .modal-header{
@@ -72,26 +71,8 @@
     margin:0;
 }
 
-.image>figcaption{
-    padding:0.2vw;
-    text-align:center;
-}
-
-th{
-    background: whitesmoke;
-}
-
-#preview{
-
-}
-
 #loader{
     padding-top:3px;
-}
-
-.table>table{
-    width:100%;
-    border:3px solid gray;
 }
 
 .ck-toolbar__items{

@@ -47,7 +47,7 @@ def blog():
         blog: TempBlog = TempBlog.query.get(data['id'])
         blog.content = data['content']
         db.session.commit()
-        return jsonify({'putted': True})
+        return jsonify({'stat': 'added'})
     else:
         return render_template('blog.html', blog={'name': '', 'title': '', 'content': '', 'email': ''}, save='Create',
                                b='active')
@@ -64,7 +64,7 @@ def delete():
 
 @app.route('/edit/<int:id>')
 def edit(id):
-    blog = Blog.query.get(id)
+    blog = TempBlog.query.get(id)
     return render_template('blog.html', blog=blog, read="readonly", save='Save')
 
 

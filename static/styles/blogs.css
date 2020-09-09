@@ -1,9 +1,10 @@
 .hd{
     height: 5%;
     min-height: 5%;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     padding-left: 16px;
+    margin: 5px;
 }
 
 .per-blog{
@@ -11,10 +12,6 @@
     padding-top:5px;
     padding-bottom:5px;
 }
-
-.per-blog>ul,a,p{
-    font-size: 2.5vw;
-  }
 
   .image>figcaption{
     padding:0.2vw;

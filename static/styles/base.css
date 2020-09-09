@@ -8,6 +8,22 @@
     font-family: Jetbrains Mono;
 }
 
+@media only screen and (min-width: 20px) and (max-width: 480px) {
+  body {
+    font-size:19px;
+  }
+  p, li, span, code{
+    font-size:11px;
+  }
+  h1{ font-size: 24px; }
+  h2{ font-size: 21.5px; }
+  h3{ font-size: 19px; }
+  h4{ font-size: 16.5px; }
+  h5{ font-size: 14px; }
+  h6{ font-size: 11.5px; }
+  button{ font-size: 14px; }
+}
+
 @media only screen and (min-width: 320px) and (max-width: 480px) {
   body {
     font-size:20px;

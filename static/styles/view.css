@@ -1,3 +1,50 @@
+@keyframes open{
+    0%{
+        opacity:0;
+        height:0%;
+        line-height:0%;
+        padding:0vw;}
+    75%{
+        opacity:1;
+        height:0%;
+        line-height:0%;
+        padding:0vw;
+    }
+    100%{
+        opacity:1;
+        height:auto;
+        line-height:auto;
+        padding:16px 8px;
+    }
+}
+
+@keyframes close{
+    from{
+        opacity:1;
+        height:auto;
+        line-height:auto;
+        padding:16px 8px;
+    }
+    to{
+        opacity:0;
+        height:0px;
+        line-height:0px;
+        padding:0px;
+    }
+}
+
+#alert{
+    animation-name:open;
+    animation-play-state=paused;
+    animation-fill-mode:forwards;
+    animation-duration:2s;
+    opacity:0;
+    height:0%;
+    line-height:0%;
+    margin:0vw;
+    padding:0vw;
+}
+
 .image{
     text-align: center;
     margin:2px;
@@ -45,6 +92,14 @@ th{
 
 #preview{
     padding: 5px;
+}
+
+#content p{
+    overflow-x: auto;
+}
+
+#content *{
+    margin:3px;
 }
 
 td, tr, th{

@@ -36,6 +36,16 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
+            {% if admin %}
+            <div class="jumbotron" style="display:none; color:white; padding: 16px 8px; position:absolute; margin-top:3vw;" id="alert">
+                <h4 class='pid' id="msg_h"></h4>
+                <p class='pid' id="msg_b"></p>
+                <hr>
+                <p class='pid' id="msg_f"></p>
+                <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
+            </div>
+            {% else %}
+            {% endif %}
                 <div class="modal-content">
                         <div class="modal-header">
                             <div><span id='loader' style="float:right;"></span></div>

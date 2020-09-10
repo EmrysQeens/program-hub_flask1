@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let id=null  /* This helps to set id of blog clicked so it can be used for request */
     const r=new Request()
     const h=new Request()
+    const pop__up=document.querySelector('#alert')
+    const alert_comp=[document.querySelector('#msg_h') ,document.querySelector('#msg_b') ,document.querySelector('#msg_f')]
     const btns=[document.querySelector('.edit'), document.querySelector('#add'), document.querySelector('#delete')]
     const displays=[ document.querySelector('#titlep'),  document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#content')]
 
@@ -15,7 +17,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         loader.load()
         //Creates an object and attach blog number and admin details...
         const data={'num':div.dataset.blog,
-                           'admin':document.querySelector('#preview').dataset.admin}
+                    'admin':document.querySelector('#preview').dataset.admin}
         //Creates new Request object
         r.fresh(data, 'POST', 'blogs')
         //On load of new Request.
@@ -83,8 +85,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         //On load
         h.loaded((response,status)=>{
             if(status==200 && response['stat'] =='deleted'){
-                    console.log('if')
+                    pop_up(['Deleted', 'Successfully deleted', 'Dismiss to continue'], true)
                     document.querySelector(`#blog-${id}`).remove()
+                    setTimeout(()=> document.getElementById('exampleModalCenter').click(), 3000)
                 }
                 else{
                     console.log('else')
@@ -100,5 +103,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
         displays.forEach(element=>element.innerHTML='')
         try{btns.forEach(btn=>btn.disabled=true)}catch(err){}
 }
+
+    //Sets alert for submission complete, error etc
+         pop_up=(messages, e)=>{
+            pop__up.style.top=window.scrollY+'px'
+            pop__up.style.background= e ? 'blue' : 'red'
+            pop__up.style.display='block'
+            alert_comp.forEach((component, index)=> component.innerText= messages[index])
+            pop__up.style.animationName='open'
+            pop__up.style.animationDuration='2s'
+            pop__up.animationPlayState='running'
+         }
 
 })

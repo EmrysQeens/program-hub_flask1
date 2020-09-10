@@ -2,10 +2,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const blog_content = document.querySelector('#blog_content')
     const create_btn = document.querySelector('#create')
     const preview_btn = document.querySelector("#btn_preview")
+    const select=document.querySelector('#relate')
     const pop__up=document.querySelector('#alert')
     const alert_comp=[document.querySelector('#msg_h') ,document.querySelector('#msg_b') ,document.querySelector('#msg_f')]
 
-    const elements=[ document.querySelector('#name'), document.querySelector('#email'), document.querySelector('#title')]
+    const elements=[ document.querySelector('#name'), document.querySelector('#email'), document.querySelector('#title'), document.querySelector('#error')]
     const displays=[ document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#titlep')]
 
     const r=new Request()
@@ -55,7 +56,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
             readonly(true)
             const loader=new Loader()
             loader.load()
-            const post_data={'name': elements[0].value, 'email': elements[1].value, 'title': elements[2].value, 'content': editor.getData(), 'type':'new'}
+            const post_data={ 'name': elements[0].value, 'email': elements[1].value,
+                               'title': elements[2].value, 'content': editor.getData(),
+                               'typ': select.value, 'error': elements[3].value, 'type':'new'}
             const put_data={'id': create_btn.value, 'content': editor.getData() }
             const bool=create_btn.innerText=='Create'
             //Creates and send request
@@ -88,14 +91,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
          //End reset
 
          validate=()=>{
-            const tst = ! (test[0].test(elements[0].value) && test[1].test(elements[1].value) && elements[2].value !='' && editor.getData() !='')
+            const tst = ! (test[0].test(elements[0].value) && test[1].test(elements[1].value) && elements[2].value !='' &&elements[3].value !='' && editor.getData() !='')
             preview_btn.disabled = tst
             create_btn.disabled = tst
          }
          //Match regular expression name for input name
          elements.forEach((it, index)=>{
             it.onchange=()=>{
-              if(index !=2)
+              if(index !=2 && index !=3)
                 if( ! test[index].test(it.value) ) it.style.background='red'
             }
             it.oninput=()=> validate()

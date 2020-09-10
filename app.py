@@ -33,7 +33,7 @@ def blog():
                         list(tables.values())))) == len(tables)
         if data['type'] == 'new':
             if len(Blog.query.filter_by(content=data['content']).all()) == 0 and boolean:
-                blog_: Blog = Blog(f_strip(data['name']), f_strip(data['email']), f_strip(data['title']), data['error'],
+                blog_: Blog = Blog(f_strip(data['name']), g_strip(data['email']), g_strip(data['title']), data['error'],
                                    data['typ'], data['content'])
                 db.session.add(blog_)
                 db.session.commit()

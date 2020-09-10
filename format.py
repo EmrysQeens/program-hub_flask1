@@ -4,7 +4,7 @@ import json
 
 def name_(name):
     return json.dumps({'stat': re.match(
-        r'^[a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]* [a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]*$',
+        r'^[a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?/\\|_+=-]* [a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]*$',
         name) is not None})
 
 
@@ -17,3 +17,4 @@ def format_(text):
 
 
 f_strip = lambda string: string.strip().title()
+g_strip = lambda string: string.strip().capitalize()

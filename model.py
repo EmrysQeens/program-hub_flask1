@@ -411,7 +411,7 @@ class TechNews(db.Model):
 
 tables = {'java': Java, 'kotlin': Kotlin, 'cpp': Cpp, 'c#': C_Sharp, 'c': C, 'android': Android, 'ios': Ios,
           'linux': Linux, 'javascript': Javascript, 'php': Php, 'python': Python, 'node': Node, 'windows': Windows,
-          'cs': Cs, 'Tn': TechNews}
+          'cs': Cs, 'tn': TechNews}
 
 
 class Blog(db.Model):

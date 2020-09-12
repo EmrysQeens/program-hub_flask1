@@ -78,9 +78,12 @@ def about():
     return render_template('about.html', a='active')
 
 
-@app.route('/search')
+@app.route('/search', methods=['POST', 'GET'])
 def search():
-    pass
+    if request.method=='POST':
+        pass
+    else:
+        return render_template('search.html')
 
 
 @app.route('/code')

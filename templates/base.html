@@ -30,20 +30,20 @@
           <li class="nav-item {{b}}">
             <a class="nav-link" href="{{url_for('blog')}}">Blog</a>
           </li>
-          <li class="nav-item {{bl}}">
-            <a class="nav-link" href="{{url_for('blogs')}}">Tech News</a>
+          <li class="nav-item {{c}}">
+            <a class="nav-link" href="{{url_for('code')}}">Code 'In Progress'</a>
+          </li>
+          <li class="nav-item {{s}}">
+            <a class="nav-link" href="{{url_for('search')}}">Search</a>
           </li>
           <li class="nav-item {{l}}">
             <a class="nav-link" href="{{url_for('learn')}}">Cs Learn</a>
           </li>
+          <li class="nav-item {{bl}}">
+            <a class="nav-link" href="{{url_for('blogs')}}">Tech News</a>
+          </li>
           <li class="nav-item {{a}}">
             <a class="nav-link" href="{{url_for('about')}}">About</a>
-          </li>
-          <li class="nav-item {{s}}">
-            <a class="nav-link" href="{{url_for('about')}}">Settings</a>
-          </li>
-          <li class="nav-item {{c}}">
-            <a class="nav-link" href="{{url_for('code')}}">Code</a>
           </li>
         </ul>
         {% block search_form %}

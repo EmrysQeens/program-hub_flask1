@@ -25,13 +25,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
           if(status==200){
             id=div.dataset.blog
             const resp=[ response['title'], response['name'], response['email'], response['content']]
-            displays.forEach((element, index)=>{
-                element.innerHTML= index==1 ? `By ${resp[index]}` : resp[index]
-            })
+            displays.forEach((element, index)=> element.innerHTML= index==1 ? `By ${resp[index]}` : resp[index])
             //Add code block language
-            document.querySelector('#content').querySelectorAll('pre').forEach(pre=>{
-                pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML
-            })
+            document.querySelector('#content').querySelectorAll('pre').forEach(pre=> pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML)
             //Parse tags href attribute
             displays[3].querySelectorAll('a').forEach(tag=>{
                 tag.setAttribute('href', tag.href.startsWith(r.url) ? `https://${tag.href.substring(r.url.length)}` : tag.href)
@@ -43,12 +39,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 document.querySelector('#edit').setAttribute('href', `${r.url}edit/${id}`)
                 //Enables edit, add and commit buttons
                 btns.forEach(btn=> btn.disabled=false) }
-                catch(err){}
-                }else{
-
+            catch(err){}
+            }
+           else{
+                    loader.exit(()=>{})
                 }
-         r.error(err=>{l.exit(()=>{})})
         })
+        //Onerror
+        r.error(()=>{
+            loader.exit(()=>{})
+            pop_up(['Error', 'Connection error', 'Check your internet connection.'])
+            })
+        //On timeout
+        r.timeout(()=>{
+            loader.exit(()=>{})
+            pop_up(['Error', 'Connection timeout', 'Please retry'])
+            })
        })
     })
     //End of div functionality..
@@ -68,14 +74,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
         //On load
         h.loaded((response,status)=>{
             if(status==200 && response['stat']=='added'){
-                    //TODO
+                    pop_up(['Committed Successfully', 'The post has been validated', 'Continue..'], true)
                     document.querySelector(`#blog-${id}`).remove()
                 }
                 else{
-                   //TODO
+                   pop_up(['Commit Failure', 'The post has not been validated', 'Please Retry'], false)
                 }
         })
-        h.error(err=>{})
+        h.error(()=>{ pop_up(['Connection Error', 'Couldn\'t establish a connection to server', 'Please Retry'], false) })
+        h.timeout(()=>{ pop_up(['Connection Timeout', 'Couldn\'t validate', 'Please Retry'], false) })
     })
 
     //Delete button
@@ -90,10 +97,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     setTimeout(()=> document.getElementById('exampleModalCenter').click(), 3000)
                 }
                 else{
-                    console.log('else')
+                    pop_up(['Deletion Error', 'The post has not been deleted', 'Please Retry'], false)
                 }
         })
-        h.error(err=>{console.log('Error')})
+        h.error(()=>{ pop_up(['Connection Error', 'Couldn\'t establish a connection to server', 'Please Retry'], false) })
+        h.timeout(()=>{ pop_up(['Connection Timeout', 'Couldn\'t delete', 'Please Retry'], false) })
     })
     //End functionality
     }catch(err){}
@@ -101,8 +109,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     dismiss=r=>{
         r.cancel()
         displays.forEach(element=>element.innerHTML='')
+        pop__up.style.display='none'
         try{btns.forEach(btn=>btn.disabled=true)}catch(err){}
-}
+    }
 
     //Sets alert for submission complete, error etc
          pop_up=(messages, e)=>{

@@ -70,7 +70,7 @@ class Kotlin(db.Model):
                     'content': self.content})
 
 
-"""For the java belonging problems"""
+"""For the python belonging problems"""
 
 
 class Python(db.Model):
@@ -441,3 +441,10 @@ class Blog(db.Model):
         db.session.add(tables[typ](self))
         db.session.delete(self)
         db.session.commit()
+        
+        
+        
+def back_blog(blog):
+    db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, 'tn',  blog.content))
+    db.session.delete(blog)
+    db.session.commit()

@@ -18,7 +18,7 @@
 
 {% block body %}
 <div class="jumbotron flex justify-content-center align-items-center jumbotron-fluid hd">
-    <h3>Blogs</h3>
+    <h3>{{title}}</h3>
 </div>
 
 <div class="container">
@@ -27,7 +27,8 @@
     <div class="jumbotron flex justify-content-center align-items-center per-blog div-blog " id="blog-{{blog['id']}}" data-toggle="modal"
                                                                         data-target="#exampleModalCenter" data-blog="{{blog['id']}}" >
         <h2 class="title">{{blog['title'] | safe }}</h2>
-        <p>By {{blog['name']}} on {{blog['date']}} </p>
+        <p>By {{blog['name']}}</p>
+        <p>{{blog['date']}} </p>
         <p>{{blog['email']}}</p>
     </div>
     {% endfor %}
@@ -36,16 +37,12 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            {% if admin %}
             <div class="jumbotron" style="display:none; color:white; padding: 16px 8px; position:absolute; margin-top:3vw;" id="alert">
                 <h4 class='pid' id="msg_h"></h4>
                 <p class='pid' id="msg_b"></p>
                 <hr>
                 <p class='pid' id="msg_f"></p>
-                <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
             </div>
-            {% else %}
-            {% endif %}
                 <div class="modal-content">
                         <div class="modal-header">
                             <div><span id='loader' style="float:right;"></span></div>

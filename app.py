@@ -50,7 +50,7 @@ def blog():
     elif request.method == 'PUT':
         data = json.loads(request.form['data'])
         blog_: Blog = Blog.query.get(data['id'])
-        blog.content = data['content']
+        blog_.content = data['content']
         db.session.commit()
         return jsonify({'stat': 'added'})
     else:
@@ -85,7 +85,7 @@ def search():
 
 @app.route('/code')
 def code():
-    pass
+    return render_template('code.html')
 
 
 @app.route('/admin', methods=['POST', 'GET'])
@@ -96,7 +96,7 @@ def admin():
             return render_template('admin.html', wrong='Wrong password')
         else:
             t_blogs = Blog.query.all()
-            return render_template('blogs.html', blogs=t_blogs, admin=True)
+            return render_template('blogs.html', blogs=t_blogs, admin=True, title='Admin')
     else:
         return render_template('admin.html')
 
@@ -105,14 +105,26 @@ def admin():
 def blogs():
     if request.method == 'POST':
         v = json.loads(request.form['data'])
-        time.sleep(5)
-        blog = Blog.query.get(v['num']) if v['admin'] == 'True' else TechNews.query.get(v['num'])
+        time.sleep(4)
+        blog_ = Blog.query.get(v['num']) if v['admin'] == 'True' else TechNews.query.get(v['num'])
         return jsonify(
-            {'id': blog.id, 'title': blog.title, 'name': blog.name, 'email': blog.email, 'date': blog.date,
-             'content': blog.content})
+            {'id': blog_.id, 'title': blog_.title, 'name': blog_.name, 'email': blog_.email, 'date': blog_.date,
+             'content': blog_.content})
     else:
-        blogs = TechNews.query.all()
-        return render_template('blogs.html', blogs=blogs, admin=False, bl='active')
+        blogs_ = TechNews.query.all()
+        return render_template('blogs.html', blogs=blogs_, admin=False, bl='active', title='Technological News Update')
+
+@app.route('/learn', methods=['POST', 'GET'])
+def learn():
+    if request.method == 'POST':
+        v = json.loads(request.form['data'])
+        blog_ = Cs.query.get(v['num'])
+        return jsonify(
+            {'id': blog_.id, 'title': blog_.title, 'name': blog_.name, 'email': blog_.email, 'date': blog_.date,
+             'content': blog_.content})
+    else:
+        blogs_ = Cs.query.all()
+        return render_template('blogs.html', blogs=blogs_, admin=False, l='active', title='CS learn')
 
 
 if __name__ == '__main__':

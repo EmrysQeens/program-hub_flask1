@@ -1,15 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}Code{% endblock %}
+{% block title %}Search{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='scripts/search.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/loader.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/http/request.js')}}"></script>
+{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{url_for('static',filename='styles/search.css')}}"> {% endblock %}
 
 {% block body %}
     <div class="container" style="margin-top:5px;">
+        <p>For search by error code please add the identifier is:err to your query and is:quest for questions</p>
+        <p>Sample  is:err 0bxfdsx.</p>
+        <p>Sample  is:quest null pointer exception in java.</p>
         <form>
-    <div class="form-group">
-    <input class="form-control form-control-sm" placeholder="Enter Search Text" type="search">
-    </div>
             <div class="form-group">
-                <select class="form-control" id="relate">
+                <select class="form-control select" id="relate">
                         <option value="NAN" disabled selected>Operating System</option>
                         <option value="android">Android</option>
                         <option value="windows">Windows</option>
@@ -24,13 +30,17 @@
                         <option value="php">Php</option>
                         <option value="javascript">Javascript</option>
                         <option value="kotlin">Kotlin</option>
-                        <option value="NAN" disabled>Others</option>
-                        <option value="tn">Tech News</option>
-                        <option value="cs_terms">CS Learn</option>
                 </select>
             </div>
-        <div class="form-group"><button type="submit" class="btn btn-secondary btn-sm">Submit</button>
-</div>    </form>
+            <div style="position: relative;">
+            <div class="form-group grp">
+                <input class="form-control form-control-sm search" id="textbox" name='q' autocomplete="off" placeholder="Search query" type="search" readonly>
+                <button type="submit" id="btn" class="btn btn-secondary btn-sm search" id="search" disabled >Search</button>
+            </div>
+            <div style="" id="suggestions">
 
+            </div>
+                </div>
+        </form>
     </div>
 {% endblock %}

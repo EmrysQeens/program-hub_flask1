@@ -3,7 +3,7 @@ from flask import Flask, render_template, jsonify, request, send_from_directory,
 from model import *
 import time
 import random
-from format import *
+from p_f import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///program-hubs.db'
@@ -29,7 +29,7 @@ def blog():
     if request.method == 'POST':
         data = json.loads(request.form['data'])
         boolean = len(
-            list(filter(lambda v: len(v.query.filter_by(content=data['content']).all())==0,
+            list(filter(lambda v: len(v.query.filter_by(content=data['content']).all()) == 0,
                         list(tables.values())))) == len(tables)
         if data['type'] == 'new':
             if len(Blog.query.filter_by(content=data['content']).all()) == 0 and boolean:
@@ -80,15 +80,41 @@ def about():
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
-    if request.method=='POST':
-        pass
+    if request.method == 'POST':
+        data = json.loads(request.form['data'])
+        blogs_ = tables[data['type']].query.all()
+        id_titles = list({'id': blog_.id, 'title':blog_.title} for blog_ in blogs_)
+        response = list(filter(lambda blog_: blog_ == '', blogs_))
+        dummy: list[dict[str: int, str: str]]=[
+            {'id': 1, 'title': 'Hello world in java'},
+            {'id': 2, 'title': 'Hello world in java'},
+            {'id': 3, 'title': 'Hello world in java'},
+            {'id': 4, 'title': 'Hello world in java'},
+            {'id': 5, 'title': 'Hello world in java'},
+            {'id': 6, 'title': 'Hello world in java'},
+            {'id': 7, 'title': 'Hello world in java'},
+            {'id': 8, 'title': 'Hello world in java'},
+            {'id': 9, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'},
+            {'id': 10, 'title': 'Hello world in java'}
+        ]
+        return jsonify({
+            'response': dummy
+        })
     else:
-        return render_template('search.html')
+        return render_template('search.html', s='active')
 
 
 @app.route('/code')
 def code():
-    return render_template('code.html')
+    return render_template('code.html', c='active')
 
 
 @app.route('/admin', methods=['POST', 'GET'])
@@ -116,6 +142,7 @@ def blogs():
     else:
         blogs_ = TechNews.query.all()
         return render_template('blogs.html', blogs=blogs_, admin=False, bl='active', title='Technological News Update')
+
 
 @app.route('/learn', methods=['POST', 'GET'])
 def learn():

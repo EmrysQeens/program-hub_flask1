@@ -1,0 +1,40 @@
+.search{
+
+}
+
+.select{
+    border-radius: 19px;
+    margin-top: 5px;
+}
+
+.grp{
+    display: flex;
+    margin-bottom: 0px;
+}
+
+#btn{
+    border-radius: 0px 15.5px 5px 0px;
+}
+
+#textbox{
+    border-radius: 15.5px 0px 0px 5px;
+}
+
+#suggestions{
+    position: absolute;
+    border-radius: 5px;
+    min-width: 100%;
+    display: none;
+    overflow-y: auto;
+    max-height: 300px;
+    border: 3px solid rgb(206, 208, 212);
+}
+
+#suggestions> hr,p{
+    margin: 5px 0px 5px 0px;
+}
+
+
+#suggestions >p{
+    padding-left: 5px;
+}

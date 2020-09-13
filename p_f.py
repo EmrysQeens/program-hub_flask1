@@ -18,3 +18,7 @@ def format_(text):
 
 f_strip = lambda string: string.strip().title()
 g_strip = lambda string: string.strip().capitalize()
+
+
+def search():
+    pass

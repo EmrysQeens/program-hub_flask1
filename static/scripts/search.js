@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     const select= document.querySelector('#relate')
     const textbox= document.querySelector('#textbox')
     const search= document.querySelector('#search')
+    const btn=document.querySelector('#btn')
     const r=new Request();
     let is_r=null
+    const regex=/^is:(err|title) [ a-z 0-9 A-Z ]+$/
 
 
     select.onchange=()=> textbox.readOnly= this.value=='NAN'
@@ -24,7 +26,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
             r.loaded((response, status)=>{
                 if(status == 200){
-                    console.log(response.response)
                     suggestion.innerHTML=''
                     for (rep of response.response) suggestion.innerHTML+=`<p data-id='${rep['id']}'>${rep['title']}</p><hr>`
                     suggestion.style.display= textbox.value=='' ? 'none' : 'block';
@@ -37,5 +38,8 @@ document.addEventListener('DOMContentLoaded',()=>{
             r.error(()=>{})
             r.timeout(()=>{})
        }
+
+        btn.disabled= ! regex.test( this.value )
+
     }
 })

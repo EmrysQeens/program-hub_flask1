@@ -102,6 +102,8 @@ th{
     margin:3px;
 }
 
+
+
 td, tr, th{
     border: 3px solid gray;
 }
@@ -117,4 +119,12 @@ pre{
     background: whitesmoke;
     padding-left: 10px;
     border-radius: 3px;
+    max-height: 300px;
+    overflow-y: auto;
 }
+
+ #content{
+    padding-top:5px;
+    padding-right:10px;
+    display:block;
+ }

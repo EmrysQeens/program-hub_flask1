@@ -4,6 +4,7 @@ from model import *
 import time
 import random
 from p_f import *
+from mail import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///program-hubs.db'
@@ -44,6 +45,7 @@ def blog():
             if boolean:
                 blog_: Blog = Blog.query.get(data['num'])
                 blog_.validate(blog_.typ)
+                sender.send_message(Recipient(blog_.email, Content().re(blog_)))
                 return jsonify({'stat': 'added'})
             else:
                 return jsonify({'stat': 'errors'})
@@ -70,7 +72,7 @@ def delete():
 @app.route('/edit/<int:id>')
 def edit(id):
     blog_ = Blog.query.get(id)
-    return render_template('blog.html', blog=blog, read="readonly", save='Save')
+    return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
 
 
 @app.route('/about')

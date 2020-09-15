@@ -12,17 +12,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     select.onchange=()=> textbox.readOnly= this.value=='NAN'
 
     textbox.oninput= function(){
-       const bool= this.value == ""
-       suggestion.style.display= bool ? 'none' : 'block'
-       if (!bool && this.value.length > 0){
+       const bool= regex.test( this.value )
+       suggestion.style.display= bool ? 'block' :'none'
+       btn.disabled= ! bool
+
+       if (bool){
             const data={'type': select.value,
                         'text': this.value}
-           if(is_r!=null){
+
+            caller= (bool && is_r==null) ? ()=>{
+                r.fresh(data, 'POST', 'search')
+                is_r=r} : ()=>{
                 r.cancel()
                 r.fresh(data, 'POST', 'search')
-                is_r=null
-            }
-            else r.fresh(data, 'POST', 'search')
+                is_r=r
+                }
+            caller()
 
             r.loaded((response, status)=>{
                 if(status == 200){
@@ -30,7 +35,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                     for (rep of response.response) suggestion.innerHTML+=`<p data-id='${rep['id']}'>${rep['title']}</p><hr>`
                     suggestion.style.display= textbox.value=='' ? 'none' : 'block';
                     suggestion.querySelectorAll('p').forEach(p=> p.onclick=()=> {
-                        textbox.value=p.innerHTML
+                        textbox.value= (/^is:(err) [ a-z 0-9 A-Z ]+$/.test(this.value) ? 'is:err ' : 'is:title ') +p.innerHTML.toLowerCase()
                         suggestion.style.display='none'} )
                 }
                 else{ }//TODO
@@ -38,8 +43,5 @@ document.addEventListener('DOMContentLoaded',()=>{
             r.error(()=>{})
             r.timeout(()=>{})
        }
-
-        btn.disabled= ! regex.test( this.value )
-
     }
 })

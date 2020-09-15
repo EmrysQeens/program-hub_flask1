@@ -420,7 +420,7 @@ class Blog(db.Model):
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
-    error = db.Column(db.String(50), nullable=True, unique=False)
+    error = db.Column(db.String(50), nullable=True, unique=False, default='')
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     typ= db.Column(db.String(12), nullable=False, unique=False)
     content = db.Column(db.Text, nullable=False, unique=True)

@@ -1,26 +1,31 @@
-import smtplib
-import base64
-import re
+import yagmail
+import jinja2 as templating
 
-# people = [
-#     {'name': 'David',
-#      'gender': 'Male'},
-#     {'name': 'David',
-#      'gender': 'Male'},
-#     {'name': 'David',
-#      'gender': 'Male'},
-#     {'name': 'David',
-#      'gender': 'Male'},
-#     {'name': 'David',
-#      'gender': 'Male'},
-#     {'name': 'David',
-#      'gender': 'Male'},
-# ]
-#
-# x=[name['name'] for name in people]
-#
-# print(x)
 
-regex=r'^is:(err|title) [0-9 A-Z a-z]*$'
+class Sender(object):
+    subject = 'Post verified on Program~hub'
 
-print(re.match(regex, 'is:err Jbkjh'))
+    def __init__(self, email, password):
+        self.email = email
+        self.password = password
+
+    def send_message(self, recipient):
+        with yagmail.SMTP(self.email, self.password) as mailer:
+            mailer.send(recipient.email, self.subject, recipient.content)
+
+
+class Recipient(object):
+    def __init__(self, email, content):
+        self.email = email
+        self.content = content
+
+
+class Content(object):
+    def __init__(self):
+        self.content = open('template.html', 'r').read()
+
+    def re(self, blog):
+        return templating.Template(self.content).render(name=blog.name, content=blog.content, email=blog.email, title=blog.title)
+
+
+sender = Sender('program.hubs@gmail.com', 'xkkusjjbnsodlrtz')

@@ -26,8 +26,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
             id=div.dataset.blog
             const resp=[ response['title'], response['name'], response['email'], response['content']]
             displays.forEach((element, index)=> element.innerHTML= index==1 ? `By ${resp[index]}` : resp[index])
+            //Set maximum height to device screen
+            displays[3].style.maxHeight= window.innerHeight - 100 + 'px'
+            displays[3].style.overflowY= 'auto'
             //Add code block language
-            document.querySelector('#content').querySelectorAll('pre').forEach(pre=> pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML)
+            displays[3].querySelectorAll('pre').forEach(pre=> pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML)
             //Parse tags href attribute
             displays[3].querySelectorAll('a').forEach(tag=>{
                 tag.setAttribute('href', tag.href.startsWith(r.url) ? `https://${tag.href.substring(r.url.length)}` : tag.href)

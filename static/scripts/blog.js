@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
         .then(editor => {
             window.editor = editor;
             //Hold and st Value then discard if it was edited
+            const type=document.querySelector('#type').innerText
+            select.value= type=="" ? 'NAN' : type
             const hold=document.querySelector('#hold')
             editor.setData(`${hold.innerHTML}`)
             hold.remove()

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Email template</title>
+    <style>
+        .image{
+        text-align: center;
+        margin:2px;
+        padding:5px;
+    }
+
+    .image>img{
+        border-radius:3px;
+        width:90%;
+    }
+
+    #content hr{
+        height:4px;
+        margin: 5px 0 10px 0;
+        background: #dedede;
+    }
+
+    .image>figcaption{
+        padding:5px;
+        text-align:center;
+    }
+
+    th{
+        background: whitesmoke;
+    }
+
+    .table{
+        text-align: center;
+    }
+
+    .table>table{
+        width: 100%;
+        border: 3px solid gray;
+        border-radius: 2px;
+        padding: 5px;
+        min-width: 90%;
+        width: 90%;
+    }
+
+    .table{
+        overflow-x: auto;
+        font-size: 11px;
+    }
+
+    #preview{
+        padding: 5px;
+    }
+
+    #content p{
+        overflow-x: auto;
+    }
+
+    #content *{
+        margin:3px;
+    }
+
+    td, tr, th{
+        border: 3px solid gray;
+    }
+
+    figcaption{
+        font-size: 10px;
+    }
+
+    pre{
+        font-size: 11px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        background: whitesmoke;
+        padding-left: 10px;
+        border-radius: 3px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    #content{
+        padding-top:5px;
+        padding-right:10px;
+        display:block;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <p>By {{name}}</p>
+    <p>{{email}}</p>
+    <div id="content">
+        {{ content | safe }}
+    </div>
+</body>
+</html>

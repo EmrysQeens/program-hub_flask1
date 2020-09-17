@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 
        if (bool){
             const data={'type': select.value,
-                        'text': this.value}
+                        'text': this.value,
+                        'page': ''}
 
             caller= (bool && is_r==null) ? ()=>{
                 r.fresh(data, 'POST', 'search')

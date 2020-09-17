@@ -69,9 +69,9 @@ def delete():
     return jsonify({'stat': 'deleted'})
 
 
-@app.route('/edit/<int:id>')
-def edit(id):
-    blog_ = Blog.query.get(id)
+@app.route('/edit', methods=['POST'])
+def edit():
+    blog_ = Blog.query.get(request.form.get('id'))
     return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
 
 
@@ -83,14 +83,15 @@ def about():
 @app.route('/search', methods=['POST', 'GET'])
 def search():
     if request.method == 'POST':
-        data = json.loads(request.form['data'])
-        blogs_ = tables[data['type']].query.all()
-        id_titles = list({'id': blog_.id, 'title':blog_.title} for blog_ in blogs_)
-        response = list(filter(lambda blog_: blog_ == '', blogs_))
-        dummy: list[dict[str: int, str: str]]=[
+        try:
+            data = json.loads(request.form['data'])
+            blogs_ = tables[data['type']].query.all()
+            id_titles = list({'id': blog_.id, 'title':blog_.title} for blog_ in blogs_)
+            response = list(filter(lambda blog_: blog_ == '', blogs_))
+            dummy: list[dict[str: int, str: str]]=[
             {'id': 1, 'title': 'Hello world in java'},
-            {'id': 2, 'title': 'Hello world in java'},
-            {'id': 3, 'title': 'Hello world in java'},
+            {'id': 2, 'title': 'How to write an hello world program in java'},
+            {'id': 3, 'title': 'Java and the hello world program in it'},
             {'id': 4, 'title': 'Hello world in java'},
             {'id': 5, 'title': 'Hello world in java'},
             {'id': 6, 'title': 'Hello world in java'},
@@ -107,9 +108,12 @@ def search():
             {'id': 10, 'title': 'Hello world in java'},
             {'id': 10, 'title': 'Hello world in java'}
         ]
-        return jsonify({
+            return jsonify({
             'response': dummy
-        })
+            })
+        except KeyError:
+            query=request.form.get('q')
+            return render_template('blogs.html', blogs=Java.query.all(), admin=False, s='active', title=g_strip(rm(query)))
     else:
         return render_template('search.html', s='active')
 

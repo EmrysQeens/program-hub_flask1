@@ -4,11 +4,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const preview_btn = document.querySelector("#btn_preview")
     const select=document.querySelector('#relate')
     const pop__up=document.querySelector('#alert')
+    const content=document.querySelector('#content')
     const alert_comp=[document.querySelector('#msg_h') ,document.querySelector('#msg_b') ,document.querySelector('#msg_f')]
 
     const elements=[ document.querySelector('#name'), document.querySelector('#email'), document.querySelector('#title'), document.querySelector('#error')]
     const displays=[ document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#titlep')]
-
+    const vals=['name', 'email', 'title', 'error']
     const r=new Request()
     //Regex name and email test
     const test=[/^[a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]* [a-z A-Z][^0-9][^~`!@#$%^&*(){}\[\];:\"\'<,.>?\/\\|_+=-]*$/, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/]
@@ -38,16 +39,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
             console.error(err.stack)
         })
 
-        //Preview button event handler
+    //Preview button event handler set modal values
         preview_btn.addEventListener('click', e =>{
             displays.forEach((display, index)=>{
                 display.innerHTML= index==0 ? `By ${elements[index].value}` : elements[index].value
             })
-            document.querySelector('#content').querySelectorAll('a').forEach(tag=>{
+            content.querySelectorAll('a').forEach(tag=>{
                 tag.setAttribute('href', tag.href.startsWith(r.url) ? `https://${tag.href.substring(r.url.length)}` : tag.href)
             })
-            document.querySelector('#content').innerHTML=editor.getData()
-            document.querySelector('#content').querySelectorAll('pre').forEach(pre=>{
+            content.innerHTML=editor.getData()
+            content.querySelectorAll('pre').forEach(pre=>{
                 pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML
             })
          });
@@ -72,6 +73,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     reset()
                 }else pop_up(['Error!!!', 'Blog Post was not successfully created.', 'Please try again'], false)
                 readonly(false)
+                select.disabled=false
+                localStorage.clear()
                 loader.exit(()=>{})
             })
             r.error(()=> {
@@ -85,25 +88,31 @@ document.addEventListener('DOMContentLoaded', ()=>{
          })
         //End create
 
-        //Reset all input fields Event Handler
+         //Reset all input fields Event Handler
          reset=()=>{
             elements.forEach(element=> element.value='')
             window.editor.setData('')
          }
          //End reset
 
-         validate=()=>{
+        //Validates user inputs by disabling preview and create btn if terms not met
+        validate=()=>{
             const tst = ! (test[0].test(elements[0].value) && test[1].test(elements[1].value) && elements[2].value !='' &&elements[3].value !='' && editor.getData() !='')
             preview_btn.disabled = tst
             create_btn.disabled = tst
          }
+
          //Match regular expression name for input name
          elements.forEach((it, index)=>{
             it.onchange=()=>{
               if(index !=2 && index !=3)
                 if( ! test[index].test(it.value) ) it.style.background='red'
             }
-            it.oninput=()=> validate()
+            it.oninput=()=> {
+                //The line below sets a value for each input as they are changed
+                localStorage.setItem(vals[index], it.value)
+                validate()
+            }
             //Return to normal styling on focus
             it.onfocus=()=> it.style.background='transparent'
          })
@@ -136,11 +145,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
             pop__up.animationPlayState='running'
          }
 
-})
+         select.onchange=()=> localStorage.setItem('type', select.selectedIndex)
 
-window.onload=()=>{
+   window.onload=()=>{
     //Editor
-    document.querySelector('.ck-editor__editable').onkeyup=()=>validate()
+    document.querySelector('.ck-editor__editable').onkeyup=()=>{
+        localStorage.setItem('content', editor.getData())
+        validate()
+    }
+
+    loadData=()=>{
+         if(select.disabled == false){
+            elements.forEach((element, index)=>{
+                element.value=localStorage.getItem(vals[index])
+            })
+            select.selectedIndex=localStorage.getItem('type')
+         }
+         try{
+            editor.setData(localStorage.getItem('content'))}
+            catch(err){}
+         }
+    loadData()
+    validate()
 }
 
-
+})

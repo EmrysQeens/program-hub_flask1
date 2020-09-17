@@ -9,13 +9,6 @@
 {% endblock %}
 {% block title %}Blogs{% endblock %}
 
-{% block search_form %}
-<form class="form-inline" action="{{url_for('search')}}">
-  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
-{% endblock %}
-
 {% block body %}
 <div class="jumbotron flex justify-content-center align-items-center jumbotron-fluid hd">
     <h3>{{title}}</h3>
@@ -57,7 +50,10 @@
                                         </div>
                                 </div>
                             {% if admin %}
-                            <a href="" id="edit"><button type="button" class="btn btn-secondary btn-sm edit" style="float:left;margin:2px" disabled>Edit</button></a>
+                            <form method="POST" action="/edit" >
+                                <input type="hidden" name="id" id="id" value="1">
+                                <button type="submit" class="btn btn-secondary btn-sm edit" style="float:left;margin:2px" disabled id="edit" >Edit</button>
+                            </form>
                             <button type="button" class="btn btn-primary btn-sm" style="float:right;margin:2px" id="add" disabled>Commit</button>
                             <button type="button" class="btn btn-danger btn-sm" style="float:right;margin:2px" id="delete" disabled>Delete</button>
                             {% else %}

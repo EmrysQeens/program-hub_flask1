@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             loader.exit(()=>{})
             //Tries to set edit button href attribute if admin page...
             try{
-                document.querySelector('#edit').setAttribute('href', `${r.url}edit/${id}`)
+                document.querySelector('#id').value=id
+                //document.querySelector('#edit').onclick=()=> document.querySelector('form').submit()
                 //Enables edit, add and commit buttons
                 btns.forEach(btn=> btn.disabled=false) }
             catch(err){}
@@ -64,7 +65,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
      //Adds functionality to modal and dismiss button...
      const dis_mod=[ document.querySelector('#dismiss'), document.querySelector('#exampleModalCenter')]
-     dis_mod.forEach(elem=> elem.onclick=()=>dismiss(r))
+     dis_mod.forEach(elem=> elem.onclick=(e)=> {
+            if(e.target.id=='dismiss' || e.target.id=='exampleModalCenter') dismiss()
+        }) // TODO target
     //Ends functionality...
 
     //Adds functionality of commit and delete button
@@ -109,7 +112,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     //End functionality
     }catch(err){}
 
-    dismiss=r=>{
+    dismiss=()=>{
         r.cancel()
         displays.forEach(element=>element.innerHTML='')
         pop__up.style.display='none'

@@ -27,9 +27,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         })
         .then(editor => {
             window.editor = editor;
-            //Hold and st Value then discard if it was edited
-            const type=document.querySelector('#type').innerText
-            select.value= type=="" ? 'NAN' : type
+            //Hold and store Value then discard if it was edited
+            const type=document.querySelector('#type')
+            select.value= type=="" ? 'NAN' : type.innerText
+            type.remove()
             const hold=document.querySelector('#hold')
             editor.setData(`${hold.innerHTML}`)
             hold.remove()
@@ -57,13 +58,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
         //Create button event handler..
          create_btn.addEventListener('click', ()=>{
             readonly(true)
-            const loader=new Loader()
-            loader.load()
+            const bool= create_btn.innerText=='Create'
+            const v=create_btn.innerText
+            const loader=new Loader(create_btn)
+            loader.load(`<small>${bool ? 'Creating' : 'Saving'}</small>`)
             const post_data={ 'name': elements[0].value, 'email': elements[1].value,
                                'title': elements[2].value, 'content': editor.getData(),
                                'typ': select.value, 'error': elements[3].value, 'type':'new'}
             const put_data={'id': create_btn.value, 'content': editor.getData() }
-            const bool=create_btn.innerText=='Create'
             //Creates and send request
             r.fresh( bool ? post_data : put_data, bool ? 'POST' : 'PUT', 'blog')
             //On load
@@ -75,15 +77,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 readonly(false)
                 select.disabled=false
                 localStorage.clear()
-                loader.exit(()=>{})
+                loader.exit(false, `<small>Create</small>`)
+                validate()
+                if (!bool) window.history.replaceState('', 'Blog', '/blog')
             })
             r.error(()=> {
                 readonly(false)
-                loader.exit(()=>{})
+                loader.exit(false, `<small>${v.contains('Saving') ? 'Save' : 'Create'}</small>` )
                 pop_up(['Error!!!', 'The Request was not successfully completed...', '$_> Connection failed'], false)})
             r.timeout(()=> {
                 readonly(false)
-                loader.exit(()=>{})
+                loader.exit(false, `<small>${v.contains('Saving') ? 'Save' : 'Create'}</small>` )
                 pop_up(['Error!!!', 'The Request was not successfully completed...', '$_> Connection timeout'], false)})
          })
         //End create
@@ -160,10 +164,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 element.value=localStorage.getItem(vals[index])
             })
             select.selectedIndex=localStorage.getItem('type')
-         }
          try{
             editor.setData(localStorage.getItem('content'))}
             catch(err){}
+         }
          }
     loadData()
     validate()

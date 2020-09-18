@@ -422,7 +422,7 @@ class Blog(db.Model):
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False, default='')
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    typ= db.Column(db.String(12), nullable=False, unique=False)
+    typ = db.Column(db.String(12), nullable=False, unique=False)
     content = db.Column(db.Text, nullable=False, unique=True)
 
     def __init__(self, name, email, title, error, typ, content):
@@ -430,7 +430,7 @@ class Blog(db.Model):
         self.email = email
         self.title = title
         self.error = error
-        self.typ=typ
+        self.typ = typ
         self.content = content
 
     def __repr__(self):
@@ -441,10 +441,10 @@ class Blog(db.Model):
         db.session.add(tables[typ](self))
         db.session.delete(self)
         db.session.commit()
-        
-        
-        
-def back_blog(blog):
-    db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, 'tn',  blog.content))
-    db.session.delete(blog)
+
+
+def back_blog(blogs):
+    for blog in blogs:
+        db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, 'tn', blog.content))
+        db.session.delete(blog)
     db.session.commit()

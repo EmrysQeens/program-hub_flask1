@@ -15,6 +15,7 @@
         height:auto;
         line-height:auto;
         padding:16px 8px;
+        top:5px;
     }
 }
 
@@ -128,4 +129,8 @@ pre{
     padding-top:5px;
     padding-right:10px;
     display:block;
+ }
+
+ .btn{
+    font-size: .675rem;
  }

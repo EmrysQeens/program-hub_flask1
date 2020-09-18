@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
       //Add click listener
       div.addEventListener('click', ()=>{
         //Creates a new loader to load a span element
-        const loader= new Loader()
-        loader.load()
+        const loader= new Loader(document.querySelector('#loader'))
+        loader.load('fetching data')
         //Creates an object and attach blog number and admin details...
         const data={'num':div.dataset.blog,
                     'admin':document.querySelector('#preview').dataset.admin}
@@ -40,23 +40,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
             //Tries to set edit button href attribute if admin page...
             try{
                 document.querySelector('#id').value=id
-                //document.querySelector('#edit').onclick=()=> document.querySelector('form').submit()
+                document.querySelector('form').onsubmit=()=> disable(true)
                 //Enables edit, add and commit buttons
-                btns.forEach(btn=> btn.disabled=false) }
+                disable(false) }
             catch(err){}
             }
            else{
-                    loader.exit(()=>{})
+                    loader.exit(true, '')
                 }
         })
         //Onerror
         r.error(()=>{
-            loader.exit(()=>{})
+            loader.exit(true, '')
             pop_up(['Error', 'Connection error', 'Check your internet connection.'])
             })
         //On timeout
         r.timeout(()=>{
-            loader.exit(()=>{})
+            loader.exit(true, '')
             pop_up(['Error', 'Connection timeout', 'Please retry'])
             })
        })
@@ -74,25 +74,52 @@ document.addEventListener('DOMContentLoaded', ()=>{
     try{
     //Commit button
       btns[1].addEventListener('click', ()=>{
+        const commit=new Loader(btns[1])
+        commit.load('Committing')
+        disable(true)
         const data={'num': id, 'content' :document.querySelector('#content').innerHTML, 'type': 'old'}
         //Creates new Request Object
         h.fresh(data, 'POST', 'blog')
         //On load
         h.loaded((response,status)=>{
             if(status==200 && response['stat']=='added'){
-                    pop_up(['Committed Successfully', 'The post has been validated', 'Continue..'], true)
+                    //pop_up(['Committed Successfully', 'The post has been validated', 'Continue..'], true)
+                    document.querySelector('#exampleModalCenter').click()
                     document.querySelector(`#blog-${id}`).remove()
                 }
                 else{
                    pop_up(['Commit Failure', 'The post has not been validated', 'Please Retry'], false)
+                   disable(false)
                 }
+            commit.exit(false, 'Commit')
         })
-        h.error(()=>{ pop_up(['Connection Error', 'Couldn\'t establish a connection to server', 'Please Retry'], false) })
-        h.timeout(()=>{ pop_up(['Connection Timeout', 'Couldn\'t validate', 'Please Retry'], false) })
+        h.error(()=>{
+            pop_up(['Connection Error', 'Couldn\'t establish a connection to server', 'Please Retry'], false)
+            commit.exit(false, 'Commit')
+            disable(false)
+        })
+        h.timeout(()=>{
+            pop_up(['Connection Timeout', 'Couldn\'t validate', 'Please Retry'], false)
+            commit.exit(false, 'Commit')
+            disable(false)
+         })
     })
+
+    //Hides pop up if any part of modal content is clicked
+    document.querySelector('.modal-content').onclick=(e)=>{
+        if(e.target.id != pop__up.id) {
+            pop__up.style.animationName='close'
+            pop__up.style.animationDuration='2s'
+            pop__up.animationPlayState='running'
+            pop__up.onAnimationEnd=()=> pop__up.style.display='none'
+        }
+    }
 
     //Delete button
     btns[2].addEventListener('click', ()=>{
+        const erase=new Loader(btns[2])
+        erase.load('Deleting')
+        disable(true)
         //Creates new Request Object
         h.fresh({'num':id}, 'DELETE', 'delete')
         //On load
@@ -100,14 +127,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
             if(status==200 && response['stat'] =='deleted'){
                     pop_up(['Deleted', 'Successfully deleted', 'Dismiss to continue'], true)
                     document.querySelector(`#blog-${id}`).remove()
-                    setTimeout(()=> document.getElementById('exampleModalCenter').click(), 3000)
+                    document.querySelector('#exampleModalCenter').click()
                 }
                 else{
                     pop_up(['Deletion Error', 'The post has not been deleted', 'Please Retry'], false)
+                    disable(false)
                 }
+                erase.exit(false, 'Delete')
         })
-        h.error(()=>{ pop_up(['Connection Error', 'Couldn\'t establish a connection to server', 'Please Retry'], false) })
-        h.timeout(()=>{ pop_up(['Connection Timeout', 'Couldn\'t delete', 'Please Retry'], false) })
+        h.error(()=>{
+            pop_up(['Connection Error', 'Couldn\'t establish a connection to server', 'Please Retry'], false)
+            erase.exit(false, 'Delete')
+            disable(false) })
+        h.timeout(()=>{
+            pop_up(['Connection Timeout', 'Couldn\'t delete', 'Please Retry'], false)
+            erase.exit(false, 'Delete')
+            disable(false) })
     })
     //End functionality
     }catch(err){}
@@ -118,6 +153,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         pop__up.style.display='none'
         try{btns.forEach(btn=>btn.disabled=true)}catch(err){}
     }
+
+    //Disable edit, commit and delete btn if one is clicked
+         disable=(bool)=>btns.forEach(btn=> btn.disabled=bool)
 
     //Sets alert for submission complete, error etc
          pop_up=(messages, e)=>{

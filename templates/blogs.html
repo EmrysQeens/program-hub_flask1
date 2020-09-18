@@ -19,7 +19,8 @@
     {% for blog in blogs %}
     <div class="jumbotron flex justify-content-center align-items-center per-blog div-blog " id="blog-{{blog['id']}}" data-toggle="modal"
                                                                         data-target="#exampleModalCenter" data-blog="{{blog['id']}}" >
-        <h2 class="title">{{blog['title'] | safe }}</h2>
+        <h3 class="title">{{blog['title'] | safe }}</h3>
+        <div style="display: flow-root;"><hr></div>
         <p>By {{blog['name']}}</p>
         <p>{{blog['date']}} </p>
         <p>{{blog['email']}}</p>
@@ -29,21 +30,21 @@
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="jumbotron" style="display:none; color:white; padding: 16px 8px; position:absolute; margin-top:3vw;" id="alert">
+        <div class="modal-dialog modal-dialog-centered"  role="document">
+                <div class="modal-content">
+                        <div class="jumbotron" style="display: none; color: white; padding: 16px 8px; position: absolute; top: 5px; left: 5px;" id="alert">
                 <h4 class='pid' id="msg_h"></h4>
                 <p class='pid' id="msg_b"></p>
                 <hr>
                 <p class='pid' id="msg_f"></p>
             </div>
-                <div class="modal-content">
                         <div class="modal-header">
                             <div><span id='loader' style="float:right;"></span></div>
                                 <h3 class="modal-title" id="titlep"></h3>
                                 <p id="namep"></p>
                                 <p id="emailp"></p>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="position: initial;">
                                 <div class="jumbotron justify-content-center align-items-center per-code" id="preview" data-admin="{{admin}}">
                                         <div id="content">
 

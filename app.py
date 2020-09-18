@@ -28,6 +28,7 @@ def favicon():
 @app.route('/blog', methods=['POST', 'GET', 'PUT'])
 def blog():
     if request.method == 'POST':
+        time.sleep(10)
         data = json.loads(request.form['data'])
         boolean = len(
             list(filter(lambda v: len(v.query.filter_by(content=data['content']).all()) == 0,
@@ -45,11 +46,15 @@ def blog():
             if boolean:
                 blog_: Blog = Blog.query.get(data['num'])
                 blog_.validate(blog_.typ)
-                sender.send_message(Recipient(blog_.email, Content().re(blog_)))
+                try:
+                    sender.send_message(Recipient(blog_.email, Content().re(blog_)))
+                except Exception:
+                    print('mail not sent')
                 return jsonify({'stat': 'added'})
             else:
                 return jsonify({'stat': 'errors'})
     elif request.method == 'PUT':
+        time.sleep(10)
         data = json.loads(request.form['data'])
         blog_: Blog = Blog.query.get(data['id'])
         blog_.content = data['content']
@@ -63,14 +68,15 @@ def blog():
 @app.route('/delete', methods=['DELETE'])
 def delete():
     num = json.loads(request.form.get('data'))['num']
-    db.session.delete(Blog.query.get(num))
-    db.session.commit()
-    time.sleep(4)  # TODO
+    #db.session.delete(Blog.query.get(num))
+    #db.session.commit()
+    time.sleep(6)  # TODO
     return jsonify({'stat': 'deleted'})
 
 
 @app.route('/edit', methods=['POST'])
 def edit():
+    time.sleep(10)
     blog_ = Blog.query.get(request.form.get('id'))
     return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
 

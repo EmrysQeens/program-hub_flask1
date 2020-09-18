@@ -1,23 +1,24 @@
 class Loader{
     interval=null
-    elem=document.querySelector('#loader')
-    constructor(){
-
+    elem=null
+    constructor(elem){
+        this.elem=elem
     }
 
-    load=()=>{
-        const l=['Loading.','Loading..','Loading...']
-        this.elem.style.display='block'
+    load=(text)=>{
+        const l=[ '.' ,'..','...']
+        this.elem.style.display='inline-block'
         let itr=0
         this.interval=setInterval(()=>{
-            this.elem.innerHTML=l[itr==3 ? itr=0 :itr++]
+            this.elem.innerHTML=text+l[itr==3 ? itr=0 :itr++]
         },1000)
     }
 
-    exit=(func)=>{
+    exit=(bool, value)=>{
         clearInterval(this.interval)
-        this.elem.style.display='none'
-        func()
+        this.interval=null
+        this.elem.innerHTML=value
+        this.elem.style.display= bool ? 'none' : 'inline-block'
     }
 }
 

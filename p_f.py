@@ -20,7 +20,9 @@ f_strip = lambda string: string.strip().title()
 g_strip = lambda string: string.strip().capitalize()
 # Returns query after stripping out 'is:(err|title) '
 rm = lambda string: string[re.search(r'is:(err|title) ', string).span()[1]:]
+# Checks for type if error or title error==False and title==True
+err_title = lambda string: re.match(r'is:(err) [0-9 a-z A-Z]*', string) is None
 
-
-def search():
-    pass
+# Searches
+def search_(query, value):
+    return query.lower() == value.lower()

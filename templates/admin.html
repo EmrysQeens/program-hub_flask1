@@ -12,14 +12,12 @@
 <div class="jumbotron login">
     <form action="{{url_for('admin')}}" method="POST">
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="E-mail">
    </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
     <input type="password" class="form-control"name="password" id="exampleInputPassword1" placeholder="Password">
   </div>
-  <button class="btn btn-secondary sm">Login</button>
+  <button class="btn btn-secondary sm"><small>Login</small></button>
 </form>
     <p>{{wrong}}</p>
 </div>

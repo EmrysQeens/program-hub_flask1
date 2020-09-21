@@ -149,7 +149,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
             pop__up.animationPlayState='running'
          }
 
-         select.onchange=()=> localStorage.setItem('type', select.selectedIndex)
+         select.onchange=()=>
+         {
+            localStorage.setItem('type', select.selectedIndex)
+            if(select.value=='tn' || select.value=='cs'){
+                elements[3].value='NAN'
+                elements[3].readOnly=true}
+            else{
+                elements[3].readOnly=false
+            }
+         }
 
    window.onload=()=>{
     //Editor

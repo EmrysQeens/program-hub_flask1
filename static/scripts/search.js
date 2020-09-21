@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             r.loaded((response, status)=>{
                 if(status == 200){
                     suggestion.innerHTML=''
-                    for (rep of response.response) suggestion.innerHTML+=`<p data-id='${rep['id']}'>${rep['title']}</p><hr>`
+                    for (rep of response.response) suggestion.innerHTML+=`<p>${rep}</p><hr>`
                     suggestion.style.display= textbox.value=='' ? 'none' : 'block';
                     suggestion.querySelectorAll('p').forEach(p=> p.onclick=()=> {
                         textbox.value= (/^is:(err) [ a-z 0-9 A-Z ]+$/.test(this.value) ? 'is:err ' : 'is:title ') +p.innerHTML.toLowerCase()

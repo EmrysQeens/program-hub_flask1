@@ -1,13 +1,12 @@
 import os
 from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session
 from model import *
-import time
 import random
 from p_f import *
 from mail import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///program-hubs.db'
+app.config['SQLALCHEMY_DATABASE_URI'] =  'postgresql://localhost/program-hub'  # 'sqlite:///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = random.random
 db.init_app(app)
@@ -28,7 +27,6 @@ def favicon():
 @app.route('/blog', methods=['POST', 'GET', 'PUT'])
 def blog():
     if request.method == 'POST':
-        time.sleep(10)
         data = json.loads(request.form['data'])
         boolean = len(
             list(filter(lambda v: len(v.query.filter_by(content=data['content']).all()) == 0,
@@ -54,7 +52,6 @@ def blog():
             else:
                 return jsonify({'stat': 'errors'})
     elif request.method == 'PUT':
-        time.sleep(10)
         data = json.loads(request.form['data'])
         blog_: Blog = Blog.query.get(data['id'])
         blog_.content = data['content']
@@ -68,15 +65,13 @@ def blog():
 @app.route('/delete', methods=['DELETE'])
 def delete():
     num = json.loads(request.form.get('data'))['num']
-    #db.session.delete(Blog.query.get(num))
-    #db.session.commit()
-    time.sleep(6)  # TODO
+    db.session.delete(Blog.query.get(num))
+    db.session.commit()
     return jsonify({'stat': 'deleted'})
 
 
 @app.route('/edit', methods=['POST'])
 def edit():
-    time.sleep(10)
     blog_ = Blog.query.get(request.form.get('id'))
     return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
 
@@ -92,34 +87,19 @@ def search():
         try:
             data = json.loads(request.form['data'])
             blogs_ = tables[data['type']].query.all()
-            id_titles = list({'id': blog_.id, 'title':blog_.title} for blog_ in blogs_)
-            response = list(filter(lambda blog_: blog_ == '', blogs_))
-            dummy: list[dict[str: int, str: str]]=[
-            {'id': 1, 'title': 'Hello world in java'},
-            {'id': 2, 'title': 'How to write an hello world program in java'},
-            {'id': 3, 'title': 'Java and the hello world program in it'},
-            {'id': 4, 'title': 'Hello world in java'},
-            {'id': 5, 'title': 'Hello world in java'},
-            {'id': 6, 'title': 'Hello world in java'},
-            {'id': 7, 'title': 'Hello world in java'},
-            {'id': 8, 'title': 'Hello world in java'},
-            {'id': 9, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'},
-            {'id': 10, 'title': 'Hello world in java'}
-        ]
+            txt=data['text']
+            resp = list(blog_.title for blog_ in blogs_) if err_title(txt) else list(blog_.error for blog_ in blogs_)
+            response = list(filter(lambda sh: search_(rm(txt), sh), resp))
             return jsonify({
-            'response': dummy
+                'response': response
             })
         except KeyError:
-            query=request.form.get('q')
-            return render_template('blogs.html', blogs=Java.query.all(), admin=False, s='active', title=g_strip(rm(query)))
+            query = request.form.get('q')
+            type_ = request.form.get('t')
+            blogs_ = tables[type_].query.all()
+            response = list(filter(lambda blog_: search_(rm(query), blog_.title), blogs_)) if err_title(query) else list(filter(lambda blog_: search_(rm(query), blog_.error), blogs_))
+            return render_template('blogs.html', blogs=response, admin=False, s='active',
+                                   title='Query: '+g_strip(rm(query)) if err_title(query) else 'Error: '+g_strip(rm(query)))
     else:
         return render_template('search.html', s='active')
 
@@ -146,14 +126,13 @@ def admin():
 def blogs():
     if request.method == 'POST':
         v = json.loads(request.form['data'])
-        time.sleep(4)
         blog_ = Blog.query.get(v['num']) if v['admin'] == 'True' else TechNews.query.get(v['num'])
         return jsonify(
             {'id': blog_.id, 'title': blog_.title, 'name': blog_.name, 'email': blog_.email, 'date': blog_.date,
              'content': blog_.content})
     else:
         blogs_ = TechNews.query.all()
-        return render_template('blogs.html', blogs=blogs_, admin=False, bl='active', title='Technological News Update')
+        return render_template('blogs.html', blogs=blogs_, admin=False, bl='active', title='Techs News')
 
 
 @app.route('/learn', methods=['POST', 'GET'])

@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             r.loaded((response, status)=>{
                 if(status == 200){
                     suggestion.innerHTML=''
+                    console.log(response)
                     for (rep of response.response) suggestion.innerHTML+=`<p>${rep}</p><hr>`
                     suggestion.style.display= textbox.value=='' ? 'none' : 'block';
                     suggestion.querySelectorAll('p').forEach(p=> p.onclick=()=> {

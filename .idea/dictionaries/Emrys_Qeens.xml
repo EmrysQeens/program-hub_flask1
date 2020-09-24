@@ -11,6 +11,7 @@
       <w>onload</w>
       <w>ontimeout</w>
       <w>passcode</w>
+      <w>querys</w>
       <w>sqlalchemy</w>
       <w>tablename</w>
     </words>

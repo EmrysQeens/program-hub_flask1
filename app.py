@@ -6,7 +6,7 @@ from p_f import *
 from mail import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///program-hubs.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://eoqrkrnoctlpny:2de6daaf2290cbc3d83cc90c4157a24414e02f42476b3d38091b1aeb41a3d999@ec2-50-19-26-235.compute-1.amazonaws.com:5432/d2fo8mf3m1scs0" # 'sqlite:///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = random.random
 db.init_app(app)

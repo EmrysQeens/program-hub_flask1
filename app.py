@@ -6,7 +6,7 @@ from p_f import *
 from mail import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://eoqrkrnoctlpny:2de6daaf2290cbc3d83cc90c4157a24414e02f42476b3d38091b1aeb41a3d999@ec2-50-19-26-235.compute-1.amazonaws.com:5432/d2fo8mf3m1scs0" # 'sqlite:///program-hubs.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub" # 'sqlite:///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = random.random
 db.init_app(app)
@@ -50,7 +50,7 @@ def blog():
                     print('mail not sent')
                 return jsonify({'stat': 'added'})
             else:
-                return jsonify({'stat': 'errors'})
+                return jsonify({'stat': 'error'})
     elif request.method == 'PUT':
         data = json.loads(request.form['data'])
         blog_: Blog = Blog.query.get(data['id'])
@@ -127,6 +127,7 @@ def blogs():
     if request.method == 'POST':
         v = json.loads(request.form['data'])
         blog_ = Blog.query.get(v['num']) if v['admin'] == 'True' else TechNews.query.get(v['num'])
+        print(blog_.content)
         return jsonify(
             {'id': blog_.id, 'title': blog_.title, 'name': blog_.name, 'email': blog_.email, 'date': blog_.date,
              'content': blog_.content})
@@ -137,15 +138,7 @@ def blogs():
 
 @app.route('/learn', methods=['POST', 'GET'])
 def learn():
-    if request.method == 'POST':
-        v = json.loads(request.form['data'])
-        blog_ = Cs.query.get(v['num'])
-        return jsonify(
-            {'id': blog_.id, 'title': blog_.title, 'name': blog_.name, 'email': blog_.email, 'date': blog_.date,
-             'content': blog_.content})
-    else:
-        blogs_ = Cs.query.all()
-        return render_template('blogs.html', blogs=blogs_, admin=False, l='active', title='CS learn')
+    return render_template('learn.html', learn=10)
 
 
 if __name__ == '__main__':

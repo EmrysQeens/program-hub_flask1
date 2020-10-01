@@ -92,8 +92,8 @@
 
 body *{
     font-family: Comic Sans Ms;
-
 }
+
 
 .navbar-toggler-icon{
     font-size:20px;
@@ -108,4 +108,5 @@ body *{
     min-height: 100vh;
     max-height: 100%;
     margin-bottom: 0rem;
+    background-image: radial-gradient( circle 321px at 8.3% 75.7%,  rgba(209,247,241,1) 0%, rgba(249,213,213,1) 81% );
 }

@@ -22,14 +22,14 @@ class Login(db.Model):
 
 
 class Java(db.Model):
-    __tablename__ = 'JAVA'
+    __tablename__ = 'java'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -48,14 +48,14 @@ class Java(db.Model):
 
 
 class Kotlin(db.Model):
-    __tablename__ = 'KOTLIN'
+    __tablename__ = 'kotlin'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -74,14 +74,14 @@ class Kotlin(db.Model):
 
 
 class Python(db.Model):
-    __tablename__ = 'PYTHON'
+    __tablename__ = 'python'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -100,14 +100,14 @@ class Python(db.Model):
 
 
 class C(db.Model):
-    __tablename__ = 'C'
+    __tablename__ = 'c'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -126,14 +126,14 @@ class C(db.Model):
 
 
 class Cpp(db.Model):
-    __tablename__ = 'CPP'
+    __tablename__ = 'cpp'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -152,14 +152,14 @@ class Cpp(db.Model):
 
 
 class C_Sharp(db.Model):
-    __tablename__ = 'C_SHARP'
+    __tablename__ = 'c_sharp'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -178,14 +178,14 @@ class C_Sharp(db.Model):
 
 
 class Javascript(db.Model):
-    __tablename__ = 'JAVASCRIPT'
+    __tablename__ = 'javascript'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -204,14 +204,14 @@ class Javascript(db.Model):
 
 
 class Node(db.Model):
-    __tablename__ = 'NODE'
+    __tablename__ = 'node'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -230,14 +230,14 @@ class Node(db.Model):
 
 
 class Php(db.Model):
-    __tablename__ = 'PHP'
+    __tablename__ = 'php'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -257,14 +257,14 @@ class Php(db.Model):
 
 
 class Linux(db.Model):
-    __tablename__ = 'LINUX'
+    __tablename__ = 'linux'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -283,14 +283,14 @@ class Linux(db.Model):
 
 
 class Windows(db.Model):
-    __tablename__ = 'WINDOWS'
+    __tablename__ = 'windows'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -309,14 +309,14 @@ class Windows(db.Model):
 
 
 class Android(db.Model):
-    __tablename__ = 'ANDROID'
+    __tablename__ = 'android'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -335,40 +335,14 @@ class Android(db.Model):
 
 
 class Ios(db.Model):
-    __tablename__ = 'IOS'
+    __tablename__ = 'ios'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
-    error = db.Column(db.String(50), nullable=True, unique=False)
+    error = db.Column(db.String(50), nullable=True, unique=False, default='NAN')
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
-
-    def __init__(self, blog):
-        self.name = blog.name
-        self.email = blog.email
-        self.title = blog.title
-        self.error = blog.error
-        self.date = blog.date
-        self.content = blog.content
-
-    def __repr__(self):
-        return str({'id': self.id, 'name': self.name, 'email': self.email, 'title': self.title, 'date': self.date,
-                    'content': self.content})
-
-
-"""For the Computer science blogs"""
-
-
-class Cs(db.Model):
-    __tablename__ = 'CS'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
-    error = db.Column(db.String(50), nullable=True, unique=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -387,14 +361,14 @@ class Cs(db.Model):
 
 
 class TechNews(db.Model):
-    __tablename__ = 'TU'
+    __tablename__ = 'tu'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, blog):
         self.name = blog.name
@@ -411,19 +385,19 @@ class TechNews(db.Model):
 
 tables = {'java': Java, 'kotlin': Kotlin, 'cpp': Cpp, 'c#': C_Sharp, 'c': C, 'android': Android, 'ios': Ios,
           'linux': Linux, 'javascript': Javascript, 'php': Php, 'python': Python, 'node': Node, 'windows': Windows,
-          'cs': Cs, 'tn': TechNews}
+          'tn': TechNews}
 
 
 class Blog(db.Model):
-    __tablename__ = 'BLOGS'
+    __tablename__ = 'Blog'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
-    error = db.Column(db.String(50), nullable=True, unique=False, default='')
+    error = db.Column(db.String(50), nullable=True, unique=False, default='NAN')
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     typ = db.Column(db.String(12), nullable=False, unique=False)
-    content = db.Column(db.Text, nullable=False, unique=True)
+    content = db.Column(db.Text, nullable=False, unique=False)
 
     def __init__(self, name, email, title, error, typ, content):
         self.name = name
@@ -448,3 +422,18 @@ def back_blog(blogs):
         db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, 'tn', blog.content))
         db.session.delete(blog)
     db.session.commit()
+
+
+class Cs(db.Model):
+    __tablename__ = 'cs_learn'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(75), nullable=False, unique=False)
+    content = db.Column(db.Text, nullable=False, unique=False)
+
+    def __init__(self, name, title, content):
+        self.name = name
+        self.title = title
+        self.content = content
+
+    def __repr__(self):
+        return str({'id': self.id, 'title': self.title, 'content': self.content})

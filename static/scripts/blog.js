@@ -72,13 +72,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
             r.loaded((response,status)=>{
                 if(status==200 && response['stat']=='added'){
                     pop_up(['Success!!!', 'Blog Post was successfully created.', `An email will be sent to ${elements[1].value} when verified`], true)
+                    localStorage.clear()
                     reset()
-                }else pop_up(['Error!!!', 'Blog Post was not successfully created.', 'Please try again'], false)
+                }else { pop_up(['Error!!!', 'Blog Post was not successfully created.', 'Please try again'], false) }
                 readonly(false)
                 select.disabled=false
-                localStorage.clear()
-                loader.exit(false, `<small>Create</small>`)
+                loader.exit(false, `<small>${ v == 'Saving' ? 'Save' : 'Create'}</small>`)
                 validate()
+                //Replaces url if blog was edited and saved.
                 if (!bool) window.history.replaceState('', 'Blog', '/blog')
             })
             r.error(()=> {

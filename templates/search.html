@@ -9,7 +9,7 @@
 {% block style %}<link rel="stylesheet" href="{{url_for('static',filename='styles/search.css')}}"> {% endblock %}
 
 {% block body %}
-    <div class="container" style="margin-top:5px;">
+    <div class="container jumbotrons" style="padding-top:5px;">
         <p>For search by error code please add the identifier <b>is:err</b> to your query and <b>is:quest</b> for questions</p>
         <p>For search through TechNews or Cslearn use prefix is:title only as is:err returns <b>NAN</b></p>
         <ul>

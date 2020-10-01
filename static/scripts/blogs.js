@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
           if(status==200){
             id=div.dataset.blog
             const resp=[ response['title'], response['name'], response['email'], response['content']]
+            console.log(response['content'])
             displays.forEach((element, index)=> element.innerHTML= index==1 ? `By ${resp[index]}` : resp[index])
             //Set maximum height to device screen
             displays[3].style.maxHeight= window.innerHeight - 100 + 'px'

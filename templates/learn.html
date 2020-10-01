@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block style %}<link rel="stylesheet" href="{{url_for('static',filename='styles/learn.css')}}"> {% endblock %}
+
+{% block body %}
+    <div class="container jumbotrons" style="padding-bottom: 10px;">
+        {% for l in range(learn) %}
+            <div class="jumbotron jumb">
+                <div class="img">
+                <img src="{{url_for('static',filename='assets/img3.jpeg')}}" class="img_logo"  alt="Responsive image">
+                </div>
+                <div id="text">
+                <span>Base 64 Encoding</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

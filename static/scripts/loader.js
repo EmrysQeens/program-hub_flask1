@@ -1,6 +1,6 @@
 class Loader{
-    interval=null
-    elem=null
+    interval= null
+    elem= null
     constructor(elem){
         this.elem=elem
     }

@@ -4,11 +4,12 @@
     margin-bottom: 10px;
     height: 250px;
     padding: 10px;
-    background-image: linear-gradient( 112.4deg,  rgba(169,28,115,1) 21.6%, rgba(219,112,54,1) 92.2% );
+    background: linear-gradient(#42275a, #734b6d)
 }
 
 .img_logo{
     width: 80px;
+    height: 80px;
     border-radius: 30px;
 }
 
@@ -18,10 +19,14 @@
 }
 
 #text{
-    text-align: left;
+    color: #ffffff
 }
 
-span{
+#header{
     font-size: 15px;
-    color: #ffffff
+    text-align: center;
+}
+
+#pre_content{
+    display: inline-block;
 }

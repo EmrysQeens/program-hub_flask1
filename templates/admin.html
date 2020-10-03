@@ -8,8 +8,8 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-<div class="contain">
-<div class="jumbotron login">
+<div class="jumbotron flex justify-content-center align-items-center jumbotrons contain" height="100%">
+<div class="jumbotron login ">
     <form action="{{url_for('admin')}}" method="POST">
   <div class="form-group">
     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="E-mail">

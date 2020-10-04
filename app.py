@@ -4,9 +4,10 @@ from model import *
 import random
 from p_f import *
 from mail import *
+from learn import dummy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6" # "postgresql://postgres:2134@localhost:5432/program-hub" # 'sqlite:///program-hubs.db'
+app.config['SQLALCHEMY_DATABASE_URI'] =  "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6" # "postgresql://postgres:2134@localhost:5432/program-hub" # 'sqlite:///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = random.random
 db.init_app(app)
@@ -76,7 +77,7 @@ def edit():
     return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
 
 
-@app.route('/about')
+@app.route('/more')
 def about():
     return render_template('about.html', a='active')
 
@@ -138,7 +139,12 @@ def blogs():
 
 @app.route('/learn', methods=['POST', 'GET'])
 def learn():
-    return render_template('learn.html', learn=10)
+    if request.method == 'POST':
+        data = json.loads(request.form['data'])
+        if data['type'] == 'templates':
+            return jsonify({'len': data['len'], 'end': True})
+        return jsonify({'pushed': True})
+    return render_template('learn.html', learn=dummy)
 
 
 if __name__ == '__main__':

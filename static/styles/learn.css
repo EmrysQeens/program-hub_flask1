@@ -4,7 +4,8 @@
     margin-bottom: 10px;
     height: 250px;
     padding: 10px;
-    background: linear-gradient(#42275a, #734b6d)
+    background: linear-gradient(#42275a, #734b6d);
+    position: relative;
 }
 
 .img_logo{
@@ -18,15 +19,35 @@
     text-align: center;
 }
 
-#text{
+.text{
     color: #ffffff
 }
 
-#header{
+.header{
     font-size: 15px;
     text-align: center;
 }
 
-#pre_content{
+.pre_content{
     display: inline-block;
+    margin-bottom: 5px;
 }
+
+.btns{
+    position: absolute;
+    width: 140px;
+    bottom: 0;
+}
+
+.upvote{
+    float: left;
+    border: none;
+    background: transparent;
+}
+
+.downvote{
+    float: right;
+    border: none;
+    background: transparent;
+}
+

@@ -29,8 +29,11 @@
 }
 
 .pre_content{
-    display: inline-block;
-    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+   -webkit-line-clamp: 6; /* number of lines to show */
+   -webkit-box-orient: vertical;
 }
 
 .btns{
@@ -41,13 +44,39 @@
 
 .upvote{
     float: left;
-    border: none;
-    background: transparent;
 }
 
 .downvote{
     float: right;
+}
+
+.b{
     border: none;
     background: transparent;
 }
 
+progress{
+    position: relative;
+    bottom: 0;
+    min-width: -webkit-fill-available;
+}
+
+progress {
+  color: lightblue;
+}
+
+progress::-webkit-progress-value {
+  background: lightblue;
+}
+
+progress::-moz-progress-bar {
+  background: lightcolor;
+}
+
+progress::-webkit-progress-value {
+  background: red;
+}
+
+progress::-webkit-progress-bar {
+  background: blue;
+}

@@ -5,6 +5,8 @@
       <w>btns</w>
       <w>datas</w>
       <w>dataset</w>
+      <w>downvote</w>
+      <w>downvotes</w>
       <w>endblock</w>
       <w>imgs</w>
       <w>jumbotrons</w>
@@ -15,6 +17,8 @@
       <w>querys</w>
       <w>sqlalchemy</w>
       <w>tablename</w>
+      <w>upvote</w>
+      <w>upvotes</w>
     </words>
   </dictionary>
 </component>

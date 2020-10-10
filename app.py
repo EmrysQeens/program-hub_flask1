@@ -1,13 +1,14 @@
 import os
-from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session
+from flask import Flask, render_template, jsonify, request, send_from_directory
 from model import *
 import random
 from p_f import *
 from mail import *
-from learn import dummy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] =  "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6" # "postgresql://postgres:2134@localhost:5432/program-hub" # 'sqlite:///program-hubs.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
+# 'sqlite :///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = random.random
 db.init_app(app)
@@ -88,7 +89,7 @@ def search():
         try:
             data = json.loads(request.form['data'])
             blogs_ = tables[data['type']].query.all()
-            txt=data['text']
+            txt = data['text']
             resp = list(blog_.title for blog_ in blogs_) if err_title(txt) else list(blog_.error for blog_ in blogs_)
             response = list(filter(lambda sh: search_(rm(txt), sh), resp))
             return jsonify({
@@ -98,9 +99,11 @@ def search():
             query = request.form.get('q')
             type_ = request.form.get('t')
             blogs_ = tables[type_].query.all()
-            response = list(filter(lambda blog_: search_(rm(query), blog_.title), blogs_)) if err_title(query) else list(filter(lambda blog_: search_(rm(query), blog_.error), blogs_))
+            response = list(filter(lambda blog_: search_(rm(query), blog_.title), blogs_)) if err_title(
+                query) else list(filter(lambda blog_: search_(rm(query), blog_.error), blogs_))
             return render_template('blogs.html', blogs=response, admin=False, s='active',
-                                   title='Query: '+g_strip(rm(query)) if err_title(query) else 'Error: '+g_strip(rm(query)))
+                                   title='Query: ' + g_strip(rm(query)) if err_title(query) else 'Error: ' + g_strip(
+                                       rm(query)))
     else:
         return render_template('search.html', s='active')
 
@@ -142,9 +145,18 @@ def learn():
     if request.method == 'POST':
         data = json.loads(request.form['data'])
         if data['type'] == 'templates':
-            return jsonify({'len': data['len'], 'end': True})
+            learns = Cs.query.order_by('title').all()
+            return jsonify({'templates': [t.template() for t in learns[data['len']:data['len'] + 2]], 'end': len(learns) < data['len'] + 2})
         return jsonify({'pushed': True})
-    return render_template('learn.html', learn=dummy)
+    return render_template('learn.html', learn=Cs.query.order_by('title').all()[:6], l='active')
+
+
+@app.route('/like_unlike', methods=['POST'])
+def like_unlike():
+    # loads data from request and json parse it.
+    data = json.loads(request.form['data'])
+    # gets id of mail if its in database already else add it to database.
+    return jsonify({'stat': 'success', 'value': vote(data['upvote'], data['address'], data['id'])})
 
 
 if __name__ == '__main__':

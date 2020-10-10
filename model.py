@@ -151,7 +151,7 @@ class Cpp(db.Model):
 """For the C# belonging problems"""
 
 
-class C_Sharp(db.Model):
+class CSharp(db.Model):
     __tablename__ = 'c_sharp'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
@@ -383,7 +383,7 @@ class TechNews(db.Model):
                     'content': self.content})
 
 
-tables = {'java': Java, 'kotlin': Kotlin, 'cpp': Cpp, 'c#': C_Sharp, 'c': C, 'android': Android, 'ios': Ios,
+tables = {'java': Java, 'kotlin': Kotlin, 'cpp': Cpp, 'c#': CSharp, 'c': C, 'android': Android, 'ios': Ios,
           'linux': Linux, 'javascript': Javascript, 'php': Php, 'python': Python, 'node': Node, 'windows': Windows,
           'tn': TechNews}
 
@@ -428,12 +428,69 @@ class Cs(db.Model):
     __tablename__ = 'cs_learn'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(75), nullable=False, unique=False)
+    img = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False, unique=False)
+    up_votes = db.Column(db.Text, server_default='')
+    down_votes = db.Column(db.Text, server_default='')
 
-    def __init__(self, name, title, content):
+    def __init__(self, name, title, img, content):
         self.name = name
         self.title = title
+        self.img = img
         self.content = content
 
+    def votes(self, typ: bool) -> int:
+        return len(self.up_votes.split(' ') if typ else self.down_votes.split(' ')) - 1
+
+    def template(self):
+        return {'id': self.id, 'title': self.title, 'img': self.img, 'content': self.content[:155] + '.....',
+                'up_votes': self.votes(True), 'down_votes': self.votes(False)}
+
     def __repr__(self):
-        return str({'id': self.id, 'title': self.title, 'content': self.content})
+        return str({'id': self.id, 'title': self.title, 'img': self.img, 'content': self.content[:170] + '.....',
+                    'up_votes': self.up_votes, 'down_votes': self.down_votes})
+
+
+class Mails(db.Model):
+    __tablename__ = 'mails'
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.String(50), unique=True, nullable=False)
+
+    def __init__(self, address):
+        self.address = address
+
+    def __repr__(self):
+        return str({'id': self.id, 'address': self.address})
+
+
+# Helps to like and dislike lessons in learn
+def vote(up_vote: bool, mail: str, post_id: int):
+    try:  # tries to get mail id
+        mail_id: int = Mails.query.filter_by(address=mail).first().id
+    except AttributeError:  # add mail if not existing
+        db.session.add(Mails(mail))
+        db.session.commit()
+        mail_id: int = Mails.query.filter_by(address=mail).first().id
+    upvotes: str = Cs.query.get(post_id).up_votes
+    downvotes: str = Cs.query.get(post_id).down_votes
+    if up_vote:
+        if str(mail_id) not in upvotes:  # if mail id not in mail ids
+            Cs.query.get(post_id).up_votes = upvotes + f' {mail_id}'
+            db.session.commit()
+            if str(mail_id) in downvotes:
+                Cs.query.get(post_id).down_votes = downvotes.replace(f' {str(mail_id)}', '')
+                db.session.commit()
+            return {'like': Cs.query.get(post_id).votes(True), 'dislike': Cs.query.get(post_id).votes(False)}
+        Cs.query.get(post_id).up_votes = upvotes.replace(f' {str(mail_id)}', '')  # if mail in mails id
+        db.session.commit()
+        return {'like': Cs.query.get(post_id).votes(True), 'dislike': Cs.query.get(post_id).votes(False)}
+    if str(mail_id) not in downvotes:
+        Cs.query.get(post_id).down_votes = downvotes + f' {mail_id}'
+        db.session.commit()
+        if str(mail_id) in upvotes:
+            Cs.query.get(post_id).up_votes = upvotes.replace(f' {str(mail_id)}', '')
+            db.session.commit()
+        return {'like': Cs.query.get(post_id).votes(True), 'dislike': Cs.query.get(post_id).votes(False)}
+    Cs.query.get(post_id).down_votes = downvotes.replace(f' {str(mail_id)}', '')
+    db.session.commit()
+    return {'like': Cs.query.get(post_id).votes(True), 'dislike': Cs.query.get(post_id).votes(False)}

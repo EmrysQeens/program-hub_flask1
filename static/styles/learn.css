@@ -10,6 +10,10 @@
 
 .img_logo{
     width: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
     height: 80px;
     border-radius: 30px;
 }
@@ -56,5 +60,13 @@
 }
 
 a{
+    text-decoration: none;
+}
+
+a:active{
+    text-decoration: none;
+}
+
+a:hover{
     text-decoration: none;
 }

@@ -384,47 +384,6 @@ class TechNews(db.Model):
                     'content': self.content})
 
 
-tables = {'java': Java, 'kotlin': Kotlin, 'cpp': Cpp, 'c#': CSharp, 'c': C, 'android': Android, 'ios': Ios,
-          'linux': Linux, 'javascript': Javascript, 'php': Php, 'python': Python, 'node': Node, 'windows': Windows,
-          'tn': TechNews}
-
-
-class Blog(db.Model):
-    __tablename__ = 'Blog'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
-    error = db.Column(db.String(50), nullable=True, unique=False, default='NAN')
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    typ = db.Column(db.String(12), nullable=False, unique=False)
-    content = db.Column(db.Text, nullable=False, unique=False)
-
-    def __init__(self, name, email, title, error, typ, content):
-        self.name = name
-        self.email = email
-        self.title = title
-        self.error = error
-        self.typ = typ
-        self.content = content
-
-    def __repr__(self):
-        return str({'id': self.id, 'name': self.name, 'email': self.email, 'title': self.title, 'date': self.date,
-                    'content': self.content})
-
-    def validate(self, typ: str):
-        db.session.add(tables[typ](self))
-        db.session.delete(self)
-        db.session.commit()
-
-
-def back_blog(blogs):
-    for blog in blogs:
-        db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, 'tn', blog.content))
-        db.session.delete(blog)
-    db.session.commit()
-
-
 class Cs(db.Model):
     __tablename__ = 'cs_learn'
     id = db.Column(db.Integer, primary_key=True)
@@ -494,3 +453,44 @@ def vote(up_vote: bool, mail: str, post_id: int):
     Cs.query.get(post_id).down_votes = downvotes.replace(f' {str(mail_id)}', '')
     db.session.commit()
     return {'like': Cs.query.get(post_id).votes(True), 'dislike': Cs.query.get(post_id).votes(False)}
+
+
+tables = {'java': Java, 'kotlin': Kotlin, 'cpp': Cpp, 'c#': CSharp, 'c': C, 'android': Android, 'ios': Ios,
+          'linux': Linux, 'javascript': Javascript, 'php': Php, 'python': Python, 'node': Node, 'windows': Windows,
+          'tn': TechNews, 'cs': Cs}
+
+
+class Blog(db.Model):
+    __tablename__ = 'Blog'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False, unique=False)
+    email = db.Column(db.String(35), nullable=False, unique=False)
+    title = db.Column(db.String(75), nullable=False, unique=False)
+    error = db.Column(db.String(50), nullable=True, unique=False, default='NAN')
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    typ = db.Column(db.String(12), nullable=False, unique=False)
+    content = db.Column(db.Text, nullable=False, unique=False)
+
+    def __init__(self, name, email, title, error, typ, content):
+        self.name = name
+        self.email = email
+        self.title = title
+        self.error = error
+        self.typ = typ
+        self.content = content
+
+    def __repr__(self):
+        return str({'id': self.id, 'name': self.name, 'email': self.email, 'title': self.title, 'date': self.date,
+                    'content': self.content})
+
+    def validate(self, typ: str):
+        db.session.add(tables[typ](self))
+        db.session.delete(self)
+        db.session.commit()
+
+
+def back_blog(blogs):
+    for blog in blogs:
+        db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, 'tn', blog.content))
+        db.session.delete(blog)
+    db.session.commit()

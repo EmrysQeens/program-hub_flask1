@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     //Sets alert for submission complete, error etc
          pop_up=(messages, e)=>{
             pop__up.style.top=window.scrollY+'px'
-            pop__up.style.background= e ? 'blue' : 'red'
+            pop__up.style.background= e ? 'linear-gradient(#42275a, #734b6d)' : 'red'
             pop__up.style.display='block'
             alert_comp.forEach((component, index)=> component.innerText= messages[index])
             pop__up.style.animationName='open'

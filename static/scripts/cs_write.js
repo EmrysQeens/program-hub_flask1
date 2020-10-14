@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const btn_create = document.querySelector('#create')
     const btn_preview = document.querySelector('#btn_preview')
     const image = document.querySelector('#image')
+    const pop__up=document.querySelector('#alert')
     const content = document.querySelector('#content')
+    const alert_comp=[document.querySelector('#msg_h') ,document.querySelector('#msg_b') ,document.querySelector('#msg_f')]
 
     CKSource
         .Editor.create(blog_content, {
@@ -35,14 +37,35 @@ document.addEventListener('DOMContentLoaded', ()=>{
         reader.onerror = (err) => reject(err)
     })
 
-    const upload = async () =>{
-        const img_data = await toBase64(img_chooser.files[0])
+    const clear = () =>{
+        editor.setData('')
+        title.value = ''
+        img_chooser.value = ''
+    }
 
+
+    const upload = async (e) =>{
+        const img_data = await toBase64(img_chooser.files[0])
+        const loader =  new Loader(e.target)
+        const bool = e.target.innerText == 'Create'
+        loader.load( bool ? 'Creating' : 'Saving' )
         const request = new Request()
         request.fresh({'type': 'upload', 'title': title.value,'img': img_data, 'content': editor.getData()},'POST', 'learn')
         request.loaded((response, status)=>{
-            console.log(response)
+            if(status == 200){
+                 if (response['result']){
+                    loader.exit(false, 'Create')
+                    pop_up(['Created!!!', `${title.value} was successfully created.`, 'Created'], true)
+                    clear()
+                 }
+                 else pop_up(['Error!!!', `${title.value} might exist.`, 'err_error'], false)
+
+            }
         })
+        request.timeout(()=> pop_up(['Connection Timeout!!!', 'Connection time exceeded', 'err_timeout'], false) )
+        request.error(()=> pop_up(['Connection Error!!!', 'Connection to server couldn\'t be established.', 'err_no connection'], false))
+
+
     }
 
     const nan_null = (btns) => btns.forEach(btn => btn.disabled= !( editor.getData() != '' && title.value != '' && img_chooser.files[0] != undefined ) )
@@ -51,8 +74,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     img_chooser.onchange = () => nan_null([btn_create, btn_preview])
 
 
-    btn_create.onclick = () =>{
-        upload();
+    btn_create.onclick = (e) =>{
+        upload(e);
     }
 
     btn_preview.onclick = async () =>{
@@ -75,6 +98,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     }
+
+    pop_up=(messages, e)=>{
+            pop__up.style.top=window.scrollY+'px'
+            pop__up.style.background= e ? 'linear-gradient(#42275a, #734b6d)' : 'red'
+            pop__up.style.display='block'
+            alert_comp.forEach((component, index)=> component.innerText= messages[index])
+            pop__up.style.animationName='open'
+            pop__up.style.animationDuration='2s'
+            pop__up.animationPlayState='running'
+         }
+
+         window.onscroll=()=>{
+            pop__up.style.top=window.scrollY+'px'
+         }
+         //Alert close button
+         document.querySelector('#close').onclick=()=>{
+            pop__up.style.animationName='close'
+            pop__up.style.animationDuration='2s'
+            pop__up.animationPlayState='running'
+         }
 
 
     })

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %} Error {% endblock %}
+
+{% block body %}
+    <div class="jumbotron flex justify-content-center align-items-center jumbotrons contain" height="100%">
+        <img style="border-radius: 5px;" alt="404" width="100%" src="{{url_for('static', filename='/assets/404.png')}}"/>
+        <h1 style="margin-top: 5px; color: white; text-align: center;">{{url}}</h1>
+        <p style="color: white; text-align: center;">The page you requested is not found..</p>
+    </div>
+{% endblock %}

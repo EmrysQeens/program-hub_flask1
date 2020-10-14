@@ -162,8 +162,10 @@ def learn():
 
 @app.route('/learn/<string:name>')
 def learn_(name):
-    cs: Cs = Cs.query.filter_by(title=name).first()
-    return render_template('learn.html', templates=False,cs=cs )
+    cs: Cs = Cs.query.filter_by(title=f_strip(name)).first()
+    if cs is not None:
+        return render_template('learn.html', templates=False, cs=cs)
+    return render_template('error.html', url=g_strip(name))
 
 
 @app.route('/write')
@@ -179,6 +181,11 @@ def like_unlike():
     return jsonify({'stat': 'success', 'value': vote(data['upvote'], data['address'], data['id'])})
 
 
+def err_404(e):
+    return render_template('error.html')
+
+
 if __name__ == '__main__':
     db.create_all()
+    app.register_error_handler(404, err_404)
     Flask.run(self=app, debug=True)

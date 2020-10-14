@@ -1,12 +1,13 @@
 import os
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session
 from model import *
 import random
 from p_f import *
 from mail import *
+import learn as g
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
+#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 # 'sqlite :///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -72,10 +73,12 @@ def delete():
     return jsonify({'stat': 'deleted'})
 
 
-@app.route('/edit', methods=['POST'])
+@app.route('/edit', methods=['POST', 'GET'])
 def edit():
-    blog_ = Blog.query.get(request.form.get('id'))
-    return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
+    if request.method == 'POST':
+        blog_ = Blog.query.get(request.form.get('id'))
+        return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
+    return redirect('/')
 
 
 @app.route('/more')
@@ -119,11 +122,9 @@ def admin():
         ids = request.form
         if len(Login.query.filter_by(login_id=ids.get('email'), passcode=ids.get('password')).all()) == 0:
             return render_template('admin.html', wrong='Wrong password')
-        else:
-            t_blogs = Blog.query.all()
-            return render_template('blogs.html', blogs=t_blogs, admin=True, title='Admin')
-    else:
-        return render_template('admin.html')
+        t_blogs = Blog.query.all()
+        return render_template('blogs.html', blogs=t_blogs, admin=True, title='Admin')
+    return render_template('admin.html')
 
 
 @app.route('/blogs', methods=['POST', 'GET'])
@@ -146,9 +147,28 @@ def learn():
         data = json.loads(request.form['data'])
         if data['type'] == 'templates':
             learns = Cs.query.order_by('title').all()
-            return jsonify({'templates': [t.template() for t in learns[data['len']:data['len'] + 2]], 'end': len(learns) < data['len'] + 2})
+            return jsonify({'templates': [t.template() for t in learns[data['len']:data['len'] + 2]],
+                            'end': len(learns) < data['len'] + 2})
+        elif data['type'] == 'upload':
+            title = f_strip(data['title'])
+            if len(Cs.query.filter_by(title=title).all()) == 0:
+                db.session.add(Cs(title, data['img'], data['content']))
+                db.session.commit()
+                return jsonify({'result': True})
+            return jsonify({'result': False})
         return jsonify({'pushed': True})
-    return render_template('learn.html', learn=Cs.query.order_by('title').all()[:6], l='active')
+    return render_template('learn.html', learn=Cs.query.order_by('title').all()[:6], l='active', templates=True, g=g)
+
+
+@app.route('/learn/<string:name>')
+def learn_(name):
+    cs: Cs = Cs.query.filter_by(title=name).first()
+    return render_template('learn.html', templates=False,cs=cs )
+
+
+@app.route('/write')
+def write():
+    return render_template('cs_write.html', save='Create')
 
 
 @app.route('/like_unlike', methods=['POST'])

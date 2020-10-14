@@ -24,7 +24,9 @@ rm = lambda string: string[re.search(r'is:(err|title) ', string).span()[1]:]
 # Checks for type if error or title error==False and title==True
 err_title = lambda string: re.match(r'is:(err) [0-9 a-z A-Z]*', string) is None
 
+
 # Searches
 def search_(query, value):
     print(value.__contains__(query))
     return operator.contains(value.lower(), query.lower())
+

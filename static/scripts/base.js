@@ -8,3 +8,19 @@ const request_mail_address=()=>{
     mail_address=prompt('Enter your mail Please')
     localStorage.setItem('user_mail', mail_test.test(mail_address) ? mail_address.toLowerCase() : null)
 }
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    is_up = true
+    const toggler = document.querySelector('.navbar-toggler')
+    toggler.onclick=()=>{
+        toggler.style.animationFillMode='forwards'
+        toggler.style.animationDuration='1s'
+        if(is_up) toggler.style.animationName='roll_a'
+        else toggler.style.animationName='roll_b'
+        is_up = !is_up
+        toggler.animationPlayState='running'
+    }
+
+})
+
+

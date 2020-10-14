@@ -101,7 +101,11 @@ body *{
 
 
 .navbar-toggler-icon{
-    font-size:20px;
+    font-size: 20px;
+}
+
+.navbar-toggler{
+    border: none;
 }
 
 #container{
@@ -119,3 +123,23 @@ body *{
 .link_{
     vertical-align: super;
 }
+
+@keyframes roll_a{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(180deg);
+    }
+}
+
+
+@keyframes roll_b{
+    from{
+        transform: rotate(180deg);
+    }
+    to{
+        transform: rotate(0deg);
+    }
+}
+

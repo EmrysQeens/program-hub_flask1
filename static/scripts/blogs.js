@@ -31,7 +31,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
             displays[3].style.maxHeight= window.innerHeight - 100 + 'px'
             displays[3].style.overflowY= 'auto'
             //Add code block language
-            displays[3].querySelectorAll('pre').forEach(pre=> pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML)
+            displays[3].querySelectorAll('pre').forEach(pre=>{
+                const code_class = pre.querySelector('code').className.substring(9)
+                pre.innerHTML= `<b>$_> ${code_class.charAt(0).toUpperCase()+code_class.substring(1)}</b>\n\n` + pre.innerHTML
+            })
             //Parse tags href attribute
             displays[3].querySelectorAll('a').forEach(tag=>{
                 tag.setAttribute('href', tag.href.startsWith(r.url) ? `https://${tag.href.substring(r.url.length)}` : tag.href)

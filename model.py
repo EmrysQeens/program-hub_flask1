@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from learn import *
 
 db: SQLAlchemy = SQLAlchemy()
 
@@ -427,14 +428,13 @@ def back_blog(blogs):
 class Cs(db.Model):
     __tablename__ = 'cs_learn'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(75), nullable=False, unique=True)
     img = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False, unique=False)
     up_votes = db.Column(db.Text, server_default='')
     down_votes = db.Column(db.Text, server_default='')
 
-    def __init__(self, name, title, img, content):
-        self.name = name
+    def __init__(self, title, img, content):
         self.title = title
         self.img = img
         self.content = content
@@ -443,7 +443,7 @@ class Cs(db.Model):
         return len(self.up_votes.split(' ') if typ else self.down_votes.split(' ')) - 1
 
     def template(self):
-        return {'id': self.id, 'title': self.title, 'img': self.img, 'content': self.content[:155] + '.....',
+        return {'id': self.id, 'title': self.title, 'img': self.img, 'content': trim(trim_(self.content[:155])),
                 'up_votes': self.votes(True), 'down_votes': self.votes(False)}
 
     def __repr__(self):

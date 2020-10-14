@@ -21,8 +21,7 @@
                 <p class='pid' id="msg_f"></p>
                 <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
         </div>
-        <h3 class="">Create new Blog..</h3>
-        <form>
+        <form style="line-height: .8em;">
                 <input class="form-control form-control-lg nm" type="text" placeholder="Full Name" id="name" name="name" autocomplete="off" {{read}} value="{{blog['name']}}" maxlength="120">
                 <p style="padding-left:5px;">Full name separated by Space no Punctuations </p>
                 <br>
@@ -50,7 +49,7 @@
                         <option value="NAN" disabled>Learn</option>
                         <option value="tn">Tech News</option>
                 </select>
-                <p style="padding-left:5px;">What is your post related to ? </p>
+                <p style="padding: 5px;">Related to ? </p>
                 <br>
                 <div id="blog_cont">
                         <div id="blog_content" class="form-control form-control-sm">

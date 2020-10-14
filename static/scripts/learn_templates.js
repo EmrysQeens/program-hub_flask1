@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // If scrolled to bottom, load the next 10 template.
     template=(id, title, img, content, upvote, downvote)=>{
         return `<div class="jumbotron jumb">
+                <a href="/learn/${title}">
                 <div class="img">
                 <img src=${img} class="img_logo"  alt="Template image">
                 </div>
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 <span class="header">${title}</span>
                 <span class="pre_content">${content}</span>
                 </div>
+                </a>
                 <div class="btns" data-id="${id}">
                     <button class="upvote b" id="upvote" style="outline: none;">
                         <svg width="1.2em" height="1.2em" viewBox="0 0 16 16" class="bi bi-chevron-double-up" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">

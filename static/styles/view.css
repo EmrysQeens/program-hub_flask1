@@ -118,8 +118,9 @@ pre{
     font-size: 11px;
     overflow-x: auto;
     padding-bottom: 10px;
-    background: whitesmoke;
+    background: white;
     padding-left: 10px;
+    padding-top: 5px;
     border-radius: 3px;
     max-height: 300px;
     overflow-y: auto;

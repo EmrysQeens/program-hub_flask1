@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             })
             content.innerHTML=editor.getData()
             content.querySelectorAll('pre').forEach(pre=>{
-                pre.innerHTML= `<b>$_> ${pre.querySelector('code').className.substring(9)}</b>\n\n` + pre.innerHTML
+                const code_class = pre.querySelector('code').className.substring(9)
+                pre.innerHTML= `<b>$_> ${code_class.charAt(0).toUpperCase()+code_class.substring(1)}</b>\n\n` + pre.innerHTML
             })
          });
         //End preview

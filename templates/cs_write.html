@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Cs Learn Write{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/cs_write.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}">
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static',filename='scripts/cs_write.js')}}"></script>
+<script src="{{url_for('static',filename='scripts/editor.js')}}"></script>
+<script src="{{url_for('static',filename='scripts/loader.js')}}"></script>
+<script src="{{url_for('static',filename='scripts/http/request.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="jumbotron flex justify-content-center align-items-center jumbotrons contain" height="100%">
+<form style="line-height: .8em;">
+                <input class="form-control form-control-sm" type="text" placeholder="Title" name="title" id='title' autocomplete="off" maxlength="75" {{read}} value="">
+                <br>
+                <input class="form-control form-control-sm" type="file" placeholder="File" name="file" accept="image/*" id='img' autocomplete="off" maxlength="75" {{read}} value="">
+                <br>
+                <div id="blog_cont">
+                        <div id="blog_content" class="form-control form-control-sm">
+
+                        </div>
+                        <section class="blog_container">
+                                <div class="btn_section">
+                                        <button type="button" class="btn btn-secondary btn-sm btns"
+                                                id="create" value="" disabled><small>{{save}}</small></button>
+                                         <button type="button" class="btn btn-secondary btn-sm btns"
+                                                id="btn_preview" value="" data-toggle="modal"
+                                                                        data-target="#exampleModalCenter" disabled><small>Preview</small></button>
+                                </div>
+                                <div class="edit_section">
+                                        <ul class="nav justify-content-end">
+                                                <li class="nav-item">
+                                                        <div class="form-check form-check-inline in">
+                                                                <span id="loader"></span>
+                                                        </div>
+                                                </li>
+                                        </ul>
+                                </div>
+                        </section>
+                </div>
+        </form>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-body">
+                                <div class="jumbotron justify-content-center align-items-center preview" id="preview">
+                                    <img id="image">
+                                    <h2 id="title_"></h2>
+                                    <div id="content">
+
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Dismiss</button>
+                        </div>
+                </div>
+        </div>
+</div>
+{% endblock %}

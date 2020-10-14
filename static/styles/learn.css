@@ -54,29 +54,3 @@
     border: none;
     background: transparent;
 }
-
-progress{
-    position: relative;
-    bottom: 0;
-    min-width: -webkit-fill-available;
-}
-
-progress {
-  color: lightblue;
-}
-
-progress::-webkit-progress-value {
-  background: lightblue;
-}
-
-progress::-moz-progress-bar {
-  background: lightcolor;
-}
-
-progress::-webkit-progress-value {
-  background: red;
-}
-
-progress::-webkit-progress-bar {
-  background: blue;
-}

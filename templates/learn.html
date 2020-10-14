@@ -1,23 +1,44 @@
 {% extends 'base.html' %}
 
-{% block style %}<link rel="stylesheet" href="{{url_for('static', filename='styles/learn.css')}}"> {% endblock %}
+<!-- /learn -->
+{% block title %}
+{% if templates %}Learn{% else %}
+{{cs.title}}
+{% endif %}
+{% endblock %}
+{% block style %}
+    {% if templates %}
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/learn.css')}}">
+    {% else %}
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/learn_full.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}">
+    {% endif %}
+{% endblock %}
 {% block script %}
+    {% if templates %}
     <script src="{{url_for('static', filename='scripts/http/request.js')}}"></script>
-    <script src="{{url_for('static', filename='scripts/learn.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/learn_templates.js')}}"></script>
+    {% else %}
+    <script src="{{url_for('static', filename='scripts/learn_full.js')}}"></script>
+    {% endif %}
+
 {% endblock %}
 
 {% block body %}
     <div class="container jumbotrons" style="padding-bottom: 10px;">
+    {% if templates %}
     <div class="cont">
         {% for l in learn %}
             <div class="jumbotron jumb">
+          <a href="/learn/{{l['title']}}">
                 <div class="img">
                 <img src="{{l['img']}}" class="img_logo"  alt="Template image">
                 </div>
                 <div class="text">
                 <span class="header">{{l['title']}}</span>
-                <span class="pre_content">{{l['content'][:155]+' .....'}}</span>
+                <span class="pre_content">{{g.trim(g.trim_(l['content'][:155]))}}</span>
                 </div>
+              </a>
                 <div class="btns" data-id="{{l['id']}}">
                     <button class="upvote b" id="upvote" style="outline: none;">
                         <svg width="1.2em" height="1.2em" viewBox="0 0 16 16" class="bi bi-chevron-double-up" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
@@ -36,6 +57,19 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
+        </div>
+        {% else %}
+            <img id="img" alt="..." src="{{cs.img}}">
+            <h2 id="title">{{cs.title}}</h2>
+<!--            <button id="t" style="background: transparent; border: none;"><svg width="3.0em" height="3.0em" viewBox="0 0 16 16" style="padding-top: 3px;" class="bi bi-chevron-double-down" fill="#000000" xmlns="http://www.w3.org/2000/svg">-->
+<!--          <path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>-->
+<!--          <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>-->
+<!--        </svg></button>-->
+            <div id="content_full">
+                {{cs.content | safe }}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
+
+<!-- /learn/title of template -->

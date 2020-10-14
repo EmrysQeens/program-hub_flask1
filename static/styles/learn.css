@@ -54,3 +54,7 @@
     border: none;
     background: transparent;
 }
+
+a{
+    text-decoration: none;
+}

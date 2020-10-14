@@ -69,6 +69,16 @@ img{
     border-width: medium;
 }
 
+.per-blog{
+    color: white;
+    background: linear-gradient(#42275a, #734b6d);
+}
+
 .jumbotrons{
     padding:5px;
+}
+
+.hd{
+    color: white;
+    background: linear-gradient(#42275a, #734b6d);
 }

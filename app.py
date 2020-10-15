@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, make_response
 from model import *
 import random
 from p_f import *
@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 # 'sqlite :///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = random.random
+app.config['SECRET_KEY'] = 'jhgfcbvjhkiuyutyrfzghjiou76545ty6u78i8ouytdrfghjkui7y6tryukji'
 db.init_app(app)
 db.app = app
 
@@ -121,7 +121,7 @@ def admin():
     if request.method == 'POST':
         ids = request.form
         if len(Login.query.filter_by(login_id=ids.get('email'), passcode=ids.get('password')).all()) == 0:
-            return render_template('admin.html', wrong='Wrong password')
+            return render_template('admin.html', url='/admin', wrong='Wrong password')
         t_blogs = Blog.query.all()
         return render_template('blogs.html', blogs=t_blogs, admin=True, title='Admin')
     return render_template('admin.html')
@@ -168,10 +168,14 @@ def learn_(name):
     return render_template('error.html', url=g_strip(name))
 
 
-@app.route('/write')
+@app.route('/write', methods=['POST', 'GET'])
 def write():
-    return render_template('cs_write.html', save='Create')
-
+    if request.method == 'POST':
+        ids = request.form
+        if len(Login.query.filter_by(login_id=ids.get('email'), passcode=ids.get('password')).all()) == 0:
+            return render_template('admin.html', url='/write', wrong='Wrong password')
+        return render_template('cs_write.html', save='Create')
+    return render_template('admin.html')
 
 @app.route('/like_unlike', methods=['POST'])
 def like_unlike():

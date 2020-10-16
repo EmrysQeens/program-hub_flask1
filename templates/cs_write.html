@@ -22,9 +22,9 @@
                 <hr>
                 <p class='pid' id="msg_f"></p>
                 <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
-        </div>
+    </div>
 <form style="line-height: .8em;">
-                <input class="form-control form-control-sm" type="text" placeholder="Title" name="title" id='title' autocomplete="off" maxlength="75" {{read}} value="">
+                <input class="form-control form-control-sm" type="text" placeholder="Title" name="title" id='title' autocomplete="off" maxlength="75" {{read}} value="{{title}}">
                 <br>
                 <input class="form-control form-control-sm" type="file" placeholder="File" name="file" accept="image/*" id='img' autocomplete="off" maxlength="75" {{read}} value="">
                 <br>
@@ -35,7 +35,7 @@
                         <section class="blog_container">
                                 <div class="btn_section">
                                         <button type="button" class="btn btn-secondary btn-sm btns"
-                                                id="create" value="" disabled>{{save}}</button>
+                                                id="create" value="" data-id="{{id}}" disabled>{{save}}</button>
                                          <button type="button" class="btn btn-secondary btn-sm btns"
                                                 id="btn_preview" value="" data-toggle="modal"
                                                                         data-target="#exampleModalCenter" disabled>Preview</button>
@@ -52,6 +52,9 @@
                         </section>
                 </div>
         </form>
+    <div id="hold" style="display: none;">
+        {{content |safe }}
+    </div>
 </div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">

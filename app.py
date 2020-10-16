@@ -1,14 +1,14 @@
 import os
-from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, make_response
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect
 from model import *
-import random
 from p_f import *
 from mail import *
 import learn as g
 
 app = Flask(__name__)
 #  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece"
++"5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 # 'sqlite :///program-hubs.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'jhgfcbvjhkiuyutyrfzghjiou76545ty6u78i8ouytdrfghjkui7y6tryukji'
@@ -49,7 +49,7 @@ def blog():
                 blog_.validate(blog_.typ)
                 try:
                     sender.send_message(Recipient(blog_.email, Content().re(blog_)))
-                except Exception:
+                except yagmail.YagConnectionClosed:
                     print('mail not sent')
                 return jsonify({'stat': 'added'})
             else:
@@ -76,8 +76,14 @@ def delete():
 @app.route('/edit', methods=['POST', 'GET'])
 def edit():
     if request.method == 'POST':
-        blog_ = Blog.query.get(request.form.get('id'))
-        return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
+        try:
+            print(request.form.get('id_'))
+            l_: Cs = Cs.query.get(request.form.get('id'))
+            return render_template('cs_write.html', l=l_, read="readonly", title=l_.title, id=l_.id, content=l_.content,
+                                   save='Save')
+        except KeyError:
+            blog_ = Blog.query.get(request.form.get('id'))
+            return render_template('blog.html', blog=blog_, read="readonly", dis='disabled', save='Save')
     return redirect('/')
 
 
@@ -140,13 +146,13 @@ def blogs():
         return render_template('blogs.html', blogs=blogs_, admin=False, bl='active', title='Techs News')
 
 
-@app.route('/learn', methods=['POST', 'GET'])
+@app.route('/learn', methods=['POST', 'GET', 'PUT'])
 def learn():
     if request.method == 'POST':
         data = json.loads(request.form['data'])
         if data['type'] == 'templates':
             learns = Cs.query.order_by('title').all()
-            return jsonify({'templates': [t.template() for t in learns[data['len']:data['len'] + 2]],
+            return jsonify({'templates': [t.template() for t in learns[data['len']:data['len'] + 10]],
                             'end': len(learns) < data['len'] + 2})
         elif data['type'] == 'upload':
             title = f_strip(data['title'])
@@ -156,25 +162,49 @@ def learn():
                 return jsonify({'result': True})
             return jsonify({'result': False})
         return jsonify({'pushed': True})
-    return render_template('learn.html', learn=Cs.query.order_by('title').all()[:6], l='active', templates=True, g=g)
+    elif request.method == 'PUT':
+        data = json.loads(request.form['data'])
+        cs: Cs = Cs.query.get(data['id'])
+        cs.content = data['content']
+        cs.img = data['img']
+        db.session.commit()
+        return jsonify({'result': True})
+    return render_template('learn.html', learn=Cs.query.order_by('title').all()[:30], l='active', templates=True,
+                           admin=False, g=g)
+
+
+@app.route('/edit/learn', methods=['POST', 'GET'])
+def edit_learn():
+    if request.method == 'POST':
+        return render_template('learn.html', learn=Cs.query.order_by('title').all()[:30], l='active',
+                               templates=True, g=g, admin=True)
+    return render_template('admin.html')
+
+
+@app.route('/edit/learn/<string:name>', methods=['POST', 'GET'])
+def edit_learn_p(name):
+    if request.method == 'POST':
+        return learn_('', True)
+    return learn_(name, True)
 
 
 @app.route('/learn/<string:name>', methods=['POST', 'GET'])
-def learn_(name):
+def learn_(name, admin_=False):
     if request.method == 'POST':
         data = json.loads(request.form['data'])
         cs: list = Cs.query.order_by('title').all()
         cs_: Cs = cs[(data['id'] + 1) if data['nxt'] else (data['id'] - 1)]
         try:
-            r = cs[(data['id'] + 2) if data['nxt'] else (data['id'] - 2)]
+            cs[(data['id'] + 2) if data['nxt'] else (data['id'] - 2)]
         except IndexError:
-            return jsonify({'title': cs_.title, 'img': cs_.img, 'content': cs_.content, 'disable': True})
-        return jsonify({'title': cs_.title, 'img': cs_.img, 'content': cs_.content, 'disable': False})
+            return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content, 'disable': True})
+        return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content, 'disable': False})
     cs: Cs = Cs.query.filter_by(title=f_strip(name)).first()
     if cs is not None:
         _all: list = Cs.query.order_by('title').all()
         pos: int = _all.index(cs)
-        return render_template('learn.html', templates=False, cs=cs, pos=pos, p='disabled' if pos == 0 else '', n='disabled' if pos == len(_all)-1 else '')
+        return render_template('learn.html', admin=admin_, templates=False, cs=cs,
+                               pos=pos, p='disabled' if pos == 0 else '', n='disabled' if pos == len(_all) - 1 else '')
     return render_template('error.html', url=g_strip(name))
 
 
@@ -197,6 +227,7 @@ def like_unlike():
 
 
 def err_404(e):
+    print(e)
     return render_template('error.html')
 
 

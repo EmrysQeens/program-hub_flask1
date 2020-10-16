@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let is_loading = false
 
     window.onscroll = () => {
-        if (window.innerHeight + window.scrollY >= 0.95 * document.body.offsetHeight && !end && !is_loading) more()
+        if (window.innerHeight + window.scrollY >= 0.90 * document.body.offsetHeight && !end && !is_loading) more()
      };
 
      const more=()=>{

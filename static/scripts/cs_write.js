@@ -49,22 +49,32 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const loader =  new Loader(e.target)
         const bool = e.target.innerText == 'Create'
         loader.load( bool ? 'Creating' : 'Saving' )
+        const r= bool ? 'Create' : 'Save'
         const request = new Request()
-        request.fresh({'type': 'upload', 'title': title.value,'img': img_data, 'content': editor.getData()},'POST', 'learn')
+        const data = bool ? {'type': 'upload', 'title': title.value,'img': img_data, 'content': editor.getData()} : {'id': btn_create.dataset.id, 'img': img_data, 'content': editor.getData()}
+        request.fresh(data,bool ? 'POST' : 'PUT', 'learn')
         request.loaded((response, status)=>{
             if(status == 200){
                  if (response['result']){
                     loader.exit(false, 'Create')
-                    pop_up(['Created!!!', `${title.value} was successfully created.`, 'Created'], true)
+                    pop_up([`${ bool ? 'Created' : 'Saved'}!!!`, `${title.value} was successfully ${ bool ? 'created' : 'updated'}.`, `${ bool ? 'Created':'Updated'}`], true)
                     clear()
+                    if(!bool) window.history.replaceState('', 'Write', '/write')
                  }
-                 else pop_up(['Error!!!', `${title.value} might exist.`, 'err_error'], false)
-
             }
+            else {
+                    pop_up(['Error!!!', `${title.value} might exist.`, 'err_error'], false)
+                    loader.exit(false, r)
+             }
         })
-        request.timeout(()=> pop_up(['Connection Timeout!!!', 'Connection time exceeded', 'err_timeout'], false) )
-        request.error(()=> pop_up(['Connection Error!!!', 'Connection to server couldn\'t be established.', 'err_no connection'], false))
-
+        request.timeout(()=>{
+            pop_up(['Connection Timeout!!!', 'Connection time exceeded', 'err_timeout'], false)
+            loader.exit(false, r)
+        })
+        request.error(()=> {
+            pop_up(['Connection Error!!!', 'Connection to server couldn\'t be established.', 'err_no connection'], false)
+            loader.exit(false, r)
+        })
 
     }
 
@@ -119,6 +129,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
             pop__up.animationPlayState='running'
          }
 
+    window.onload= () =>{
+        editor.setData(hold.innerHTML)
+        hold.remove()
+    }
 
     })
 

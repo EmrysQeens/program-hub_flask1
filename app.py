@@ -37,7 +37,7 @@ def blog():
         if data['type'] == 'new':
             if len(Blog.query.filter_by(content=data['content']).all()) == 0 and boolean:
                 blog_: Blog = Blog(f_strip(data['name']), g_strip(data['email']), g_strip(data['title']), data['error'],
-                                   data['typ'], data['content'])
+                                   data['date'], data['typ'], data['content'])
                 db.session.add(blog_)
                 db.session.commit()
                 return jsonify({'stat': 'added'})
@@ -132,7 +132,6 @@ def blogs():
     if request.method == 'POST':
         v = json.loads(request.form['data'])
         blog_ = Blog.query.get(v['num']) if v['admin'] == 'True' else TechNews.query.get(v['num'])
-        print(blog_.content)
         return jsonify(
             {'id': blog_.id, 'title': blog_.title, 'name': blog_.name, 'email': blog_.email, 'date': blog_.date,
              'content': blog_.content})
@@ -160,11 +159,22 @@ def learn():
     return render_template('learn.html', learn=Cs.query.order_by('title').all()[:6], l='active', templates=True, g=g)
 
 
-@app.route('/learn/<string:name>')
+@app.route('/learn/<string:name>', methods=['POST', 'GET'])
 def learn_(name):
+    if request.method == 'POST':
+        data = json.loads(request.form['data'])
+        cs: list = Cs.query.order_by('title').all()
+        cs_: Cs = cs[(data['id'] + 1) if data['nxt'] else (data['id'] - 1)]
+        try:
+            r = cs[(data['id'] + 2) if data['nxt'] else (data['id'] - 2)]
+        except IndexError:
+            return jsonify({'title': cs_.title, 'img': cs_.img, 'content': cs_.content, 'disable': True})
+        return jsonify({'title': cs_.title, 'img': cs_.img, 'content': cs_.content, 'disable': False})
     cs: Cs = Cs.query.filter_by(title=f_strip(name)).first()
     if cs is not None:
-        return render_template('learn.html', templates=False, cs=cs)
+        _all: list = Cs.query.order_by('title').all()
+        pos: int = _all.index(cs)
+        return render_template('learn.html', templates=False, cs=cs, pos=pos, p='disabled' if pos == 0 else '', n='disabled' if pos == len(_all)-1 else '')
     return render_template('error.html', url=g_strip(name))
 
 
@@ -176,6 +186,7 @@ def write():
             return render_template('admin.html', url='/write', wrong='Wrong password')
         return render_template('cs_write.html', save='Create')
     return render_template('admin.html')
+
 
 @app.route('/like_unlike', methods=['POST'])
 def like_unlike():

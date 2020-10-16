@@ -467,15 +467,16 @@ class Blog(db.Model):
     email = db.Column(db.String(35), nullable=False, unique=False)
     title = db.Column(db.String(75), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False, default='NAN')
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    date = db.Column(db.DateTime, nullable=False, unique=False)
     typ = db.Column(db.String(12), nullable=False, unique=False)
     content = db.Column(db.Text, nullable=False, unique=False)
 
-    def __init__(self, name, email, title, error, typ, content):
+    def __init__(self, name, email, title, error, date, typ, content):
         self.name = name
         self.email = email
         self.title = title
         self.error = error
+        self.date = date
         self.typ = typ
         self.content = content
 

@@ -16,3 +16,21 @@
 #content_full{
     text-align: initial;
 }
+
+
+#controls{
+    text-align: initial;
+}
+
+#prev{
+    display: inline;
+}
+
+#next{
+    display: inline;
+    float: right;
+}
+
+.svg{
+    padding-top: 4px;
+}

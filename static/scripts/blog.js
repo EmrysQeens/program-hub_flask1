@@ -1,3 +1,4 @@
+  
 document.addEventListener('DOMContentLoaded', ()=>{
     const blog_content = document.querySelector('#blog_content')
     const create_btn = document.querySelector('#create')
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const loader=new Loader(create_btn)
             loader.load(`<small>${bool ? 'Creating' : 'Saving'}</small>`)
             const post_data={ 'name': elements[0].value, 'email': elements[1].value,
-                               'title': elements[2].value, 'content': editor.getData(),
+                               'title': elements[2].value,'date': new Date().toGMTString(), 'content': editor.getData(),
                                'typ': select.value, 'error': elements[3].value, 'type':'new'}
             const put_data={'id': create_btn.value, 'content': editor.getData() }
             //Creates and send request
@@ -174,9 +175,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
             elements.forEach((element, index)=>{
                 element.value=localStorage.getItem(vals[index])
             })
-            select.selectedIndex=localStorage.getItem('type')
+            select.selectedIndex=localStorage.getItem('type')}
          else{
-            editor.setData(localStorage.getItem('content'))}
+            try{
+                editor.setData(localStorage.getItem('content'))}
             catch(err){}
          }
          }

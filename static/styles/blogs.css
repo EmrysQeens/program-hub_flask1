@@ -72,6 +72,7 @@ img{
 .per-blog{
     color: white;
     background: linear-gradient(#42275a, #734b6d);
+    display: inline-block;
 }
 
 .jumbotrons{

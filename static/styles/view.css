@@ -54,8 +54,9 @@
 }
 
 .image>img{
-    border-radius:3px;
-    width:90%;
+    border-radius: 3px;
+    width: auto;
+    max-width: 90%;
 }
 
 #content hr{
@@ -79,12 +80,11 @@ th{
 }
 
 .table>table{
-    width: 100%;
     border: 3px solid gray;
     border-radius: 2px;
     padding: 5px;
-    min-width: 90%;
-    width: 90%;
+    width: auto;
+    max-width: 90%;
 }
 
 .table{

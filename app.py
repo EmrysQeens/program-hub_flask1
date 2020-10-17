@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, jsonify, request, send_from_directory, redirect
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session, url_for
 from model import *
 from p_f import *
 from mail import *
@@ -76,8 +76,7 @@ def delete():
 def edit():
     if request.method == 'POST':
         try:
-            print(request.form.get('id_'))
-            l_: Cs = Cs.query.get(request.form.get('id'))
+            l_: Cs = Cs.query.get(request.form['id_'])
             return render_template('cs_write.html', l=l_, read="readonly", title=l_.title, id=l_.id, content=l_.content,
                                    save='Save')
         except KeyError:
@@ -127,9 +126,17 @@ def admin():
         ids = request.form
         if len(Login.query.filter_by(login_id=ids.get('email'), passcode=ids.get('password')).all()) == 0:
             return render_template('admin.html', url='/admin', wrong='Wrong password')
+        session['app_user'] = (ids.get('email'), ids.get('password'))
+        return render_template('admin.html', login=False)
+    return render_template('admin.html', login=True)
+
+
+@app.route('/validate')
+def validate():
+    if 'app_user' in session:
         t_blogs = Blog.query.all()
         return render_template('blogs.html', blogs=t_blogs, admin=True, title='Admin')
-    return render_template('admin.html')
+    return render_template('admin.html', login=True)
 
 
 @app.route('/blogs', methods=['POST', 'GET'])
@@ -174,17 +181,22 @@ def learn():
 
 @app.route('/edit/learn', methods=['POST', 'GET'])
 def edit_learn():
-    if request.method == 'POST':
+    # if request.method == 'POST':
+    #     return render_template('learn.html', learn=Cs.query.order_by('title').all()[:30], l='active',
+    #                            templates=True, g=g, admin=True)
+    if "app_user" in session:
         return render_template('learn.html', learn=Cs.query.order_by('title').all()[:30], l='active',
                                templates=True, g=g, admin=True)
-    return render_template('admin.html')
+    return render_template('admin.html', login=True)
 
 
 @app.route('/edit/learn/<string:name>', methods=['POST', 'GET'])
 def edit_learn_p(name):
-    if request.method == 'POST':
-        return learn_('', True)
-    return learn_(name, True)
+    if 'app_user' in session:
+        if request.method == 'POST':
+            return learn_('', True)
+        return learn_(name, True)
+    return render_template('admin.html', login=True)
 
 
 @app.route('/learn/<string:name>', methods=['POST', 'GET'])
@@ -194,7 +206,9 @@ def learn_(name, admin_=False):
         cs: list = Cs.query.order_by('title').all()
         cs_: Cs = cs[(data['id'] + 1) if data['nxt'] else (data['id'] - 1)]
         try:
-            cs[(data['id'] + 2) if data['nxt'] else (data['id'] - 2)]
+            r = (data['id'] + 2) if data['nxt'] else (data['id'] - 2)
+            if r < 0 or r == len(cs):
+                raise IndexError
         except IndexError:
             return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content, 'disable': True})
         return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content, 'disable': False})
@@ -209,12 +223,17 @@ def learn_(name, admin_=False):
 
 @app.route('/write', methods=['POST', 'GET'])
 def write():
-    if request.method == 'POST':
-        ids = request.form
-        if len(Login.query.filter_by(login_id=ids.get('email'), passcode=ids.get('password')).all()) == 0:
-            return render_template('admin.html', url='/write', wrong='Wrong password')
+    if 'app_user' in session:
         return render_template('cs_write.html', save='Create')
-    return render_template('admin.html')
+    return render_template('admin.html', login=True)
+
+
+@app.route('/logout')
+def logout():
+    if 'app_user' in session:
+        session.clear()
+        return redirect('/')
+    return redirect('/')
 
 
 @app.route('/like_unlike', methods=['POST'])

@@ -13,6 +13,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
         next_btn.disabled = bool
     }
 
+    const disable_ = (b,bo) =>{
+        prev_btn.disabled = bo
+        next_btn.disabled = b
+    }
+
+    let is_next_pressed = false
+    let next_disabled = false
+    let prev_disabled = false
+
+    const state = () =>{
+        next_disabled = next_btn.disabled
+        prev_disabled = prev_btn.disabled
+    }
+
     const scroll_ = () =>{
         scroll = setInterval(()=>{
             window.scrollTo(0, window.scrollY-5)
@@ -21,12 +35,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     const upload=(e)=>{
+        state()
         disable(true)
         const request = new Request()
         const id = parseInt(e.target.parentElement.dataset.id)
         const bool = e.target.id == 'next'
         request.fresh({'id': id, 'nxt': bool}, 'POST', '/learn/dummy')
         request.loaded((response, status)=>{
+            console.log(response['disable'])
             if(status == 200){
                 scroll_()
                 img.src = response['img']
@@ -43,16 +59,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
             else {
                 pop_up(['Server Error', 'Please retry', 'err_server'], false)
-                disable(true)
+                disable_(next_disabled, prev_disabled)
             }
         })
         request.timeout(()=> {
             pop_up(['Connection Timeout', 'The connection to server was timed out please retry', 'timeout_err'], false)
-            disable(true)
+            disable_(next_disabled, prev_disabled)
         })
         request.error(()=>{
             pop_up(['Connection Error', 'Couldn\'t fetch data', 'connection_err'], false)
-            disable(true)
+            disable_(next_disabled, prev_disabled)
         })
     }
 

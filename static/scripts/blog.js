@@ -1,4 +1,3 @@
-  
 document.addEventListener('DOMContentLoaded', ()=>{
     const blog_content = document.querySelector('#blog_content')
     const create_btn = document.querySelector('#create')

@@ -3,14 +3,15 @@
 {% block style %}
 <link rel="stylesheet" href="{{url_for('static',filename='styles/admin.css')}}"> {% endblock %}
 {% block script %}
-<script src="{{url_for('static',filename='scripts/admin.js')}}"></script>
+<!--<script src="{{url_for('static',filename='scripts/admin.js')}}"></script>-->
 {% endblock %}
 {% block title %}Admin{% endblock %}
 
 {% block body %}
 <div class="jumbotron flex justify-content-center align-items-center jumbotrons contain" height="100%">
 <div class="jumbotron login ">
-    <form action="{{url}}" method="POST">
+    {% if login %}
+    <form action="{{url_for('admin')}}" method="POST">
   <div class="form-group">
     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="E-mail">
    </div>
@@ -20,6 +21,12 @@
   <button class="btn btn-secondary sm"><small>Login</small></button>
 </form>
     <p style="padding: 5px;">{{wrong}}</p>
+    {% else %}
+    <a href="/edit/learn"><button class="btn btn-secondary sm"><small>Edit</small></button></a>
+    <a href="/write"><button class="btn btn-secondary sm"><small>Write</small></button></a>
+    <a href="/validate"><button class="btn btn-secondary sm"><small>Validate</small></button></a>
+    <a href="/logout"><button class="btn btn-secondary sm"><small>Logout</small></button></a>
+    {% endif %}
 </div>
 </div>
 {% endblock %}

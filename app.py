@@ -125,7 +125,7 @@ def admin():
     if request.method == 'POST':
         ids = request.form
         if len(Login.query.filter_by(login_id=ids.get('email'), passcode=ids.get('password')).all()) == 0:
-            return render_template('admin.html', url='/admin', wrong='Wrong password')
+            return render_template('admin.html', wrong='Wrong password', login=True)
         session['app_user'] = (ids.get('email'), ids.get('password'))
         return render_template('admin.html', login=False)
     return render_template('admin.html', login=True)

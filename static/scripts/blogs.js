@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const pop__up=document.querySelector('#alert')
     let id=null  /* This helps to set id of blog clicked so it can be used for request */
     const r=new Request()
-    const h=new Request()
     const btns=[document.querySelector('.edit'), document.querySelector('#add'), document.querySelector('#delete')]
     const displays=[ document.querySelector('#titlep'),  document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#content')]
 
@@ -75,6 +74,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     try{
     //Commit button
       btns[1].addEventListener('click', ()=>{
+        const h=new Request()
         const commit=new Loader(btns[1])
         commit.load('Committing')
         disable(true)
@@ -82,11 +82,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
         //Creates new Request Object
         h.fresh(data, 'POST', 'blog')
         //On load
-        h.loaded((response,status)=>{
+        h.loaded((response, status)=>{
             if(status==200 && response['stat']=='added'){
-                    //pop_up(['Committed Successfully', 'The post has been validated', 'Continue..'], true)
-                    document.querySelector('#exampleModalCenter').click()
+                    pop_up(['Committed Successfully', 'The post has been validated', 'Continue..'], true)
                     document.querySelector(`#blog-${id}`).remove()
+                    document.querySelector('#exampleModalCenter').click()
                 }
                 else{
                    pop_up(['Commit Failure', 'The post has not been validated', 'Please Retry'], false)
@@ -118,13 +118,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     //Delete button
     btns[2].addEventListener('click', ()=>{
+        const d=new Request()
         const erase=new Loader(btns[2])
         erase.load('Deleting')
         disable(true)
         //Creates new Request Object
-        h.fresh({'num':id}, 'DELETE', 'delete')
+        d.fresh({'num':id}, 'DELETE', 'delete')
         //On load
-        h.loaded((response,status)=>{
+        d.loaded((response,status)=>{
             if(status==200 && response['stat'] =='deleted'){
                     pop_up(['Deleted', 'Successfully deleted', 'Dismiss to continue'], true)
                     document.querySelector(`#blog-${id}`).remove()
@@ -136,11 +137,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 }
                 erase.exit(false, 'Delete')
         })
-        h.error(()=>{
+        d.error(()=>{
             pop_up(['Connection Error', 'Couldn\'t establish a connection to server', 'Please Retry'], false)
             erase.exit(false, 'Delete')
             disable(false) })
-        h.timeout(()=>{
+        d.timeout(()=>{
             pop_up(['Connection Timeout', 'Couldn\'t delete', 'Please Retry'], false)
             erase.exit(false, 'Delete')
             disable(false) })

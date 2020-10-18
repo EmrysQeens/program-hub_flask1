@@ -7,7 +7,7 @@ import learn as g
 from decodeimg import decode
 
 app = Flask(__name__)
-url = 'hub-x.herokuapp.com'
+url = 'program-hub.herokuapp.com'
 #  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -48,13 +48,13 @@ def blog():
                 return jsonify({'stat': 'added'})
             else:
                 return jsonify({'stat': 'error'})
-        elif data['type'] == 'old':
+        elif data['type'] == 'old' and 'app_user' in session:
             if boolean:
                 blog_: Blog = Blog.query.get(data['num'])
                 blog_.validate(blog_.typ)
                 try:
                     sender.send_message('Post Verified', Recipient(blog_.email, re(blog_)))
-                except yagmail.YagConnectionClosed:
+                except Exception:
                     pass
                 return jsonify({'stat': 'added'})
             else:
@@ -134,7 +134,10 @@ def admin():
             return render_template('admin.html', wrong='Wrong password', login=True)
         session['app_user'] = (ids.get('email'), ids.get('password'))
         return render_template('admin.html', login=False)
-    return render_template('admin.html', login=True)
+    if 'app_user' in session:
+        return render_template('admin.html', login=False)
+    else:
+        return render_template('admin.html', login=True)
 
 
 @app.route('/validate')
@@ -274,9 +277,12 @@ def subscribe():
 
 @app.route('/subscribe/<string:address>')
 def unsubscribe(address):
-    db.session.delete(Subscriber.filter_by(address=address))
-    db.session.commit()
-    return ''
+    subscriber: Subscriber = Subscriber.query.filter_by(address=address).first()
+    if subscriber is not None:
+        db.session.delete(subscriber)
+        db.session.commit()
+        return "<script>alert('You have succesfully unsubscribed')</script>"
+    return redirect('/')
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 Program~Hub Learn
 
 <img src='https://{{url}}/learn/image/{{title}}.{{ext}}'/>
-{{title}} has been created.
-Read up at <a href="https://{{url}}/learn/{{title}}">{{title}}</a>
+<h3>{{title.capitalize()}}</h3> has been created.
+Read up at <a href="https://{{url}}/learn/{{title.capitalize()}}">{{title}}</a>
 
 Admin Program~Hub..
 Thanks..

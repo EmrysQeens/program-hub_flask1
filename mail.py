@@ -32,7 +32,7 @@ def su(address, url):
 
 def le(title, url):
     content = open('tmp/notify.tmp', 'r').read()
-    return templating.Template(content).render(title=title, url=url, ext=ext_(title))
+    return templating.Template(content).render(title=title, url=url, ext=ext_(title.lower()))
 
 
 sender = Sender('program.hubs@gmail.com', 'xkkusjjbnsodlrtz')

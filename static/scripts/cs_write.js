@@ -89,11 +89,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     btn_preview.onclick = async () =>{
         const img_data = await toBase64(img_chooser.files[0])
         image.src=img_data
-        title_.innerText = title.value;
+        title_.innerText = title.value.toLowerCase();
         content.innerHTML = editor.getData()
-        content.querySelectorAll('a').forEach(tag=>{
-            tag.setAttribute('href', tag.href.startsWith(r.url) ? `https://${tag.href.substring(r.url.length)}` : tag.href)
-        })
         content.querySelectorAll('pre').forEach(pre=>{
                 const code_class = pre.querySelector('code').className.substring(9)
                 pre.innerHTML= `<b>$_> ${code_class.charAt(0).toUpperCase()+code_class.substring(1)}</b>\n\n` + pre.innerHTML

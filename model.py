@@ -26,8 +26,8 @@ class Java(db.Model):
     __tablename__ = 'java'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -52,8 +52,8 @@ class Kotlin(db.Model):
     __tablename__ = 'kotlin'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -78,8 +78,8 @@ class Python(db.Model):
     __tablename__ = 'python'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -104,8 +104,8 @@ class C(db.Model):
     __tablename__ = 'c'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -130,8 +130,8 @@ class Cpp(db.Model):
     __tablename__ = 'cpp'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -156,8 +156,8 @@ class CSharp(db.Model):
     __tablename__ = 'c_sharp'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -182,8 +182,8 @@ class Javascript(db.Model):
     __tablename__ = 'javascript'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -208,8 +208,8 @@ class Node(db.Model):
     __tablename__ = 'node'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -234,8 +234,8 @@ class Php(db.Model):
     __tablename__ = 'php'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -261,8 +261,8 @@ class Linux(db.Model):
     __tablename__ = 'linux'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -287,8 +287,8 @@ class Windows(db.Model):
     __tablename__ = 'windows'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -313,8 +313,8 @@ class Android(db.Model):
     __tablename__ = 'android'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -339,8 +339,8 @@ class Ios(db.Model):
     __tablename__ = 'ios'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False, default='NAN')
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -365,8 +365,8 @@ class TechNews(db.Model):
     __tablename__ = 'tu'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(75), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False, unique=False)
@@ -387,7 +387,7 @@ class TechNews(db.Model):
 class Cs(db.Model):
     __tablename__ = 'cs_learn'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(75), nullable=False, unique=True)
+    title = db.Column(db.String(150), nullable=False, unique=True)
     img = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False, unique=False)
     up_votes = db.Column(db.Text, server_default='')
@@ -461,11 +461,11 @@ tables = {'java': Java, 'kotlin': Kotlin, 'cpp': Cpp, 'c#': CSharp, 'c': C, 'and
 
 
 class Blog(db.Model):
-    __tablename__ = 'Blog'
+    __tablename__ = 'blog'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=False)
-    email = db.Column(db.String(35), nullable=False, unique=False)
-    title = db.Column(db.String(75), nullable=False, unique=False)
+    email = db.Column(db.String(150), nullable=False, unique=False)
+    title = db.Column(db.String(150), nullable=False, unique=False)
     error = db.Column(db.String(50), nullable=True, unique=False, default='NAN')
     date = db.Column(db.DateTime, nullable=False, unique=False)
     typ = db.Column(db.String(12), nullable=False, unique=False)
@@ -492,6 +492,18 @@ class Blog(db.Model):
 
 def back_blog(blogs):
     for blog in blogs:
-        db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, 'tn', blog.content))
+        db.session.add(Blog(blog.name, blog.email, blog.title, blog.error, blog.date, 'tn', blog.content))
         db.session.delete(blog)
     db.session.commit()
+
+
+class Subscriber(db.Model):
+    __tablename__ = 'subscribers'
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.String(75), unique=True, nullable=False)
+
+    def __init__(self, address):
+        self.address = address
+
+    def __repr__(self):
+        return str(f'{self.id}  :  {self.address}')

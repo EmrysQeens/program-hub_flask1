@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block style %}
-<link rel="stylesheet" href="{{url_for('static',filename='styles/blogs.css')}}">
-<link rel="stylesheet" href="{{url_for('static',filename='styles/view.css')}}"> {% endblock %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/blogs.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}"> {% endblock %}
 {% block script %}
-<script src="{{url_for('static',filename='scripts/http/request.js')}}"></script>
-<script src="{{url_for('static',filename='scripts/blogs.js')}}"></script>
-<script src="{{url_for('static',filename='scripts/loader.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/http/request.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/blogs.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/loader.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/popup.js')}}"></script>
 {% endblock %}
 {% block title %}Blogs{% endblock %}
 
@@ -33,12 +34,13 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered"  role="document">
                 <div class="modal-content">
-                        <div class="jumbotron" style="display: none; color: white; padding: 16px 8px; position: absolute; top: 5px; left: 5px;" id="alert">
-                <h4 class='pid' id="msg_h"></h4>
-                <p class='pid' id="msg_b"></p>
-                <hr>
-                <p class='pid' id="msg_f"></p>
-            </div>
+                   <div class="jumbotron" style="display: none; color: white; padding: 16px 8px; position: absolute; top: 5px; left: 5px;" id="alert">
+                    <h4 class='pid' id="msg_h"></h4>
+                    <p class='pid' id="msg_b"></p>
+                    <hr>
+                    <p class='pid' id="msg_f"></p>
+                    <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
+                   </div>
                         <div class="modal-header">
                             <div><span id='loader' style="float:right;"></span></div>
                                 <h3 class="modal-title" id="titlep"></h3>

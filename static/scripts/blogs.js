@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', ()=>{
-
+    const pop__up=document.querySelector('#alert')
     let id=null  /* This helps to set id of blog clicked so it can be used for request */
     const r=new Request()
     const h=new Request()
-    const pop__up=document.querySelector('#alert')
-    const alert_comp=[document.querySelector('#msg_h') ,document.querySelector('#msg_b') ,document.querySelector('#msg_f')]
     const btns=[document.querySelector('.edit'), document.querySelector('#add'), document.querySelector('#delete')]
     const displays=[ document.querySelector('#titlep'),  document.querySelector('#namep'),  document.querySelector('#emailp'),  document.querySelector('#content')]
 
@@ -25,7 +23,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
           if(status==200){
             id=div.dataset.blog
             const resp=[ response['title'], response['name'], response['email'], response['content']]
-            console.log(response['content'])
             displays.forEach((element, index)=> element.innerHTML= index==1 ? `By ${resp[index]}` : resp[index])
             //Set maximum height to device screen
             displays[3].style.maxHeight= window.innerHeight - 100 + 'px'
@@ -154,22 +151,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     dismiss=()=>{
         r.cancel()
         displays.forEach(element=>element.innerHTML='')
-        pop__up.style.display='none'
+        document.querySelector('#close').click()
         try{btns.forEach(btn=>btn.disabled=true)}catch(err){}
     }
 
     //Disable edit, commit and delete btn if one is clicked
          disable=(bool)=>btns.forEach(btn=> btn.disabled=bool)
-
-    //Sets alert for submission complete, error etc
-         pop_up=(messages, e)=>{
-            pop__up.style.top=window.scrollY+'px'
-            pop__up.style.background= e ? 'linear-gradient(#42275a, #734b6d)' : 'red'
-            pop__up.style.display='block'
-            alert_comp.forEach((component, index)=> component.innerText= messages[index])
-            pop__up.style.animationName='open'
-            pop__up.style.animationDuration='2s'
-            pop__up.animationPlayState='running'
-         }
 
 })

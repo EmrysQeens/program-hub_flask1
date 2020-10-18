@@ -1,14 +1,15 @@
 import os
-from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session, url_for
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, session
 from model import *
 from p_f import *
 from mail import *
 import learn as g
+from decodeimg import decode
 
 app = Flask(__name__)
-#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
-# 'sqlite :///program-hubs.db'
+url = 'hub-x.herokuapp.com'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
+#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'jhgfcbvjhkiuyutyrfzghjiou76545ty6u78i8ouytdrfghjkui7y6tryukji'
 db.init_app(app)
@@ -24,6 +25,11 @@ def home():
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
+
+
+@app.route('/learn/image/<string:name>')
+def image(name):
+    return send_from_directory(os.path.join(app.root_path, 'images/learn'), name.lower())
 
 
 @app.route('/blog', methods=['POST', 'GET', 'PUT'])
@@ -47,9 +53,9 @@ def blog():
                 blog_: Blog = Blog.query.get(data['num'])
                 blog_.validate(blog_.typ)
                 try:
-                    sender.send_message(Recipient(blog_.email, Content().re(blog_)))
+                    sender.send_message('Post Verified', Recipient(blog_.email, re(blog_)))
                 except yagmail.YagConnectionClosed:
-                    print('mail not sent')
+                    pass
                 return jsonify({'stat': 'added'})
             else:
                 return jsonify({'stat': 'error'})
@@ -160,19 +166,24 @@ def learn():
             learns = Cs.query.order_by('title').all()
             return jsonify({'templates': [t.template() for t in learns[data['len']:data['len'] + 10]],
                             'end': len(learns) < data['len'] + 2})
-        elif data['type'] == 'upload':
+        elif data['type'] == 'upload' and 'app_user' in session:
             title = f_strip(data['title'])
             if len(Cs.query.filter_by(title=title).all()) == 0:
                 db.session.add(Cs(title, data['img'], data['content']))
                 db.session.commit()
+                decode(data['title'].lower(), data['img'])
+                subscribers: list = Subscriber.query.all()
+                for subscriber in subscribers:
+                    sender.send_message(data['title'], Recipient(subscriber.address, le(data['title'], url)))
                 return jsonify({'result': True})
             return jsonify({'result': False})
         return jsonify({'pushed': True})
-    elif request.method == 'PUT':
+    elif request.method == 'PUT' and 'app_user' in session:
         data = json.loads(request.form['data'])
         cs: Cs = Cs.query.get(data['id'])
         cs.content = data['content']
         cs.img = data['img']
+        decode(cs.title.lower(), data['img'])
         db.session.commit()
         return jsonify({'result': True})
     return render_template('learn.html', learn=Cs.query.order_by('title').all()[:30], l='active', templates=True,
@@ -247,6 +258,25 @@ def like_unlike():
 def err_404(e):
     print(e)
     return render_template('error.html')
+
+
+@app.route('/subscribe', methods=['POST'])
+def subscribe():
+    if request.method == 'POST':
+        address: str = json.loads(request.form['data'])['address']
+        if len(Subscriber.query.filter_by(address=address).all()) == 0:
+            db.session.add(Subscriber(address))
+            db.session.commit()
+            sender.send_message('Thanks for Subscribing', Recipient(address, su(address, url=url)))
+            return jsonify({'subscribed': True})
+        return jsonify({'subscribed': False})
+
+
+@app.route('/subscribe/<string:address>')
+def unsubscribe(address):
+    db.session.delete(Subscriber.filter_by(address=address))
+    db.session.commit()
+    return ''
 
 
 if __name__ == '__main__':

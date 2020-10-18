@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Cs Learn Write{% endblock %}
+{% block title %}Cs Write{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{{url_for('static', filename='styles/cs_write.css')}}">
@@ -12,6 +12,7 @@
 <script src="{{url_for('static',filename='scripts/editor.js')}}"></script>
 <script src="{{url_for('static',filename='scripts/loader.js')}}"></script>
 <script src="{{url_for('static',filename='scripts/http/request.js')}}"></script>
+<script src="{{url_for('static',filename='scripts/popup.js')}}"></script>
 {% endblock %}
 
 {% block body %}

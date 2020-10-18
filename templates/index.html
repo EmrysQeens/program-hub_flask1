@@ -2,29 +2,26 @@
 
 {% block title %} Program~Hub {% endblock %}
 
-{% block style %}<link rel="stylesheet" href="{{url_for('static',filename='styles/index.css')}}"> {% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='styles/index.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='styles/view.css')}}">
+{% endblock %}
   {% block script %}
-    <script>
-     window.onload=()=>{
-      const typer=document.querySelector('#hd_blinker')
-      bool=true
-      setInterval(()=>{
-        typer.innerText= bool ? '$_> Program~Hub' : '$_> Program~Hub _'
-        bool=! bool} , 1000)
-
-      alert('Welcome to Program~Hub inspired by the lectures taught by the cs50 geeks.')
-
-      document.querySelector('#mail').onclick = () =>{
-          request_mail_address()
-
-      }
-      }
-    </script>
+  <script src="{{url_for('static', filename='scripts/http/request.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/popup.js')}}"></script>
 {% endblock %}
 {% block body %}
 
 <div class="jumbotron flex justify-content-center align-items-center jumbotrons">
-  <h1 id="hd_blinker">$_> Program~Hub _</h1>
+  <div class="jumbotron" style="display:none; color:white; padding: 16px 8px; position:absolute; margin-top:3vw;" id="alert">
+                <h4 class='pid' id="msg_h"></h4>
+                <p class='pid' id="msg_b"></p>
+                <hr>
+                <p class='pid' id="msg_f"></p>
+                <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
+  </div>
+  <h1 id="hd_blinker">$-> Program~Hub _</h1>
   <p>A home of programming blogs to help grow the community.</p>
   <p>Built by the idea gotten from the cs50 geeks.</p>
   <p><b>Need Help !!! </b>=>  Hit the blogs link in the navigation bar to search and view blogs written by others.</p>
@@ -137,6 +134,9 @@
     <a href="https://cs50.harvard.edu" target="_blank"><button class="btn btn-primary btn-sm">CS50</button></a>
     <button class="btn btn-primary btn-sm" id="mail">Change Mail</button>
   </p>
+  <p>Subscribe below to receive a notification when a new topic is added to learn.</p>
+  <input class="form-control form-control-sm" type="email" id="address" placeholder="Email" autocomplete="off" maxlength="75" style="background:transparent;margin-bottom:5px">
+  <button class="btn btn-primary btn-sm" id="subscribe" disabled>Subscribe</button>
 </div>
 
 

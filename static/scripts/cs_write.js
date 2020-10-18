@@ -5,9 +5,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const btn_create = document.querySelector('#create')
     const btn_preview = document.querySelector('#btn_preview')
     const image = document.querySelector('#image')
-    const pop__up=document.querySelector('#alert')
     const content = document.querySelector('#content')
-    const alert_comp=[document.querySelector('#msg_h') ,document.querySelector('#msg_b') ,document.querySelector('#msg_f')]
 
     CKSource
         .Editor.create(blog_content, {
@@ -63,8 +61,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                  }
             }
             else {
-                    pop_up(['Error!!!', `${title.value} might exist.`, 'err_error'], false)
                     loader.exit(false, r)
+                    pop_up(['Error!!!', `${title.value} might exist.`, 'err_error'], false)
              }
         })
         request.timeout(()=>{
@@ -107,29 +105,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         nan_null([btn_create, btn_preview])
     }
 
-    }
-
-    pop_up=(messages, e)=>{
-            pop__up.style.top=window.scrollY+'px'
-            pop__up.style.background= e ? 'linear-gradient(#42275a, #734b6d)' : 'red'
-            pop__up.style.display='block'
-            alert_comp.forEach((component, index)=> component.innerText= messages[index])
-            pop__up.style.animationName='open'
-            pop__up.style.animationDuration='2s'
-            pop__up.animationPlayState='running'
-         }
-
-         window.onscroll=()=>{
-            pop__up.style.top=window.scrollY+'px'
-         }
-         //Alert close button
-         document.querySelector('#close').onclick=()=>{
-            pop__up.style.animationName='close'
-            pop__up.style.animationDuration='2s'
-            pop__up.animationPlayState='running'
-         }
-
-    window.onload= () =>{
         editor.setData(hold.innerHTML)
         hold.remove()
     }

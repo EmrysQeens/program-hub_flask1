@@ -1,0 +1,10 @@
+Program~Hub Learn
+
+<img src='https://{{url}}/images/learn/{{title}}.{{ext}}'/>
+{{title}} has been created.
+Read up at <a href="https://{{url}}/learn/{{title}}">{{title}}</a>
+
+Admin Program~Hub..
+Thanks..
+
+To unsubscribe <a href='https://{{url}}/subscribe/{{address}}'>Click here</a>

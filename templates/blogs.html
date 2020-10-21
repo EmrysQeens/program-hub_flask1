@@ -3,10 +3,10 @@
 <link rel="stylesheet" href="{{url_for('static', filename='styles/blogs.css')}}">
 <link rel="stylesheet" href="{{url_for('static', filename='styles/view.css')}}"> {% endblock %}
 {% block script %}
-<script src="{{url_for('static', filename='scripts/http/request.js')}}"></script>
 <script src="{{url_for('static', filename='scripts/blogs.js')}}"></script>
 <script src="{{url_for('static', filename='scripts/loader.js')}}"></script>
 <script src="{{url_for('static', filename='scripts/popup.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/http/request.js')}}"></script>
 {% endblock %}
 {% block title %}Blogs{% endblock %}
 
@@ -39,7 +39,6 @@
                     <p class='pid' id="msg_b"></p>
                     <hr>
                     <p class='pid' id="msg_f"></p>
-                    <button class="btn btn-sm btn-secondary btns" id="close" style="margin-top:3vw;">Close</button>
                    </div>
                         <div class="modal-header">
                             <div><span id='loader' style="float:right;"></span></div>

@@ -5,13 +5,15 @@ from p_f import *
 from mail import *
 import learn as g
 from decodeimg import decode
+from time import sleep
+
 
 app = Flask(__name__)
 url = 'program-hub.herokuapp.com'
-#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
+#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'jhgfcbvjhkiuyutyrfzghjiou76545ty6u78i8ouytdrfghjkui7y6tryukji'
+app.config['SECRET_KEY'] = 'b_\xd0\x80\x80\xba\xc5\xfa\x1eL\x04e\xf21NEx\xeb]\xf8\xe3'
 db.init_app(app)
 db.app = app
 
@@ -51,8 +53,8 @@ def blog():
         elif data['type'] == 'old' and 'app_user' in session:
             if boolean:
                 blog_: Blog = Blog.query.get(data['num'])
-                blog_.validate(blog_.typ)
                 try:
+                    blog_.validate(blog_.typ)
                     sender.send_message('Post Verified', Recipient(blog_.email, re(blog_)))
                 except Exception:
                     pass
@@ -80,7 +82,7 @@ def delete():
 
 @app.route('/edit', methods=['POST', 'GET'])
 def edit():
-    if request.method == 'POST':
+    if request.method == 'POST' and 'app_user' in session:
         try:
             l_: Cs = Cs.query.get(request.form['id_'])
             return render_template('cs_write.html', l=l_, read="readonly", title=l_.title, id=l_.id, content=l_.content,
@@ -176,8 +178,11 @@ def learn():
                 db.session.commit()
                 decode(data['title'].lower(), data['img'])
                 subscribers: list = Subscriber.query.all()
-                for subscriber in subscribers:
-                    sender.send_message(data['title'], Recipient(subscriber.address, le(data['title'], url)))
+                try:
+                    for subscriber in subscribers:
+                        sender.send_message(data['title'], Recipient(subscriber.address, le(data['title'], url)))
+                except Exception:
+                    return jsonify({'result': True})
                 return jsonify({'result': True})
             return jsonify({'result': False})
         return jsonify({'pushed': True})
@@ -245,7 +250,7 @@ def write():
 @app.route('/logout')
 def logout():
     if 'app_user' in session:
-        session.clear()
+        session.pop('app_user')
         return redirect('/')
     return redirect('/')
 
@@ -266,7 +271,7 @@ def err_404(e):
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
     if request.method == 'POST':
-        address: str = json.loads(request.form['data'])['address']
+        address: str = json.loads(request.form['data'])['address'].lower()
         if len(Subscriber.query.filter_by(address=address).all()) == 0:
             db.session.add(Subscriber(address))
             db.session.commit()
@@ -277,7 +282,7 @@ def subscribe():
 
 @app.route('/subscribe/<string:address>')
 def unsubscribe(address):
-    subscriber: Subscriber = Subscriber.query.filter_by(address=address).first()
+    subscriber: Subscriber = Subscriber.query.filter_by(address=address.lower()).first()
     if subscriber is not None:
         db.session.delete(subscriber)
         db.session.commit()

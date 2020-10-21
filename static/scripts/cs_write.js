@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', async ()=>{
     const title = document.querySelector('#title')
     const title_ = document.querySelector('#title_')
     const img_chooser = document.querySelector('#img')
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const image = document.querySelector('#image')
     const content = document.querySelector('#content')
 
-    CKSource
+    await CKSource
         .Editor.create(blog_content, {
            toolbar: {
                 items: [ "bold", "codeBlock", "undo",
@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 
     const upload = async (e) =>{
+        if(!(editor.getData() != '' && title.value != '' && img_chooser.files[0] != undefined ))
+            return
         const img_data = await toBase64(img_chooser.files[0])
         const loader =  new Loader(e.target)
         const bool = e.target.innerText == 'Create'
@@ -98,7 +100,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     window.onload = () =>{
-    document.querySelector('.ck-editor__editable').onkeyup=()=>{
+    document.querySelector('.ck-editor__editable').oninput=()=>{
         nan_null([btn_create, btn_preview])
     }
 

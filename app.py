@@ -4,9 +4,10 @@ from model import *
 from p_f import *
 from mail import *
 import learn as g
-from decodeimg import decode
+from sqlalchemy import func
+from decodeimg import decode, ext_, clear
+from threading import Thread
 from time import sleep
-
 
 app = Flask(__name__)
 url = 'program-hub.herokuapp.com'
@@ -29,9 +30,25 @@ def favicon():
                                mimetype='image/vnd.microsoft.icon')
 
 
-@app.route('/learn/image/<string:name>')
-def image(name):
-    return send_from_directory(os.path.join(app.root_path, 'images/learn'), name.lower())
+class Cls(Thread):
+    def __init__(self, title):
+        Thread.__init__(self)
+        self.title = title
+
+    def run(self):
+        sleep(2)
+        clear(self.title)
+
+
+@app.route('/learn/image/<string:title>')
+def image(title: str):
+    cs: Cs = db.session.query(Cs).filter(func.lower(Cs.title) == title).first()
+    if cs is not None:
+        decode(cs.title.lower(), cs.img)
+        reply = send_from_directory(os.path.join(app.root_path, 'images/learn'), '{}.{}'.format(title, ext_(title)))
+        Cls(title).start()
+        return reply
+    return redirect('/')
 
 
 @app.route('/blog', methods=['POST', 'GET', 'PUT'])
@@ -176,7 +193,6 @@ def learn():
             if len(Cs.query.filter_by(title=title).all()) == 0:
                 db.session.add(Cs(title, data['img'], data['content']))
                 db.session.commit()
-                decode(data['title'].lower(), data['img'])
                 subscribers: list = Subscriber.query.all()
                 try:
                     for subscriber in subscribers:

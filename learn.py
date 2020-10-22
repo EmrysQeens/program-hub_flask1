@@ -26,4 +26,3 @@ def trim_(string: str):
     for mtch in matches:
         string = string.replace(mtch, '')
     return string
-

@@ -29,9 +29,9 @@ def su(address, url):
     return templating.Template(content).render(address=address, url=url)
 
 
-def le(title, url):
+def le(title, url, address):
     content = open('tmp/notify.tmp', 'r').read()
-    return templating.Template(content).render(title=title, url=url)
+    return templating.Template(content).render(title=title, url=url, address=address)
 
 
 sender = Sender('program.hubs@gmail.com', 'xkkusjjbnsodlrtz')

@@ -42,7 +42,7 @@ class Cls(Thread):
 
 @app.route('/learn/image/<string:title>')
 def image(title: str):
-    cs: Cs = db.session.query(Cs).filter(func.lower(Cs.title) == title).first()
+    cs: Cs = db.session.query(Cs).filter(func.lower(Cs.title) == title.lower()).first()
     if cs is not None:
         decode(cs.title.lower(), cs.img)
         reply = send_from_directory(os.path.join(app.root_path, 'images/learn'), '{}.{}'.format(title, ext_(title)))
@@ -196,7 +196,8 @@ def learn():
                 subscribers: list = Subscriber.query.all()
                 try:
                     for subscriber in subscribers:
-                        sender.send_message(data['title'], Recipient(subscriber.address, le(data['title'], url)))
+                        sender.send_message(data['title'], Recipient(subscriber.address, le(data['title'],
+                                                                                            url, subscriber.address)))
                 except Exception:
                     return jsonify({'result': True})
                 return jsonify({'result': True})

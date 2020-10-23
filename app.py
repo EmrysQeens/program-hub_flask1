@@ -42,7 +42,8 @@ class Cls(Thread):
 
 @app.route('/learn/image/<string:title>')
 def image(title: str):
-    cs: Cs = db.session.query(Cs).filter(func.lower(Cs.title) == title.lower()).first()
+    title: str = title.lower()
+    cs: Cs = db.session.query(Cs).filter(func.lower(Cs.title) == title).first()
     if cs is not None:
         decode(cs.title.lower(), cs.img)
         reply = send_from_directory(os.path.join(app.root_path, 'images/learn'), '{}.{}'.format(title, ext_(title)))

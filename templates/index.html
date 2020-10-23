@@ -8,8 +8,9 @@
 {% endblock %}
   {% block script %}
   <script src="{{url_for('static', filename='scripts/http/request.js')}}"></script>
-    <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
-    <script src="{{url_for('static', filename='scripts/popup.js')}}"></script>
+  <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
+  <script src="{{url_for('static', filename='scripts/popup.js')}}"></script>
+  <script src="{{url_for('static', filename='scripts/loader.js')}}"></script>
 {% endblock %}
 {% block body %}
 
@@ -135,7 +136,7 @@
     <button class="btn btn-primary btn-sm" id="mail">Change Mail</button>
   </p>
   <p>Subscribe below to receive a notification when a new topic is added to learn.</p>
-  <input class="form-control form-control-sm" type="email" id="address" placeholder="Email" autocomplete="off" maxlength="75" style="background:transparent;margin-bottom:5px">
+  <input class="form-control form-control-sm" type="email" id="address" placeholder="Email" autocomplete="off" maxlength="75" disabled style="background:transparent;margin-bottom:5px">
   <button class="btn btn-primary btn-sm" id="subscribe" disabled>Subscribe</button>
 </div>
 

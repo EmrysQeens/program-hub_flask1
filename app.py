@@ -291,7 +291,10 @@ def subscribe():
         if len(Subscriber.query.filter_by(address=address).all()) == 0:
             db.session.add(Subscriber(address))
             db.session.commit()
-            sender.send_message('Thanks for Subscribing', Recipient(address, su(address, url=url)))
+            try:
+                sender.send_message('Thanks for Subscribing', Recipient(address, su(address, url=url)))
+            except Exception:
+                pass
             return jsonify({'subscribed': True})
         return jsonify({'subscribed': False})
 

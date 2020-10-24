@@ -41,10 +41,16 @@ document.addEventListener('DOMContentLoaded', async ()=>{
         img_chooser.value = ''
     }
 
+    const disable = (bool) =>{
+        btn_create.disabled = bool
+        btn_preview.disabled = bool
+    }
+
 
     const upload = async (e) =>{
         if(!(editor.getData() != '' && title.value != '' && img_chooser.files[0] != undefined ))
             return
+        disable(true)
         const img_data = await toBase64(img_chooser.files[0])
         const loader =  new Loader(e.target)
         const bool = e.target.innerText == 'Create'
@@ -65,15 +71,18 @@ document.addEventListener('DOMContentLoaded', async ()=>{
             else {
                     loader.exit(false, r)
                     pop_up(['Error!!!', `${title.value} might exist.`, 'err_error'], false)
+                    disable(false)
              }
         })
         request.timeout(()=>{
             pop_up(['Connection Timeout!!!', 'Connection time exceeded', 'err_timeout'], false)
             loader.exit(false, r)
+            disable(false)
         })
         request.error(()=> {
             pop_up(['Connection Error!!!', 'Connection to server couldn\'t be established.', 'err_no connection'], false)
             loader.exit(false, r)
+            disable(false)
         })
 
     }

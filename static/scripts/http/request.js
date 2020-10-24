@@ -5,7 +5,7 @@ class Request{
     fresh=(data, method, url)=>{
         //Request cancels request after 15seconds.
         this.request=new XMLHttpRequest()
-        this.request.timeout=25000
+        this.request.timeout=120000
         const datas=new FormData()
         datas.append('data',JSON.stringify(data))
         this.request.open(method, this.url+url)

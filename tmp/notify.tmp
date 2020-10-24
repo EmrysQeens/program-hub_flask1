@@ -1,7 +1,7 @@
 Program~Hub Learn
 
 <img src='https://{{url}}/learn/image/{{title}}'/>
-<h3>{{title.capitalize()}}</h3> has been created.
+<h3>{{title.capitalize()}}</h3> has been {{act}}.
 Read up at <a href="https://{{url}}/learn/{{title.capitalize()}}">{{title}}</a>
 
 Admin Program~Hub..

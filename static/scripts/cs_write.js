@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     const btn_preview = document.querySelector('#btn_preview')
     const image = document.querySelector('#image')
     const content = document.querySelector('#content')
+    const is_create = btn_create.dataset.create == 'create'
 
     await CKSource
         .Editor.create(blog_content, {
@@ -65,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
                     loader.exit(false, 'Create')
                     pop_up([`${ bool ? 'Created' : 'Saved'}!!!`, `${title.value} was successfully ${ bool ? 'created' : 'updated'}.`, `${ bool ? 'Created':'Updated'}`], true)
                     clear()
+                    clearStorage()
                     if(!bool) window.history.replaceState('', 'Write', '/write')
                  }
             }
@@ -89,7 +91,10 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
     const nan_null = (btns) => btns.forEach(btn => btn.disabled= !( editor.getData() != '' && title.value != '' && img_chooser.files[0] != undefined ) )
 
-    title.oninput = () => nan_null([btn_create, btn_preview])
+    title.oninput = () =>{
+        nan_null([btn_create, btn_preview])
+        save('title_', title.value)
+    }
     img_chooser.onchange = () => nan_null([btn_create, btn_preview])
 
 
@@ -111,11 +116,26 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     window.onload = () =>{
     document.querySelector('.ck-editor__editable').oninput=()=>{
         nan_null([btn_create, btn_preview])
+        save('content_', editor.getData())
     }
 
+     if (!is_create){
         editor.setData(hold.innerHTML)
         hold.remove()
+       }
+      else{
+        title.value = get('title_')
+        editor.setData(get('content_'))
+       }
     }
+
+    const save = (key, value) => localStorage.setItem(key, value)
+    const get = (key) => localStorage.getItem(key)
+    const clearStorage = () =>{
+        save('title_', '')
+        save('content_', '')
+    }
+
 
     })
 

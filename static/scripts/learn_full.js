@@ -5,24 +5,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const title = document.querySelector('#title')
     const img = document.querySelector('#img')
     const id_ = document.querySelector('#id_')
+    const lent = document.querySelector('#controls').dataset.lent
 
-    const disable = (bool) =>{
+    const disable = (bool) =>{  // disables both button with same boolean value
         prev_btn.disabled = bool
         next_btn.disabled = bool
-    }
-
-    const disable_ = (b,bo) =>{
-        prev_btn.disabled = bo
-        next_btn.disabled = b
-    }
-
-    let is_next_pressed = false
-    let next_disabled = false
-    let prev_disabled = false
-
-    const state = () =>{
-        next_disabled = next_btn.disabled
-        prev_disabled = prev_btn.disabled
     }
 
     const scroll_ = () =>{
@@ -32,34 +19,45 @@ document.addEventListener('DOMContentLoaded', ()=>{
         },10)
     }
 
-    const upload=(e)=>{
+    const disable_ = (b,bo) =>{
+        prev_btn.disabled = bo
+        next_btn.disabled = b
+    }
+
+    let next_disabled = false
+    let prev_disabled = false
+
+    const state = () =>{
+        next_disabled = next_btn.disabled
+        prev_disabled = prev_btn.disabled
+    }
+
+    document.querySelectorAll('.c').forEach(btn=>  btn.onclick = (e) => upload(e))
+
+    const upload = (e) =>{
+        let id = parseInt(e.target.parentElement.dataset.id)
+        if ( ! (0<= id <= lent)) return
         state()
-        disable(true)
+        disable[true]
         const request = new Request()
-        const id = parseInt(e.target.parentElement.dataset.id)
         const bool = e.target.id == 'next'
-        request.fresh({'id': id, 'nxt': bool}, 'POST', '/learn/dummy')
+        request.fresh({'id': id, 'nxt': bool}, 'POST', 'learn/change')
         request.loaded((response, status)=>{
-            console.log(response['disable'])
             if(status == 200){
                 scroll_()
                 img.src = response['img']
                 title.innerText = response['title']
                 try{ id_.value = response['id'] }catch(err){ console.log(err)}
                 content.innerHTML = response['content']
-                if (! response['disable']) disable(false)
-                else {
-                    e.target.disabled = true
-                    const dis = e.target.id == next_btn.id ? prev_btn.disabled = false : next_btn.disabled = false
+                id = bool ? id + 1 : id - 1
+                e.target.parentElement.dataset.id = id
+                disable(false)
+                if (response['disable']){
+                    if ( id == 0) prev_btn.disabled = true
+                    if ( id == lent) next_btn.disabled = true
                 }
-                e.target.parentElement.dataset.id = bool ? id + 1 : id - 1
                 window.history.replaceState('', `${response['title']}`, `/learn/${response['title']}`)
-            }
-            else {
-                pop_up(['Server Error', 'Please retry', 'err_server'], false)
-                disable_(next_disabled, prev_disabled)
-            }
-        })
+        }
         request.timeout(()=> {
             pop_up(['Connection Timeout', 'The connection to server was timed out please retry', 'timeout_err'], false)
             disable_(next_disabled, prev_disabled)
@@ -68,11 +66,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             pop_up(['Connection Error', 'Couldn\'t fetch data', 'connection_err'], false)
             disable_(next_disabled, prev_disabled)
         })
-    }
-
-    document.querySelectorAll('.c').forEach(btn=>{
-        btn.onclick = (e) => upload(e)
     })
-
+    }
 
 })

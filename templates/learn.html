@@ -76,7 +76,7 @@
             <div id="content_full">
                 {{cs.content | safe }}
             </div>
-            <div id="controls" data-id="{{pos}}">
+            <div id="controls" data-id="{{pos}}" data-lent="{{lent}}">
                 <button id="prev" class="btn btn-secondary btn-sm c" {{p}}>P</button>
                 <button id="next" class="btn btn-secondary btn-sm c" {{n}}>N</button>
                 {% if admin %}

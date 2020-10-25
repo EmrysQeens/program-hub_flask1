@@ -13,7 +13,7 @@ app = Flask(__name__)
 url = 'program-hub.herokuapp.com'
 #  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
 app.config[
-    'SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
+     'SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'b_\xd0\x80\x80\xba\xc5\xfa\x1eL\x04e\xf21NEx\xeb]\xf8\xe3'
 db.init_app(app)
@@ -250,20 +250,20 @@ def learn_(name, admin_=False):
     if request.method == 'POST':
         data = json.loads(request.form['data'])
         cs: list = Cs.query.order_by('title').all()
-        cs_: Cs = cs[(data['id'] + 1) if data['nxt'] else (data['id'] - 1)]
-        try:
-            r = (data['id'] + 2) if data['nxt'] else (data['id'] - 2)
-            if r < 0 or r == len(cs):
-                raise IndexError
-        except IndexError:
-            return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content, 'disable': True})
-        return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content, 'disable': False})
+        lent: int = len(cs)-1
+        id_: int = data['id']+1 if data['nxt'] else data['id']-1
+        if 0 <= id_ <= lent:
+            cs_: Cs = cs[id_]
+            return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content,
+                            'disable': ((id_ == 0) or (id_ == lent))})
     cs: Cs = Cs.query.filter_by(title=f_strip(name)).first()
     if cs is not None:
         _all: list = Cs.query.order_by('title').all()
         pos: int = _all.index(cs)
+        lent: int = len(_all)-1
         return render_template('learn.html', admin=admin_, templates=False, cs=cs,
-                               pos=pos, p='disabled' if pos == 0 else '', n='disabled' if pos == len(_all) - 1 else '')
+                               pos=pos, p='disabled' if pos == 0 else '',
+                               n='disabled' if pos == lent else '', lent=lent)
     return render_template('error.html', url=g_strip(name))
 
 

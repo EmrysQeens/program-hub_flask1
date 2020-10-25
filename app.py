@@ -11,9 +11,8 @@ from time import sleep
 
 app = Flask(__name__)
 url = 'program-hub.herokuapp.com'
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
-app.config[
-     'SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
+#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'b_\xd0\x80\x80\xba\xc5\xfa\x1eL\x04e\xf21NEx\xeb]\xf8\xe3'
 db.init_app(app)
@@ -75,9 +74,14 @@ def blog():
                 try:
                     blog_.validate(blog_.typ)
                     sender.send_message('Post Verified', Recipient(blog_.email, re(blog_)))
-                except Exception:
-                    pass
-                return jsonify({'stat': 'added'})
+                except yagmail.error.YagInvalidEmailAddress:
+                    print(yagmail.error.YagInvalidEmailAddress)
+                except yagmail.error.YagAddressError:
+                    print(yagmail.error.YagAddressError)
+                except yagmail.error.YagConnectionClosed:
+                    print(yagmail.error.YagConnectionClosed)
+                finally:
+                    return jsonify({'stat': 'added'})
             else:
                 return jsonify({'stat': 'error'})
     elif request.method == 'PUT':
@@ -201,9 +205,14 @@ def learn():
                         sender.send_message(data['title'], Recipient(subscriber.address, le(data['title'],
                                                                                             url, subscriber.address,
                                                                                             True)))
-                except Exception:
-                    pass
-                return jsonify({'result': True})
+                except yagmail.error.YagInvalidEmailAddress:
+                    print(yagmail.error.YagInvalidEmailAddress)
+                except yagmail.error.YagAddressError:
+                    print(yagmail.error.YagAddressError)
+                except yagmail.error.YagConnectionClosed:
+                    print(yagmail.error.YagConnectionClosed)
+                finally:
+                    return jsonify({'result': True})
             return jsonify({'result': False})
         return jsonify({'pushed': True})
     elif request.method == 'PUT' and 'app_user' in session:
@@ -211,16 +220,21 @@ def learn():
         cs: Cs = Cs.query.get(data['id'])
         cs.content = data['content']
         cs.img = data['img']
-        decode(cs.title.lower(), data['img'])
         db.session.commit()
         subscribers: list = Subscriber.query.all()
         try:
             for subscriber in subscribers:
-                sender.send_message(data['title'], Recipient(subscriber.address, le(data['title'],
-                                                                                    url, subscriber.address, False)))
-        except Exception:
-            pass
-        return jsonify({'result': True})
+                sender.send_message(cs.title, Recipient(subscriber.address, le(cs.title,
+                                                                               url, subscriber.address,
+                                                                               False)))
+        except yagmail.error.YagInvalidEmailAddress:
+            print(yagmail.error.YagInvalidEmailAddress)
+        except yagmail.error.YagAddressError:
+            print(yagmail.error.YagAddressError)
+        except yagmail.error.YagConnectionClosed:
+            print(yagmail.error.YagConnectionClosed)
+        finally:
+            return jsonify({'result': True})
     return render_template('learn.html', learn=Cs.query.order_by('title').all()[:30], l='active', templates=True,
                            admin=False, g=g)
 
@@ -250,8 +264,8 @@ def learn_(name, admin_=False):
     if request.method == 'POST':
         data = json.loads(request.form['data'])
         cs: list = Cs.query.order_by('title').all()
-        lent: int = len(cs)-1
-        id_: int = data['id']+1 if data['nxt'] else data['id']-1
+        lent: int = len(cs) - 1
+        id_: int = data['id'] + 1 if data['nxt'] else data['id'] - 1
         if 0 <= id_ <= lent:
             cs_: Cs = cs[id_]
             return jsonify({'title': cs_.title, 'id': cs_.id, 'img': cs_.img, 'content': cs_.content,
@@ -260,7 +274,7 @@ def learn_(name, admin_=False):
     if cs is not None:
         _all: list = Cs.query.order_by('title').all()
         pos: int = _all.index(cs)
-        lent: int = len(_all)-1
+        lent: int = len(_all) - 1
         return render_template('learn.html', admin=admin_, templates=False, cs=cs,
                                pos=pos, p='disabled' if pos == 0 else '',
                                n='disabled' if pos == lent else '', lent=lent)
@@ -304,9 +318,14 @@ def subscribe():
             db.session.commit()
             try:
                 sender.send_message('Thanks for Subscribing', Recipient(address, su(address, url=url)))
-            except Exception:
-                pass
-            return jsonify({'subscribed': True})
+            except yagmail.error.YagInvalidEmailAddress:
+                print(yagmail.error.YagInvalidEmailAddress)
+            except yagmail.error.YagAddressError:
+                print(yagmail.error.YagAddressError)
+            except yagmail.error.YagConnectionClosed:
+                print(yagmail.error.YagConnectionClosed)
+            finally:
+                return jsonify({'subscribed': True})
         return jsonify({'subscribed': False})
 
 

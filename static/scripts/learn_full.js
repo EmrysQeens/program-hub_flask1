@@ -36,11 +36,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     const upload = (e) =>{
         let id = parseInt(e.target.parentElement.dataset.id)
-        if ( ! (0<= id <= lent)) return
+        const bool = e.target.id == 'next'
+        const i_d = bool ? id+1 : id-1
+        if ( ! ( i_d >= 0 && i_d <= lent)) return
         state()
         disable[true]
         const request = new Request()
-        const bool = e.target.id == 'next'
         request.fresh({'id': id, 'nxt': bool}, 'POST', 'learn/change')
         request.loaded((response, status)=>{
             if(status == 200){

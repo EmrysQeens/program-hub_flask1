@@ -7,4 +7,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         console.log(e)
     }
 
+    alert('On Progress')
+
 })

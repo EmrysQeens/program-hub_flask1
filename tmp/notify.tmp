@@ -1,10 +1,11 @@
 Program~Hub Learn
 
 <img src='https://{{url}}/learn/image/{{title}}'/>
-<h3>{{title.capitalize()}}</h3> has been {{act}}.
+<h3>Article {{title.capitalize()}}</h3> has been {{act}}.
 Read up at <a href="https://{{url}}/learn/{{title.capitalize()}}">{{title}}</a>
 
+Thanks for staying with us we hope to deliver to you more contents in which you would benefit from.
+
 Admin Program~Hub..
-Thanks..
 
 To unsubscribe <a href='https://{{url}}/subscribe/{{address}}'>Click here</a>

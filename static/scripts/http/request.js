@@ -11,11 +11,16 @@ class Request{
         this.request.open(method, this.url+url)
         this.request.send(datas)
     }
-    loaded=func=>{
-        this.request.onload=()=>{
-            const response=JSON.parse(this.request.responseText)
-            const status=this.request.status
-            func(response, status)
+    loaded= func=>{
+        this.request.onload=(e)=>{
+            const status = this.request.status
+            try{
+                const response = JSON.parse(this.request.responseText)
+                func(response, status)
+            }
+            catch(err){
+                console.log(err)
+            }
         }
      }
 

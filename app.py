@@ -11,9 +11,9 @@ from time import sleep
 
 app = Flask(__name__)
 url = 'program-hub.herokuapp.com'
-#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
-app.config[
-     'SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
+#  app.config[
+#     'SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'b_\xd0\x80\x80\xba\xc5\xfa\x1eL\x04e\xf21NEx\xeb]\xf8\xe3'
 db.init_app(app)

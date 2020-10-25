@@ -13,7 +13,6 @@ window.onload=()=>{
       const subscribe = document.querySelector('#subscribe')
       const disable = (bool) => {
         subscribe.disabled = bool
-        mail.value = ''
       }
       mail.disabled = false
       mail.oninput = () => subscribe.disabled = !mail_test.test(mail.value)
@@ -26,8 +25,9 @@ window.onload=()=>{
         const request = new Request()
         request.fresh({'address' : mail.value}, 'POST', 'subscribe')
         request.loaded((response, status)=>{
-            if (status==200 && response['subscribed'])
+            if (status==200 && response['subscribed']){
                 pop_up(['Subscribed', 'Email notification will be sent to you when new learn is added', 'Thanks'], true)
+                mail.value = '' }
             else
                 pop_up(['Subscribed', 'Already subscribed', 'Thanks'], true)
             loader.exit(false, 'Subscribe')

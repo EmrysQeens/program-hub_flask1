@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', async ()=>{
         const reader = new FileReader()
         if (file == undefined) return
         reader.readAsDataURL(file)
-        reader.onload = () => resolve(reader.result)
-        reader.onerror = (err) => reject(err)
+        reader.onload = () => resolve([reader.result, true])
+        reader.onerror = (err) => reject([err, false])
     })
 
     const clear = () =>{
@@ -53,13 +53,15 @@ document.addEventListener('DOMContentLoaded', async ()=>{
             return
         disable(true)
         const img_data = await toBase64(img_chooser.files[0])
+        if (img_data[1] == false)
+            return
         const loader =  new Loader(e.target)
         const bool = e.target.innerText == 'Create'
         loader.load( bool ? 'Creating' : 'Saving' )
         const r= bool ? 'Create' : 'Save'
         const request = new Request()
-        const data = bool ? {'type': 'upload', 'title': title.value,'img': img_data, 'content': editor.getData()} : {'id': btn_create.dataset.id, 'img': img_data, 'content': editor.getData()}
-        request.fresh(data,bool ? 'POST' : 'PUT', 'learn')
+        const data = bool ? {'type': 'upload', 'title': title.value,'img': img_data[0], 'content': editor.getData()} : {'id': btn_create.dataset.id, 'img': img_data, 'content': editor.getData()}
+        request.fresh(data, bool ? 'POST' : 'PUT', 'learn')
         request.loaded((response, status)=>{
             if(status == 200){
                  if (response['result']){
@@ -67,7 +69,10 @@ document.addEventListener('DOMContentLoaded', async ()=>{
                     pop_up([`${ bool ? 'Created' : 'Saved'}!!!`, `${title.value} was successfully ${ bool ? 'created' : 'updated'}.`, `${ bool ? 'Created':'Updated'}`], true)
                     clear()
                     clearStorage()
-                    if(!bool) window.history.replaceState('', 'Write', '/write')
+                    if(!bool) {
+                        window.history.replaceState('', 'Write', '/write')
+                        title.readOnly = false;
+                    }
                  }
             }
             else {

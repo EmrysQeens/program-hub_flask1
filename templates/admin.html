@@ -27,6 +27,13 @@
     <a href="/validate"><button class="btn btn-secondary sm"><small>Validate</small></button></a>
     <a href="/logout"><button class="btn btn-secondary sm"><small>Logout</small></button></a>
     {% endif %}
+    <h3 style="padding-top:7px;">Total Subscribers:{{lent}}</h3>
+    <ul>
+        {% for subscriber in subscribers %}
+            <li style="list-style: none;">{{subscriber}}</li>
+        {% endfor %}
+    </ul>
 </div>
+
 </div>
 {% endblock %}

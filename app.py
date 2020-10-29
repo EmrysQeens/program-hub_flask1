@@ -11,7 +11,7 @@ from time import sleep
 
 app = Flask(__name__)
 url = 'program-hub.herokuapp.com'
-#  app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2134@localhost:5432/program-hub"
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://sldkqifiauhnjx:dd2f28d8c4bdc75edab292e79870536420ff6627e67782eece5963e64204286a@ec2-18-235-97-230.compute-1.amazonaws.com:5432/d21odp9vc4hjn6"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'b_\xd0\x80\x80\xba\xc5\xfa\x1eL\x04e\xf21NEx\xeb]\xf8\xe3'
@@ -154,13 +154,15 @@ def code():
 @app.route('/admin', methods=['POST', 'GET'])
 def admin():
     if request.method == 'POST':
+        subscribers = Subscriber.query.all()
         ids = request.form
         if len(Login.query.filter_by(login_id=ids.get('email').lower(), passcode=ids.get('password')).all()) == 0:
             return render_template('admin.html', wrong='Wrong password', login=True)
         session['app_user'] = (ids.get('email'), ids.get('password'))
-        return render_template('admin.html', login=False)
+        return render_template('admin.html', subscribers=subscribers, lent=len(subscribers), login=False)
     if 'app_user' in session:
-        return render_template('admin.html', login=False)
+        subscribers = Subscriber.query.all()
+        return render_template('admin.html', subscribers=subscribers, login=False)
     else:
         return render_template('admin.html', login=True)
 

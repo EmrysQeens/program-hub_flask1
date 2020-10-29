@@ -162,7 +162,7 @@ def admin():
         return render_template('admin.html', subscribers=subscribers, lent=len(subscribers), login=False)
     if 'app_user' in session:
         subscribers = Subscriber.query.all()
-        return render_template('admin.html', subscribers=subscribers, login=False)
+        return render_template('admin.html', subscribers=subscribers, lent=len(subscribers), login=False)
     else:
         return render_template('admin.html', login=True)
 

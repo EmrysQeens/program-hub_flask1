@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
         if(!(editor.getData() != '' && title.value != '' && img_chooser.files[0] != undefined ))
             return
         disable(true)
-        const img_data = await toBase64(img_chooser.files[0])
+        const img_data = await toBase64(img_chooser.files[0])[0]
         if (img_data[1] == false)
             return
         const loader =  new Loader(e.target)
@@ -108,8 +108,8 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     }
 
     btn_preview.onclick = async () =>{
-        const img_data = await toBase64(img_chooser.files[0])
-        image.src=img_data
+        const img_data = await toBase64(img_chooser.files[0])[0]
+        image.src=img_data[0]
         title_.innerText = title.value.toLowerCase();
         content.innerHTML = editor.getData()
         content.querySelectorAll('pre').forEach(pre=>{

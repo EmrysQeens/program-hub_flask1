@@ -8,7 +8,7 @@ class Request{
         this.request.timeout=120000
         const datas=new FormData()
         datas.append('data',JSON.stringify(data))
-        this.request.open(method, this.url+url)
+        this.request.open(method, this.url+url, true)
         this.request.send(datas)
     }
     loaded= func=>{

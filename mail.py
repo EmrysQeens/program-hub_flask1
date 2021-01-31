@@ -34,5 +34,6 @@ def le(title: str, url: str, address: str, act: bool) -> str:
     return templating.Template(content).render(title=title, url=url, address=address,
                                                act='Created' if bool else 'Updated')
 
-
-sender = Sender('program.hubs@gmail.com', 'xkkusjjbnsodlrtz')
+mail_address: str = 'your mail@...com'
+pass = 'your_pass'
+sender = Sender(mail_address, pass)
